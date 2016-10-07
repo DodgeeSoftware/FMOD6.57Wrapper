@@ -1,0 +1,719 @@
+# depslib dependency file v1.0
+1475172515 source:c:\myprograms\fmodnew\main.cpp
+	<iostream>
+	<cstdio>
+	<conio.h>
+	<vector>
+	<limits>
+	<cmath>
+	"GameAudio.h"
+	"AudioManager.h"
+
+1470066144 c:\mingw-4.8.1\libraries\fmodstudio-1.08.09\api\lowlevel\inc\fmod.h
+	"fmod_common.h"
+
+1470066144 c:\mingw-4.8.1\libraries\fmodstudio-1.08.09\api\lowlevel\inc\fmod_common.h
+	"fmod_codec.h"
+	"fmod_dsp.h"
+	"fmod_output.h"
+
+1470066144 c:\mingw-4.8.1\libraries\fmodstudio-1.08.09\api\lowlevel\inc\fmod_codec.h
+
+1470066144 c:\mingw-4.8.1\libraries\fmodstudio-1.08.09\api\lowlevel\inc\fmod_dsp.h
+	"fmod_dsp_effects.h"
+
+1470066144 c:\mingw-4.8.1\libraries\fmodstudio-1.08.09\api\lowlevel\inc\fmod_dsp_effects.h
+
+1470066144 c:\mingw-4.8.1\libraries\fmodstudio-1.08.09\api\lowlevel\inc\fmod_output.h
+
+1470066144 c:\mingw-4.8.1\libraries\fmodstudio-1.08.09\api\lowlevel\inc\fmod_errors.h
+	"fmod.h"
+
+1421968591 source:c:\myprograms\fmodnew\gameaudio\dsp\dspeffectecho.cpp
+	"DSPEffectEcho.h"
+
+1474902593 c:\myprograms\fmodnew\gameaudio\dsp\dspeffectecho.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"DSP/IDSPEffect.h"
+
+1474255366 source:c:\myprograms\fmodnew\gameaudio\dsp\idspeffect.cpp
+	"IDSPEffect.h"
+
+1474902660 c:\myprograms\fmodnew\gameaudio\dsp\idspeffect.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475170161 source:c:\myprograms\fmodnew\gameaudio\music\music.cpp
+	"Music.h"
+
+1475170068 c:\myprograms\fmodnew\gameaudio\music\music.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475126924 source:c:\myprograms\fmodnew\gameaudio\sound\sound.cpp
+	"Sound.h"
+
+1475127667 c:\myprograms\fmodnew\gameaudio\sound\sound.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Sound/SoundSample.h"
+
+1475167428 source:c:\myprograms\fmodnew\gameaudio\sound\sound2d.cpp
+	"Sound2D.h"
+
+1475167825 c:\myprograms\fmodnew\gameaudio\sound\sound2d.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Sound/Sound.h"
+	"Sound/SoundSample.h"
+
+1475166209 source:c:\myprograms\fmodnew\gameaudio\sound\sound3d.cpp
+	"Sound3D.h"
+
+1475165926 c:\myprograms\fmodnew\gameaudio\sound\sound3d.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Sound/Sound.h"
+	"Sound/SoundSample.h"
+
+1474255607 source:c:\myprograms\fmodnew\gameaudio\sound\soundsample.cpp
+	"SoundSample.h"
+
+1474902621 c:\myprograms\fmodnew\gameaudio\sound\soundsample.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1421866350 source:c:\myprograms\fmodnew\gameaudio\stream\soundstream.cpp
+
+1475128032 source:c:\myprograms\fmodnew\gameaudio\stream\stream.cpp
+	"Stream.h"
+
+1475127863 c:\myprograms\fmodnew\gameaudio\stream\stream.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475167266 source:c:\myprograms\fmodnew\gameaudio\stream\stream2d.cpp
+	"Stream2D.h"
+
+1475167817 c:\myprograms\fmodnew\gameaudio\stream\stream2d.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Stream/Stream.h"
+
+1475166229 source:c:\myprograms\fmodnew\gameaudio\stream\stream3d.cpp
+	"Stream3D.h"
+
+1475165880 c:\myprograms\fmodnew\gameaudio\stream\stream3d.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Stream.h"
+
+1475205712 source:c:\myprograms\fmodnew\gameaudio\system\audiosystem.cpp
+	"AudioSystem.h"
+
+1475205796 c:\myprograms\fmodnew\gameaudio\system\audiosystem.h
+	<algorithm>
+	<iostream>
+	<string>
+	<cstdio>
+	<cstdlib>
+	<sstream>
+	<vector>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"SoundSample.h"
+	"Sound.h"
+	"Sound2D.h"
+	"Sound3D.h"
+	"Stream.h"
+	"Stream2D.h"
+	"Stream3D.h"
+	"Music.h"
+	"IDSPEffect.h"
+
+1474946914 c:\myprograms\fmodnew\gameaudio\fmodglobals.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+
+1475207960 c:\myprograms\fmodnew\gameaudio\gameaudio.h
+	"FMODGlobals.h"
+	"DSP/IDSPEffect.h"
+	"DSP/DSPEffectEcho.h"
+	"Music/Music.h"
+	"Sound/Sound.h"
+	"Sound/Sound2D.h"
+	"Sound/Sound3D.h"
+	"Sound/SoundSample.h"
+	"Stream/Stream.h"
+	"Stream/Stream2D.h"
+	"Stream/Stream3D.h"
+	"Reverb/Reverb2D.h"
+	"Reverb/Reverb3D.h"
+	"System/AudioSystem.h"
+
+1475044757 source:c:\myprograms\fmodnew\gamecontent\audiomanager.cpp
+	"AudioManager.h"
+
+1474902600 c:\myprograms\fmodnew\gamecontent\audiomanager.h
+	<map>
+	<ticpp.h>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"SoundSample.h"
+
+1234959998 c:\mingw-4.8.1\libraries\tinyxml++\include\ticpp.h
+	"tinyxml.h"
+	<sstream>
+	<vector>
+	<memory>
+	<exception>
+	<typeinfo>
+
+1234959998 c:\mingw-4.8.1\libraries\tinyxml++\include\tinyxml.h
+	<ctype.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<string>
+	<iostream>
+	<sstream>
+	"tinystr.h"
+	"ticpprc.h"
+
+1234959998 c:\mingw-4.8.1\libraries\tinyxml++\include\tinystr.h
+	<assert.h>
+	<string.h>
+
+1234959998 c:\mingw-4.8.1\libraries\tinyxml++\include\ticpprc.h
+	<vector>
+
+1475125634 source:c:\myprograms\fmodnew\gameaudio\channel\channel2d.cpp
+	"Channel2D.h"
+
+1475125626 c:\myprograms\fmodnew\gameaudio\channel\channel2d.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Channel.h"
+
+1475125744 source:c:\myprograms\fmodnew\gameaudio\channel\channel3d.cpp
+	"Channel3D.h"
+
+1475125740 c:\myprograms\fmodnew\gameaudio\channel\channel3d.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Channel.h"
+
+1475127958 c:\myprograms\fmodnew\gameaudio\channel\channel.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475123497 source:c:\myprograms\fmodnew\gameaudio\channel\channel.cpp
+	"Channel.h"
+
+1475207913 source:c:\myprograms\fmodnew\gameaudio\reverb\reverb2d.cpp
+	"Reverb2D.h"
+
+1475207828 c:\myprograms\fmodnew\gameaudio\reverb\reverb2d.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475207929 source:c:\myprograms\fmodnew\gameaudio\reverb\reverb3d.cpp
+	"Reverb3D.h"
+
+1475207626 c:\myprograms\fmodnew\gameaudio\reverb\reverb3d.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1421968591 source:c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dspeffectecho.cpp
+	"DSPEffectEcho.h"
+
+1474902593 c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dspeffectecho.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"DSP/IDSPEffect.h"
+
+1475557678 c:\myprograms\fmodstudiowrapper\gameaudio\fmodglobals.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+
+1474902660 c:\myprograms\fmodstudiowrapper\gameaudio\dsp\idspeffect.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1474255366 source:c:\myprograms\fmodstudiowrapper\gameaudio\dsp\idspeffect.cpp
+	"IDSPEffect.h"
+
+1475743119 source:c:\myprograms\fmodstudiowrapper\gameaudio\music\music.cpp
+	"Music.h"
+
+1475748000 c:\myprograms\fmodstudiowrapper\gameaudio\music\music.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475472362 source:c:\myprograms\fmodstudiowrapper\gameaudio\reverb\reverb2d.cpp
+	"Reverb2D.h"
+
+1475472368 c:\myprograms\fmodstudiowrapper\gameaudio\reverb\reverb2d.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475472389 source:c:\myprograms\fmodstudiowrapper\gameaudio\reverb\reverb3d.cpp
+	"Reverb3D.h"
+
+1475472381 c:\myprograms\fmodstudiowrapper\gameaudio\reverb\reverb3d.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475646878 source:c:\myprograms\fmodstudiowrapper\gameaudio\sound\sound.cpp
+	"Sound.h"
+
+1475748014 c:\myprograms\fmodstudiowrapper\gameaudio\sound\sound.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Sound/SoundSample.h"
+
+1475783857 c:\myprograms\fmodstudiowrapper\gameaudio\sound\soundsample.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475635687 source:c:\myprograms\fmodstudiowrapper\gameaudio\sound\sound2d.cpp
+	"Sound2D.h"
+
+1475635620 c:\myprograms\fmodstudiowrapper\gameaudio\sound\sound2d.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Sound/Sound.h"
+	"Sound/SoundSample.h"
+
+1475819990 source:c:\myprograms\fmodstudiowrapper\gameaudio\sound\sound3d.cpp
+	"Sound3D.h"
+
+1475819592 c:\myprograms\fmodstudiowrapper\gameaudio\sound\sound3d.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Sound/Sound.h"
+	"Sound/SoundSample.h"
+
+1475783764 source:c:\myprograms\fmodstudiowrapper\gameaudio\sound\soundsample.cpp
+	"SoundSample.h"
+
+1475742564 source:c:\myprograms\fmodstudiowrapper\gameaudio\stream\stream.cpp
+	"Stream.h"
+
+1475748019 c:\myprograms\fmodstudiowrapper\gameaudio\stream\stream.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475635583 source:c:\myprograms\fmodstudiowrapper\gameaudio\stream\stream2d.cpp
+	"Stream2D.h"
+
+1475635189 c:\myprograms\fmodstudiowrapper\gameaudio\stream\stream2d.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Stream/Stream.h"
+
+1475820002 source:c:\myprograms\fmodstudiowrapper\gameaudio\stream\stream3d.cpp
+	"Stream3D.h"
+
+1475819934 c:\myprograms\fmodstudiowrapper\gameaudio\stream\stream3d.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Stream.h"
+
+1475829875 source:c:\myprograms\fmodstudiowrapper\gameaudio\system\audiosystem.cpp
+	"AudioSystem.h"
+
+1475831266 c:\myprograms\fmodstudiowrapper\gameaudio\system\audiosystem.h
+	<algorithm>
+	<iostream>
+	<string>
+	<cstdio>
+	<cstdlib>
+	<sstream>
+	<vector>
+	<map>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"SoundSample.h"
+	"Sound.h"
+	"Sound2D.h"
+	"Sound3D.h"
+	"Stream.h"
+	"Stream2D.h"
+	"Stream3D.h"
+	"Music.h"
+
+1475048357 source:c:\myprograms\fmodstudiowrapper\gamecontent\audiomanager.cpp
+	"AudioManager.h"
+
+1475550795 c:\myprograms\fmodstudiowrapper\gamecontent\audiomanager.h
+	<map>
+	<ticpp.h>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"SoundSample.h"
+
+1475831035 source:c:\myprograms\fmodstudiowrapper\main.cpp
+	<iostream>
+	<cstdio>
+	<conio.h>
+	<vector>
+	<limits>
+	<cmath>
+	"GameAudio.h"
+	"AudioManager.h"
+
+1475471529 c:\myprograms\fmodstudiowrapper\gameaudio\gameaudio.h
+	"FMODGlobals.h"
+	"Channel/Channel.h"
+	"DSP/DSP.h"
+	"DSP/DSPConnection.h"
+	"Geometry/Geometry.h"
+	"Group/ChannelGroup.h"
+	"Group/SoundGroup.h"
+	"Music/Music.h"
+	"Recording/Recording.h"
+	"Sound/Sound.h"
+	"Sound/Sound2D.h"
+	"Sound/Sound3D.h"
+	"Sound/SoundSample.h"
+	"Stream/Stream.h"
+	"Stream/Stream2D.h"
+	"Stream/Stream3D.h"
+	"Reverb/Reverb2D.h"
+	"Reverb/Reverb3D.h"
+	"System/AudioSystem.h"
+
+1475472258 source:c:\myprograms\fmodstudiowrapper\gameaudio\channel\channel.cpp
+	"Channel.h"
+
+1475472250 c:\myprograms\fmodstudiowrapper\gameaudio\channel\channel.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475564644 source:c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dsp.cpp
+	"DSP.h"
+
+1475743009 c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dsp.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475444288 source:c:\myprograms\fmodstudiowrapper\gameaudio\channel\channelgroup.cpp
+	"ChannelGroup.h"
+
+1475446319 c:\myprograms\fmodstudiowrapper\gameaudio\channel\channelgroup.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475783970 c:\myprograms\fmodstudiowrapper\gameaudio\geometry\geometry.h
+	<string>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475783964 source:c:\myprograms\fmodstudiowrapper\gameaudio\geometry\geometry.cpp
+	"Geometry.h"
+
+1475819957 source:c:\myprograms\fmodstudiowrapper\gameaudio\group\channelgroup.cpp
+	"ChannelGroup.h"
+
+1475820068 c:\myprograms\fmodstudiowrapper\gameaudio\group\channelgroup.h
+	<string>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475782381 source:c:\myprograms\fmodstudiowrapper\gameaudio\group\soundgroup.cpp
+	"SoundGroup.h"
+
+1475782318 c:\myprograms\fmodstudiowrapper\gameaudio\group\soundgroup.h
+	<string>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475728956 c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dspconnection.h
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+
+1475830748 c:\myprograms\fmodstudiowrapper\gameaudio\recording\recording.h
+	<iostream>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+	"Channel.h"
+
+1475728551 source:c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dspconnection.cpp
+	"DSPConnection.h"
+
+1475830770 source:c:\myprograms\fmodstudiowrapper\gameaudio\recording\recording.cpp
+	"Recording.h"
+
+1475645890 source:c:\myprograms\fmodstudiowrapper\gameaudio\plugins\plugin.cpp
+	"Plugin.h"
+
+1475645076 c:\myprograms\fmodstudiowrapper\gameaudio\plugins\plugin.h
+	<string>
+	<fmod.h>
+	<fmod_codec.h>
+	<fmod_common.h>
+	<fmod_dsp.h>
+	<fmod_dsp_effects.h>
+	<fmod_errors.h>
+	<fmod_output.h>
+	"FMODGlobals.h"
+

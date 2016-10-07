@@ -1,0 +1,61 @@
+
+********
+* TODO *
+********
+
+[] Sound and Stream need to inherit from Channel
+
+[] Finish wrapping the AudioSystem
+    [~ started] DSP Stuff -> more complicated than I first thought
+    [] Not sure what this is FMOD_DSPCONNECTION or if I need a wrapper for it
+
+07/10/2016
+[DONE] Mostly Finished ChannelGroup
+[DONE] Unit Test Recording Class
+    - Recording is fully functional; although FMOD is alittle shitty at correctly detecting audio devices and drivers
+      not my fault
+
+06/10/2016
+[DONE] SoundSample finished
+[DONE] Finished SoundSampple
+[DONE] AudioSystem
+[DONE] Finished Listerner part of the AudioSystem
+
+05/10/2016
+[DONE] FMOD_GEOMETRY
+[DONE] Finished Sound, Sound2D, Sound3D
+[DONE] Finished Stream, Stream2D, Stream3D
+
+04/10/2016
+[DONE - under review] Filled into DSPConnection class this is
+[DONE] Added Unit test for the DSP System
+[DONE] Added a Plugin Folder and a Plugin Wrapper
+
+03/10/2016
+[DONE] Recording Class Completed
+[DONE] Added Group folder to the project and put
+       a channelGroup and SoundGroup class there
+[DONE] Added a DSP Class to the project
+[DONE] Added a DSPConnection Class to the project
+
+02/10/2016
+[~ started] FMOD_GEOMETRY
+[~ started] DSP System
+[UNDERTAKEN] More and More work preparing for DSP Stuff
+
+01/10/2016
+[DONE] Implement Misc functions and memory functions
+[UNDERTAKEN] Tried and Failed to implement the plugin system
+
+30/09/2016
+[DONE] Callbacks for AudioSystem
+[DONE] Global Reverb for AudioSystem
+[DONE] Do I need a FMOD_REVERB3D class?
+
+29/09/2016
+[DONE] SoundSample = FMOD_SOUND Wrapper
+[NOTE] poorly documenting tasks
+
+28/09/2016
+[DONE] Fleshed out most of the wrapper
+[NOTE] poorly documenting tasks
