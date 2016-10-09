@@ -57,9 +57,6 @@ class SoundSample
         /** @brief getSystemObject
           * @return FMOD_SYSTEM **/
         virtual FMOD_SYSTEM* getSystemObject();
-        /* TODO: consider a loading function here, so that we can use samples without the AudioManager  and implement the release method here*/
-        /** @brief releast **/
-        virtual void release();
         /** @brief lock
           * @param offset
           * @param length

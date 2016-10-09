@@ -10,13 +10,7 @@ SoundSample::SoundSample()
 
 SoundSample::~SoundSample()
 {
-    // Release the FMODSound if that hasn't happened already
-    if (this->pFMODSound != 0)
-        FMOD_Sound_Release(this->pFMODSound);
-    // Reset the pointer to the FMODSound
-    this->pFMODSound = 0;
-    // Clear the filename
-    this->filename.clear();
+
 }
 
 FMOD_SYSTEM* SoundSample::getSystemObject()

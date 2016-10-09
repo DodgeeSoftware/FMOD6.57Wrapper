@@ -293,10 +293,11 @@ class AudioSystem
     // ******************************
     // * POSITIONAL AUDIO FUNCTIONS *
     // ******************************
-    /* NOTE: It is recommended to integrate these functions
-        into your camera class that to call the ones here
-        in the audio system. These are here for testing only */
-    // TODO: considering a base listener class
+    /* NOTE: I don't recommend making the listerner a
+        part of the camera tempting as though that might be.
+        The reason is its better to set the listener to the
+        camera position in your game scape, this makes
+        your camera reusable */
     public:
         /** @brief get ListernerX
           * @return Listerner X **/
