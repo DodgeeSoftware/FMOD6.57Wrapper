@@ -328,7 +328,7 @@ class Music
         std::string name;
 
     // ***********
-    // * ENABLED * // TODO: This needs to actually effect the Stream at the moment it doesn't
+    // * ENABLED * // TODO: This needs to actually effect the Music at the moment it doesn't
     // ***********
     public:
         /** @breif Is Enabled

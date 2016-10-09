@@ -28,6 +28,30 @@ namespace FMODGlobals
         all of our classes. After FMOD3.75 the library lost its way and
         this wrapper is written tobe similar to the old FMOD */
     extern FMOD_SYSTEM* pFMODSystem;
+    // System Frequency in hertz (for the DriverID in use) - usually 44100 or 22050
+    static int getFrequency()
+    {
+        // Grab the DriverID
+        int driverID = 0;
+        FMOD_System_GetDriver(pFMODSystem, &driverID);
+        // Grab Frequency
+        int frequency = 0;
+        FMOD_System_GetDriverInfo(pFMODSystem, driverID, 0, 0, 0, &frequency, 0, 0);
+        // return frequency
+        return frequency;
+    }
+    // The number of Channels (for the DriverID in use) - 1 for mono 2 for stereo
+    static int getNumberOfChannels()
+    {
+        // Grab the DriverID
+        int driverID = 0;
+        FMOD_System_GetDriver(pFMODSystem, &driverID);
+        // Grab Channels
+        int channels = 0;
+        FMOD_System_GetDriverInfo(pFMODSystem, driverID, 0, 0, 0, 0, 0, &channels);
+        // return channels
+        return channels;
+    }
     /* NOTE: These two groups allow us to control channels for sound
         effects and music. */
     // Sound Effects Channel Group

@@ -1,6 +1,9 @@
 #ifndef DSP_H
 #define DSP_H
 
+// C++ Includes
+#include <string>
+
 // FMOD Includes
 #include <fmod.h>
 #include <fmod_codec.h>
@@ -64,6 +67,7 @@ class DSP
         /** @brief create DSP from plugin
           * @param pluginHandle a handle to a DSP Plugin **/
         virtual bool create(unsigned int pluginHandle);
+// TODO: what do I do with this function
 //        /** @brief play
 //          * Plays a DSP unit object and its input network on a
 //          * particular channel
@@ -74,8 +78,7 @@ class DSP
 //          * particular ChannelGroup
 //          * @param channelGroup **/
 //        virtual void play(FMOD_CHANNELGROUP* channelGroup);
-////        FMOD_System_PlayDSP
-// TODO: what do I do with this function
+//        FMOD_System_PlayDSP
         /** @brief release **/
         virtual void release();
 // TODO: implement these
@@ -106,42 +109,116 @@ class DSP
           * @param bypassFlag **/
         virtual void setBypass(bool bypassFlag);
 // TODO: implement these
-//FMOD_RESULT F_API FMOD_DSP_SetWetDryMix                 (FMOD_DSP *dsp, float prewet, float postwet, float dry);
-//FMOD_RESULT F_API FMOD_DSP_GetWetDryMix                 (FMOD_DSP *dsp, float *prewet, float *postwet, float *dry);
-//FMOD_RESULT F_API FMOD_DSP_SetChannelFormat             (FMOD_DSP *dsp, FMOD_CHANNELMASK channelmask, int numchannels, FMOD_SPEAKERMODE source_speakermode);
-//FMOD_RESULT F_API FMOD_DSP_GetChannelFormat             (FMOD_DSP *dsp, FMOD_CHANNELMASK *channelmask, int *numchannels, FMOD_SPEAKERMODE *source_speakermode);
-//FMOD_RESULT F_API FMOD_DSP_GetOutputChannelFormat       (FMOD_DSP *dsp, FMOD_CHANNELMASK inmask, int inchannels, FMOD_SPEAKERMODE inspeakermode, FMOD_CHANNELMASK *outmask, int *outchannels, FMOD_SPEAKERMODE *outspeakermode);
+        /** @brief getPrewet
+          * @return prewet floating point value from 0 to 1, describing a linear scale of the 'wet'
+          * (pre-processed signal) mix of the effect. Default = 1.0. Scale can be lower than 0 (negating) and higher than 1 (amplifying) **/
+        virtual float getPrewet();
+        /** @brief getPostwet
+          * @return Floating point value from 0 to 1, describing a linear scale of the 'wet'
+          * (post-processed signal) mix of the effect. Default = 1.0. Scale can be lower than 0 (negating) and higher than 1 (amplifying) **/
+        virtual float getPostwet();
+        /** @brief getDry
+          * @return Floating point value from 0 to 1, describing a linear scale of the 'dry' (pre-processed signal) mix of the effect.
+          * Default = 0.0. Scale can be lower than 0 and higher than 1 (amplifying) **/
+        virtual float getDry();
+        /** @brief setWetDryMix
+          * Allows the user to scale the affect of a DSP effect, through control of the 'wet' mix,
+          * which is the post-processed signal and the 'dry' which is the pre-processed signal.
+          * @param prewet floating point value from 0 to 1, describing a linear scale of the 'wet'
+          * (pre-processed signal) mix of the effect. Default = 1.0. Scale can be lower than 0 (negating) and higher than 1 (amplifying).
+          * @param postwet Floating point value from 0 to 1, describing a linear scale of the 'wet'
+          * (post-processed signal) mix of the effect. Default = 1.0. Scale can be lower than 0 (negating) and higher than 1 (amplifying).
+          * @param dry Floating point value from 0 to 1, describing a linear scale of the 'dry' (pre-processed signal) mix of the effect.
+          * Default = 0.0. Scale can be lower than 0 and higher than 1 (amplifying) **/
+        virtual void setWetDryMix(float prewet, float postwet, float dry);
+        // TODO: implement these
+        //FMOD_RESULT F_API FMOD_DSP_SetChannelFormat             (FMOD_DSP *dsp, FMOD_CHANNELMASK channelmask, int numchannels, FMOD_SPEAKERMODE source_speakermode);
+        //FMOD_RESULT F_API FMOD_DSP_GetChannelFormat             (FMOD_DSP *dsp, FMOD_CHANNELMASK *channelmask, int *numchannels, FMOD_SPEAKERMODE *source_speakermode);
+        //FMOD_RESULT F_API FMOD_DSP_GetOutputChannelFormat       (FMOD_DSP *dsp, FMOD_CHANNELMASK inmask, int inchannels, FMOD_SPEAKERMODE inspeakermode, FMOD_CHANNELMASK *outmask, int *outchannels, FMOD_SPEAKERMODE *outspeakermode);
         /** @brief reset
           * Calls the DSP unit's reset function, which will clear internal buffers and reset the unit back to an initial state.
           * This reset Function can be a custom CallBack if you used a FMOD_DSP_DESCRIPTION when making it **/
         virtual void reset();
-// TODO: implement these
-//FMOD_RESULT F_API FMOD_DSP_SetParameterFloat            (FMOD_DSP *dsp, int index, float value);
-//FMOD_RESULT F_API FMOD_DSP_SetParameterInt              (FMOD_DSP *dsp, int index, int value);
-//FMOD_RESULT F_API FMOD_DSP_SetParameterBool             (FMOD_DSP *dsp, int index, FMOD_BOOL value);
-//FMOD_RESULT F_API FMOD_DSP_SetParameterData             (FMOD_DSP *dsp, int index, void *data, unsigned int length);
-//FMOD_RESULT F_API FMOD_DSP_GetParameterFloat            (FMOD_DSP *dsp, int index, float *value, char *valuestr, int valuestrlen);
-//FMOD_RESULT F_API FMOD_DSP_GetParameterInt              (FMOD_DSP *dsp, int index, int *value, char *valuestr, int valuestrlen);
-//FMOD_RESULT F_API FMOD_DSP_GetParameterBool             (FMOD_DSP *dsp, int index, FMOD_BOOL *value, char *valuestr, int valuestrlen);
-//FMOD_RESULT F_API FMOD_DSP_GetParameterData             (FMOD_DSP *dsp, int index, void **data, unsigned int *length, char *valuestr, int valuestrlen);
+        /** @brief getParameterFloat
+          * @return the value of the float at index **/
+        virtual float getParameterFloat(int index);
+        /** @brief setParameterFloat
+          * @param index index of the float
+          * @param value to set the float to **/
+        virtual void setParameterFloat(int index, float value);
+        /** @brief getParameterInt
+          * @param index index of the int  **/
+        virtual int getParameterInt(int index);
+        /** @brief setParameterInt
+          * @param index index of the int
+          * @param value to set the int to **/
+        virtual void setParameterInt(int index, int value);
+        /** @brief getParameterBool
+          * @param int index of the bool **/
+        virtual bool getParameterBool(int index);
+        /** @brief setParameterBool
+          * @param index index of the bool
+          * @param value to set the bool to **/
+        virtual void setParameterBool(int index, bool value);
+        /** @brief getParameterData
+          * @param index index of the void* pointer
+          * @param length size of the data **/
+        virtual void* getParameterData(int index);
+        /** @brief getParameterDataSize
+          * @param index index of the data pointer
+          * @return size of the void* data **/
+        virtual unsigned int getParameterDataSize(int index);
+        /** @brief setParameterData
+          * @param index index of the void* pointer
+          * @param length length of the **/
+        virtual void setParameterData(int index, void* pData, unsigned int length);
         /** @brief getNumParameters
           * @return number of parameters **/
         virtual int getNumParameters();
-// TODO: implement these
-//FMOD_RESULT F_API FMOD_DSP_GetParameterInfo             (FMOD_DSP *dsp, int index, FMOD_DSP_PARAMETER_DESC **desc);
-//FMOD_RESULT F_API FMOD_DSP_GetDataParameterIndex        (FMOD_DSP *dsp, int datatype, int *index);
-//FMOD_RESULT F_API FMOD_DSP_ShowConfigDialog             (FMOD_DSP *dsp, void *hwnd, FMOD_BOOL show);
-//FMOD_RESULT F_API FMOD_DSP_GetInfo                      (FMOD_DSP *dsp, char *name, unsigned int *version, int *channels, int *configwidth, int *configheight);
+        /** @brief getParameterInfo
+          * @return FMOD_DSP_PARAMETER_DESC object **/
+        virtual FMOD_DSP_PARAMETER_DESC* getParameterInfo(int index);
+        /** @brief  getDataParameterIndex
+          * @param dataType FMOD_DSP_PARAMETER_DATA_TYPE
+          * @return the index of the first data parameter of a particular data type. **/
+        virtual int getDataParameterIndex(int dataType);
+        /** @brief isConfigDialogBoxVisible
+          * @return true if visible false otherwise **/
+        virtual bool isConfigDialogBoxVisible();
+        /** @brief showConfigDialog
+          * @param hwnd handle to a window **/
+        virtual void showConfigDialog(void* hwnd);
+        /** @brief hideConfigDialog
+          * @param hwnd handle to a window **/
+        virtual void hideConfigDialog(void* hwnd);
+        /** @brief getName
+          * @return the name of the unit. This will be a maximum of 32bytes.
+          * If the DSP unit has filled all 32 bytes with the name with no terminating \0 null character it is
+          * up to the caller to append a null character. Optional. Specify 0 or NULL to ignore. **/
+        virtual std::string getName();
+        /** @brief getVersion
+          * @return the version number of the DSP unit. Version number is
+          * usually formated as hex AAAABBBB where the AAAA is the major version number and the BBBB is the
+          * minor version number **/
+        virtual unsigned int getVersion();
+        /** @brief getConfigWidth
+          * @return the width of an optional configuration dialog box that can be displayed with
+          * DSP::showConfigDialog **/
+        virtual int getConfigWidth();
+        /** @brief getConfigHeight
+          * @return the height of an optional configuration dialog box that can be displayed with
+          * DSP::showConfigDialog **/
+        virtual int getConfigHeight();
         /** @brief getType
           * @return the FMOD_DSP_TYPE **/
         virtual FMOD_DSP_TYPE getType();
         /** @brief isIdle
           * @return true if idle false otherwise **/
         virtual bool isIdle();
-// TODO: implement these
-//FMOD_RESULT F_API FMOD_DSP_SetMeteringEnabled           (FMOD_DSP *dsp, FMOD_BOOL inputEnabled, FMOD_BOOL outputEnabled);
-//FMOD_RESULT F_API FMOD_DSP_GetMeteringEnabled           (FMOD_DSP *dsp, FMOD_BOOL *inputEnabled, FMOD_BOOL *outputEnabled);
-//FMOD_RESULT F_API FMOD_DSP_GetMeteringInfo              (FMOD_DSP *dsp, FMOD_DSP_METERING_INFO *inputInfo, FMOD_DSP_METERING_INFO *outputInfo);
+    // TODO: implement these
+    //FMOD_RESULT F_API FMOD_DSP_SetMeteringEnabled           (FMOD_DSP *dsp, FMOD_BOOL inputEnabled, FMOD_BOOL outputEnabled);
+    //FMOD_RESULT F_API FMOD_DSP_GetMeteringEnabled           (FMOD_DSP *dsp, FMOD_BOOL *inputEnabled, FMOD_BOOL *outputEnabled);
+    //FMOD_RESULT F_API FMOD_DSP_GetMeteringInfo              (FMOD_DSP *dsp, FMOD_DSP_METERING_INFO *inputInfo, FMOD_DSP_METERING_INFO *outputInfo);
         /** @brief getFMODDSP
           * @return FMOD_DSP object **/
         virtual FMOD_DSP* getFMODDSP();
@@ -149,6 +226,8 @@ class DSP
     protected:
         // FMOD DSP
         FMOD_DSP* pDSP;
+        // Config Diaglog Flag
+        bool configDialogFlag;
 };
 
 #endif // DSP_H

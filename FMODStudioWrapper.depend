@@ -353,7 +353,7 @@
 	"FMODGlobals.h"
 	"DSP/IDSPEffect.h"
 
-1475557678 c:\myprograms\fmodstudiowrapper\gameaudio\fmodglobals.h
+1475935234 c:\myprograms\fmodstudiowrapper\gameaudio\fmodglobals.h
 	<fmod.h>
 	<fmod_codec.h>
 	<fmod_common.h>
@@ -379,7 +379,7 @@
 1475743119 source:c:\myprograms\fmodstudiowrapper\gameaudio\music\music.cpp
 	"Music.h"
 
-1475748000 c:\myprograms\fmodstudiowrapper\gameaudio\music\music.h
+1475985894 c:\myprograms\fmodstudiowrapper\gameaudio\music\music.h
 	<iostream>
 	<fmod.h>
 	<fmod_codec.h>
@@ -519,7 +519,7 @@
 	"FMODGlobals.h"
 	"Stream.h"
 
-1475829875 source:c:\myprograms\fmodstudiowrapper\gameaudio\system\audiosystem.cpp
+1475934914 source:c:\myprograms\fmodstudiowrapper\gameaudio\system\audiosystem.cpp
 	"AudioSystem.h"
 
 1475831266 c:\myprograms\fmodstudiowrapper\gameaudio\system\audiosystem.h
@@ -548,7 +548,7 @@
 	"Stream3D.h"
 	"Music.h"
 
-1475048357 source:c:\myprograms\fmodstudiowrapper\gamecontent\audiomanager.cpp
+1475983438 source:c:\myprograms\fmodstudiowrapper\gamecontent\audiomanager.cpp
 	"AudioManager.h"
 
 1475550795 c:\myprograms\fmodstudiowrapper\gamecontent\audiomanager.h
@@ -563,7 +563,7 @@
 	<fmod_output.h>
 	"SoundSample.h"
 
-1475831035 source:c:\myprograms\fmodstudiowrapper\main.cpp
+1475945375 source:c:\myprograms\fmodstudiowrapper\main.cpp
 	<iostream>
 	<cstdio>
 	<conio.h>
@@ -607,10 +607,11 @@
 	<fmod_output.h>
 	"FMODGlobals.h"
 
-1475564644 source:c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dsp.cpp
+1476003024 source:c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dsp.cpp
 	"DSP.h"
 
-1475743009 c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dsp.h
+1476002985 c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dsp.h
+	<string>
 	<fmod.h>
 	<fmod_codec.h>
 	<fmod_common.h>
@@ -650,7 +651,7 @@
 1475819957 source:c:\myprograms\fmodstudiowrapper\gameaudio\group\channelgroup.cpp
 	"ChannelGroup.h"
 
-1475820068 c:\myprograms\fmodstudiowrapper\gameaudio\group\channelgroup.h
+1475844074 c:\myprograms\fmodstudiowrapper\gameaudio\group\channelgroup.h
 	<string>
 	<fmod.h>
 	<fmod_codec.h>

@@ -4,6 +4,8 @@ DSP::DSP()
 {
     // DSP
     this->pDSP = 0;
+    // Config Dialog Flag
+    this->configDialogFlag = false;
 }
 
 DSP::~DSP()
@@ -125,6 +127,45 @@ void DSP::setBypass(bool bypassFlag)
     FMOD_DSP_SetBypass(this->pDSP, bypassFlag);
 }
 
+float DSP::getPrewet()
+{
+    // Grab WetDryMix
+    float prewet = 0.0f;
+    float postwet = 0.0f;
+    float dry = 0.0f;
+    FMOD_DSP_GetWetDryMix(this->pDSP, &prewet, &postwet, &dry);
+    // return prewet
+    return prewet;
+}
+
+float DSP::getPostwet()
+{
+    // Grab WetDryMix
+    float prewet = 0.0f;
+    float postwet = 0.0f;
+    float dry = 0.0f;
+    FMOD_DSP_GetWetDryMix(this->pDSP, &prewet, &postwet, &dry);
+    // return postwet
+    return postwet;
+}
+
+float DSP::getDry()
+{
+    // Grab WetDryMix
+    float prewet = 0.0f;
+    float postwet = 0.0f;
+    float dry = 0.0f;
+    FMOD_DSP_GetWetDryMix(this->pDSP, &prewet, &postwet, &dry);
+    // return dry
+    return dry;
+}
+
+void DSP::setWetDryMix(float prewet, float postwet, float dry)
+{
+    // Set Wet Dry Mix
+    FMOD_DSP_SetWetDryMix(this->pDSP, prewet, postwet, dry);
+}
+
 void DSP::reset()
 {
     // Only work when we have a DSP
@@ -134,6 +175,75 @@ void DSP::reset()
     FMOD_DSP_Reset(this->pDSP);
 }
 
+float DSP::getParameterFloat(int index)
+{
+    // Grab float value
+    float value = 0.0f;
+    FMOD_DSP_GetParameterFloat(this->pDSP, index, &value, 0, 0);
+    //return value
+    return value;
+}
+
+void DSP::setParameterFloat(int index, float value)
+{
+    // Set Float Parameter for the DSP
+    FMOD_DSP_SetParameterFloat(this->pDSP, index, value);
+}
+
+int DSP::getParameterInt(int index)
+{
+    // Grab int value
+    int value = 0.0f;
+    FMOD_DSP_GetParameterInt(this->pDSP, index, &value, 0, 0);
+    //return value
+    return value;
+}
+
+void DSP::setParameterInt(int index, int value)
+{
+    // Set int Parameter for the DSP
+    FMOD_DSP_SetParameterInt(this->pDSP, index, value);
+}
+
+bool DSP::getParameterBool(int index)
+{
+    // Grab bool value
+    FMOD_BOOL value = 0.0f;
+    FMOD_DSP_GetParameterBool(this->pDSP, index, &value, 0, 0);
+    //return value
+    return value;
+}
+
+void DSP::setParameterBool(int index, bool value)
+{
+    // Set bool Parameter for the DSP
+    FMOD_DSP_SetParameterBool(this->pDSP, index, value);
+}
+
+void* DSP::getParameterData(int index)
+{
+    // Grab Data
+    void* pData = 0;
+    FMOD_DSP_GetParameterData(this->pDSP, index, &pData, 0, 0, 0);
+    //return pData
+    return pData;
+}
+
+unsigned int DSP::getParameterDataSize(int index)
+{
+    // Grab Data Size
+    unsigned int dataSize = 0;
+    FMOD_DSP_GetParameterData(this->pDSP, index, 0, &dataSize, 0, 0);
+    // return dataSize
+    return dataSize;
+}
+
+void DSP::setParameterData(int index, void* pData, unsigned int length)
+{
+    // Set Data by undex for the DSP
+    FMOD_DSP_SetParameterData(this->pDSP, index, pData, length);
+}
+
 int DSP::getNumParameters()
 {
     // Get Number of Parameters
@@ -141,6 +251,68 @@ int DSP::getNumParameters()
     FMOD_DSP_GetNumParameters(this->pDSP, &numberOfParameters);
     // return numberOfParameters
     return numberOfParameters;
+}
+
+FMOD_DSP_PARAMETER_DESC* DSP::getParameterInfo(int index)
+{
+    // Get Descriptions
+    FMOD_DSP_PARAMETER_DESC* pDescription;
+    FMOD_DSP_GetParameterInfo(this->pDSP, index, &pDescription);
+    // return pDescription
+    return pDescription;
+}
+
+int DSP::getDataParameterIndex(int dataType)
+{
+    // Grab index of the first variable of the data type
+    int index = 0;
+    FMOD_DSP_GetDataParameterIndex(this->pDSP, dataType, &index);
+    // return index
+    return index;
+}
+
+bool DSP::isConfigDialogBoxVisible()
+{
+    // return configDialogFlag
+    return this->configDialogFlag;
+}
+
+void DSP::showConfigDialog(void* hwnd)
+{
+    // Show Config Dialog
+    this->configDialogFlag = true;
+    FMOD_DSP_ShowConfigDialog(this->pDSP, hwnd, true);
+}
+
+void DSP::hideConfigDialog(void* hwnd)
+{
+    // Hide Config Dialog
+    this->configDialogFlag = false;
+    FMOD_DSP_ShowConfigDialog(this->pDSP, hwnd, false);
+}
+
+std::string DSP::getName()
+{
+    // Grab name
+    char* name = 0;
+    FMOD_DSP_GetInfo(this->pDSP, name, 0, 0, 0, 0);
+    // return name
+    return std::string(name);
+}
+
+unsigned int DSP::getVersion()
+{
+    //FMOD_RESULT F_API FMOD_DSP_GetInfo                      (FMOD_DSP *dsp, char *name, unsigned int *version, int *channels, int *configwidth, int *configheight);
+}
+
+int DSP::getConfigWidth()
+{
+ //FMOD_RESULT F_API FMOD_DSP_GetInfo                      (FMOD_DSP *dsp, char *name, unsigned int *version, int *channels, int *configwidth, int *configheight);
+}
+
+int DSP::getConfigHeight()
+{
+    //FMOD_RESULT F_API FMOD_DSP_GetInfo                      (FMOD_DSP *dsp, char *name, unsigned int *version, int *channels, int *configwidth, int *configheight);
 }
 
 FMOD_DSP_TYPE DSP::getType()

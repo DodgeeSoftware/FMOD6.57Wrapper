@@ -10,7 +10,8 @@ SoundSample* AudioManager::getSoundSample(std::string filename, bool addToMap)
     // Validate Filename
     if (filename.size() == 0)
         return 0;
-    // TODO: We need to uppercase the filename
+    // uppercase the filename
+    filename = this->toUpperCase(filename);
     // Send a message to the console
     std::cout << "SoundSample* AudioManager::getSoundSample(std::string filename, bool addToMap)" << std::endl;
     // Try and find existing SoundSample
@@ -58,10 +59,11 @@ SoundSample* AudioManager::getSoundSample3D(std::string filename)
 
 SoundSample* AudioManager::getSoundSample3D(std::string filename, bool addToMap)
 {
-    // TODO: We need to uppercase the filename
     // Validate Filename
     if (filename.size() == 0)
         return 0;
+    // uppercase the filename
+    filename = this->toUpperCase(filename);
     // Try and find existing SoundSample
     std::map<std::string, SoundSample*>::iterator i = this->soundSample3DMap.find(filename);
     if (i != this->soundSample3DMap.end())
