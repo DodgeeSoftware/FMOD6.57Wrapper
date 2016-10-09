@@ -98,3 +98,21 @@ void DSPConnection::setUserData(void* pUserData)
     // Set user data for the DSP Connection
     FMOD_DSPConnection_SetUserData(this->pDSPConnection, pUserData);
 }
+
+FMOD_DSPCONNECTION* DSPConnection::getDSPConnection()
+{
+    // return pDSPConnection
+    return this->pDSPConnection;
+}
+
+void DSPConnection::setDSPConnection(FMOD_DSPCONNECTION* pDSPConnection)
+{
+    // Set our DSPConnection
+    this->pDSPConnection = pDSPConnection;
+    // If our DSP Connection isn't null
+    if (this->pDSPConnection != 0)
+    {
+        // Set user data
+        this->setUserData(this);
+    }
+}

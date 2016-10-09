@@ -607,10 +607,10 @@
 	<fmod_output.h>
 	"FMODGlobals.h"
 
-1476003024 source:c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dsp.cpp
+1476005773 source:c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dsp.cpp
 	"DSP.h"
 
-1476002985 c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dsp.h
+1476006411 c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dsp.h
 	<string>
 	<fmod.h>
 	<fmod_codec.h>
@@ -648,10 +648,10 @@
 1475783964 source:c:\myprograms\fmodstudiowrapper\gameaudio\geometry\geometry.cpp
 	"Geometry.h"
 
-1475819957 source:c:\myprograms\fmodstudiowrapper\gameaudio\group\channelgroup.cpp
+1476005779 source:c:\myprograms\fmodstudiowrapper\gameaudio\group\channelgroup.cpp
 	"ChannelGroup.h"
 
-1475844074 c:\myprograms\fmodstudiowrapper\gameaudio\group\channelgroup.h
+1476004345 c:\myprograms\fmodstudiowrapper\gameaudio\group\channelgroup.h
 	<string>
 	<fmod.h>
 	<fmod_codec.h>
@@ -676,7 +676,7 @@
 	<fmod_output.h>
 	"FMODGlobals.h"
 
-1475728956 c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dspconnection.h
+1476005938 c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dspconnection.h
 	<fmod.h>
 	<fmod_codec.h>
 	<fmod_common.h>
@@ -698,7 +698,7 @@
 	"FMODGlobals.h"
 	"Channel.h"
 
-1475728551 source:c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dspconnection.cpp
+1476006007 source:c:\myprograms\fmodstudiowrapper\gameaudio\dsp\dspconnection.cpp
 	"DSPConnection.h"
 
 1475830770 source:c:\myprograms\fmodstudiowrapper\gameaudio\recording\recording.cpp

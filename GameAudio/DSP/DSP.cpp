@@ -76,6 +76,27 @@ void DSP::release()
     this->pDSP = 0;
 }
 
+FMOD_DSPCONNECTION* DSP::addInput(FMOD_DSP* pInputDSP, FMOD_DSPCONNECTION_TYPE type)
+{
+    // Add Input from another DSP
+    FMOD_DSPCONNECTION* pDSPConnection = 0;
+    FMOD_DSP_AddInput(this->pDSP, pInputDSP, &pDSPConnection, type);
+    //return pDSPConnection
+    return pDSPConnection;
+}
+
+void DSP::disconnectFrom(FMOD_DSP* pTargetDSP, FMOD_DSPCONNECTION* pDSPConnection)
+{
+    // Disconnect From
+    FMOD_DSP_DisconnectFrom(this->pDSP, pTargetDSP, pDSPConnection);
+}
+
+void DSP::disconnectAll(bool inputs, bool outputs)
+{
+    // Disconnect All
+    FMOD_DSP_DisconnectAll(this->pDSP, inputs, outputs);
+}
+
 int DSP::getNumberOfInputs()
 {
     // Grab the Number of Inputs
@@ -92,6 +113,40 @@ int DSP::getNumberOfOutputs()
     FMOD_DSP_GetNumOutputs(this->pDSP, &numberOfOutputs);
     //return numberOfOutputs
     return numberOfOutputs;
+}
+
+FMOD_DSP* DSP::getDSPInput(int index)
+{
+    FMOD_DSP* pDSPInput = 0;
+    FMOD_DSP_GetInput(this->pDSP, index, &pDSPInput, 0);
+    // return pDSPInput
+    return pDSPInput;
+}
+
+FMOD_DSPCONNECTION* DSP::getDSPInputConnection(int index)
+{
+    // Grab DSPConnection
+    FMOD_DSPCONNECTION* pDSPConnection = 0;
+    FMOD_DSP_GetInput(this->pDSP, index, 0, &pDSPConnection);
+    // return pDSPConnection
+    return pDSPConnection;
+}
+
+FMOD_DSP* DSP::getDSPOutput(int index)
+{
+    FMOD_DSP* pDSPOutput = 0;
+    FMOD_DSP_GetOutput(this->pDSP, index, &pDSPOutput, 0);
+    // return pDSPOutput
+    return pDSPOutput;
+}
+
+FMOD_DSPCONNECTION* DSP::getDSPOutputConnection(int index)
+{
+    // Grab DSPConnection
+    FMOD_DSPCONNECTION* pDSPConnection = 0;
+    FMOD_DSP_GetOutput(this->pDSP, index, 0, &pDSPConnection);
+    // return pDSPConnection
+    return pDSPConnection;
 }
 
 bool DSP::getActive()

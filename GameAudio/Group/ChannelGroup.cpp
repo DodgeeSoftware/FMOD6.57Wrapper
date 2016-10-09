@@ -272,6 +272,15 @@ void ChannelGroup::overridePanDSP(FMOD_DSP* pDSP)
     FMOD_ChannelGroup_OverridePanDSP(this->pChannelGroup, pDSP);
 }
 
+FMOD_DSPCONNECTION* ChannelGroup::addChildChannelGroup(FMOD_CHANNELGROUP* pChildChannelGroup, bool inheritParentDSPClock)
+{
+    // Add the ChildChannel Group and grab the DSPConnection
+    FMOD_DSPCONNECTION* pDSPConnection = 0;
+    FMOD_ChannelGroup_AddGroup(this->pChannelGroup, pChildChannelGroup, inheritParentDSPClock, &pDSPConnection);
+    // return pDSPConnection
+    return pDSPConnection;
+}
+
 int ChannelGroup::getNumSubGroups()
 {
     // Grab the number of subgroups

@@ -174,10 +174,13 @@ class ChannelGroup
           * Can also be used to revert the panner back to the built in panner.
           * @param pDSP pointer to an FMOD_DSP Object **/
         virtual void overridePanDSP(FMOD_DSP* pDSP);
-        // TODO: implement this (tricky)
-        //FMOD_RESULT F_API FMOD_ChannelGroup_AddGroup            (FMOD_CHANNELGROUP *channelgroup, FMOD_CHANNELGROUP *group, FMOD_BOOL propagatedspclock, FMOD_DSPCONNECTION **connection);
-        //virtual addChildChannelGroup(FMOD_CHANNELGROUP* pChildChannelGroup, bool inheritParentDSPClock, )
-
+        /** @brief addChildChannelGroup
+          * Adds a channel group as a child of the current channel group.
+          * @param pChildChannelGroup Channel group to add as a child.
+          * @param inheritParentDSPClock When a child group is added to a parent group,
+          * the clock values from the parent will be propogated down into the child.
+          * @return a pointer to a DSP connection, which is the connection between the parent and the child group's DSP units **/
+        virtual FMOD_DSPCONNECTION* addChildChannelGroup(FMOD_CHANNELGROUP* pChildChannelGroup, bool inheritParentDSPClock);
         /** @brief getSubNumGroups
           * @return the number of sub groups under this channel group **/
         virtual int getNumSubGroups();

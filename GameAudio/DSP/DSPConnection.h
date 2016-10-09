@@ -22,7 +22,6 @@
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
 
-/* TODO: probably going to incorporate this class into the DSP Class infact I might just omit this thing entirely...  */
 /** DSPConnection **/
 class DSPConnection
 {
@@ -90,6 +89,12 @@ class DSPConnection
         /** @brief setUserData
           * @param void* data to be stored with this DSPConnection **/
         virtual void setUserData(void* pUserData);
+        /** @brief getDSPConnection
+          * @return the FMOD_DSPCONNECTION **/
+        virtual FMOD_DSPCONNECTION* getDSPConnection();
+        /** @brief setDSPConnection
+          * @param the FMOD_DSPCONNECTION **/
+        virtual void setDSPConnection(FMOD_DSPCONNECTION* pDSPConnection);
 
     protected:
         // DSPConnection

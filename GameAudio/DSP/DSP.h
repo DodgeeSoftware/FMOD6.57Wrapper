@@ -81,19 +81,42 @@ class DSP
 //        FMOD_System_PlayDSP
         /** @brief release **/
         virtual void release();
-// TODO: implement these
-//FMOD_RESULT F_API FMOD_DSP_AddInput                     (FMOD_DSP *dsp, FMOD_DSP *input, FMOD_DSPCONNECTION **connection, FMOD_DSPCONNECTION_TYPE type);
-//FMOD_RESULT F_API FMOD_DSP_DisconnectFrom               (FMOD_DSP *dsp, FMOD_DSP *target, FMOD_DSPCONNECTION *connection);
-//FMOD_RESULT F_API FMOD_DSP_DisconnectAll                (FMOD_DSP *dsp, FMOD_BOOL inputs, FMOD_BOOL outputs);
+        /** @brief addInput
+          * @param pInputDSP input DSP
+          * @param type define the type of connection valid values are FMOD_DSPCONNECTION_TYPE
+          * @return a FMOD_DSPCONNECTION **/
+        virtual FMOD_DSPCONNECTION* addInput(FMOD_DSP* pInputDSP, FMOD_DSPCONNECTION_TYPE type);
+        /** @brief disconnectFrom
+          * @param pTargetDSP [optional] use this to disconnect a DSP from this DSP
+          * @param pDSPConnection [optional] use this to disconnect a DSPConnection from this DSP **/
+        virtual void disconnectFrom(FMOD_DSP* pTargetDSP, FMOD_DSPCONNECTION* pDSPConnection);
+        /** @brief disconnectAll
+          * @param inputs set to true if you want to disconnect all inputs
+          * @param outputs set to true if you want to disconnect all outputs **/
+        virtual void disconnectAll(bool inputs, bool outputs);
+        //FMOD_RESULT F_API FMOD_DSP_DisconnectAll                (FMOD_DSP *dsp, FMOD_BOOL inputs, FMOD_BOOL outputs);
         /** @brief getNumberOfInputs
           * @return Retrieves the number of inputs connected to the DSP unit **/
         virtual int getNumberOfInputs();
         /** @brief getNumberOfOutputs
           * @return number of outputs **/
         virtual int getNumberOfOutputs();
-// TODO: implement these
-//FMOD_RESULT F_API FMOD_DSP_GetInput                     (FMOD_DSP *dsp, int index, FMOD_DSP **input, FMOD_DSPCONNECTION **inputconnection);
-//FMOD_RESULT F_API FMOD_DSP_GetOutput                    (FMOD_DSP *dsp, int index, FMOD_DSP **output, FMOD_DSPCONNECTION **outputconnection);
+        /** @brief getDSPInput
+          * @param index of the DSP input we want to get
+          * @return FMOD_DSP **/
+        virtual FMOD_DSP* getDSPInput(int index);
+        /** @brief  getDSPInputConnection
+        * @param index of the DSPConnection we want to get
+        * @return FMOD_DSP **/
+        virtual FMOD_DSPCONNECTION* getDSPInputConnection(int index);
+        /** @brief getDSPOutput
+          * @param index of the DSP input we want to get
+          * @return FMOD_DSP **/
+        virtual FMOD_DSP* getDSPOutput(int index);
+        /** @brief  getDSPOutputConnection
+        * @param index of the DSPConnection we want to get
+        * @return FMOD_DSP **/
+        virtual FMOD_DSPCONNECTION* getDSPOutputConnection(int index);
         /** @brief getActive
           * @return true if active false if not active **/
         virtual bool getActive();
@@ -108,7 +131,6 @@ class DSP
           * A DSP unit that is disabled still processes its inputs, it will just be 'dry'.
           * @param bypassFlag **/
         virtual void setBypass(bool bypassFlag);
-// TODO: implement these
         /** @brief getPrewet
           * @return prewet floating point value from 0 to 1, describing a linear scale of the 'wet'
           * (pre-processed signal) mix of the effect. Default = 1.0. Scale can be lower than 0 (negating) and higher than 1 (amplifying) **/
@@ -215,10 +237,10 @@ class DSP
         /** @brief isIdle
           * @return true if idle false otherwise **/
         virtual bool isIdle();
-    // TODO: implement these
-    //FMOD_RESULT F_API FMOD_DSP_SetMeteringEnabled           (FMOD_DSP *dsp, FMOD_BOOL inputEnabled, FMOD_BOOL outputEnabled);
-    //FMOD_RESULT F_API FMOD_DSP_GetMeteringEnabled           (FMOD_DSP *dsp, FMOD_BOOL *inputEnabled, FMOD_BOOL *outputEnabled);
-    //FMOD_RESULT F_API FMOD_DSP_GetMeteringInfo              (FMOD_DSP *dsp, FMOD_DSP_METERING_INFO *inputInfo, FMOD_DSP_METERING_INFO *outputInfo);
+        // TODO: implement these
+        //FMOD_RESULT F_API FMOD_DSP_SetMeteringEnabled           (FMOD_DSP *dsp, FMOD_BOOL inputEnabled, FMOD_BOOL outputEnabled);
+        //FMOD_RESULT F_API FMOD_DSP_GetMeteringEnabled           (FMOD_DSP *dsp, FMOD_BOOL *inputEnabled, FMOD_BOOL *outputEnabled);
+        //FMOD_RESULT F_API FMOD_DSP_GetMeteringInfo              (FMOD_DSP *dsp, FMOD_DSP_METERING_INFO *inputInfo, FMOD_DSP_METERING_INFO *outputInfo);
         /** @brief getFMODDSP
           * @return FMOD_DSP object **/
         virtual FMOD_DSP* getFMODDSP();
