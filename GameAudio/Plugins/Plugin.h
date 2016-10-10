@@ -13,15 +13,6 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-//// LUA AND LUABIND Includes
-//extern "C"
-//{
-//    #include <lua.h>
-//    #include <lualib.h>
-//    #include <lauxlib.h>
-//}
-//#include <luabind/luabind.hpp>
-
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
 

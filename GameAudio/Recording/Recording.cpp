@@ -261,7 +261,27 @@ FMOD_DRIVER_STATE Recording::getDriverState()
     return pDeviceDriverState;
 }
 
-//void Recording::bindToLua(lua_State* pLuaState)
-//{
-//
-//}
+void Recording::bindToLua(lua_State* pLuaState)
+{
+    // Bind functions to lua state
+    luabind::module(pLuaState)
+    [
+        luabind::class_<Recording>("Recording")
+        .def(luabind::constructor<>())
+        // RECORDING FUNCTIONS
+        .def("create", (void (Recording::*)()) &Recording::create)
+        .def("play", (void (Recording::*)()) &Recording::play)
+        .def("playEx", (void (Recording::*)()) &Recording::playEx)
+        .def("release", (void (Recording::*)()) &Recording::release)
+        .def("getRecordingDeviceID", (int (Recording::*)()) &Recording::getRecordingDeviceID)
+        .def("setRecordingDeviceID", (void (Recording::*)(int)) &Recording::setRecordingDeviceID)
+        .def("startRecording", (void (Recording::*)()) &Recording::startRecording)
+        .def("stopRecording", (void (Recording::*)()) &Recording::stopRecording)
+        .def("isRecording", (bool (Recording::*)()) &Recording::isRecording)
+        .def("getRecordPosition", (unsigned int (Recording::*)()) &Recording::getRecordPosition)
+        // RECORDING DRIVER INFO FUNCTIONS
+        .def("getDeviceName", (std::string (Recording::*)()) &Recording::getDeviceName)
+        .def("getSystemRate", (int (Recording::*)()) &Recording::getSystemRate)
+        .def("getSpeakerModeChannels", (int (Recording::*)()) &Recording::getSpeakerModeChannels)
+    ];
+}

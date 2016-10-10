@@ -124,19 +124,18 @@ void AudioManager::clear()
     this->soundSample3DMap.clear();
 }
 
-//void AudioManager::bindToLua(lua_State* pLuaState)
-//{
-//    // TODO: More bindings
-//    // Bind functions to lua state
-//    luabind::module(pLuaState)
-//    [
-//        luabind::class_<AudioManager>("AudioManager")
-//        .def(luabind::constructor<>())
-//        .def("getVersion", (std::string (AudioManager::*)()) &AudioManager::getVersion)
-//        .def("getSoundSample", (SoundSample*(AudioManager::*)(std::string)) &AudioManager::getSoundSample)
-//        .def("getSoundSample", (SoundSample*(AudioManager::*)(std::string, bool)) &AudioManager::getSoundSample)
-//        .def("getSoundSample3D", (SoundSample*(AudioManager::*)(std::string)) &AudioManager::getSoundSample3D)
-//        .def("getSoundSample3D", (SoundSample*(AudioManager::*)(std::string, bool)) &AudioManager::getSoundSample3D)
-//        .def("clear", (void(AudioManager::*)()) &AudioManager::clear)
-//    ];
-//}
+void AudioManager::bindToLua(lua_State* pLuaState)
+{
+    // Bind functions to lua state
+    luabind::module(pLuaState)
+    [
+        luabind::class_<AudioManager>("AudioManager")
+        .def(luabind::constructor<>())
+        .def("getVersion", (std::string (AudioManager::*)()) &AudioManager::getVersion)
+        .def("getSoundSample", (SoundSample*(AudioManager::*)(std::string)) &AudioManager::getSoundSample)
+        .def("getSoundSample", (SoundSample*(AudioManager::*)(std::string, bool)) &AudioManager::getSoundSample)
+        .def("getSoundSample3D", (SoundSample*(AudioManager::*)(std::string)) &AudioManager::getSoundSample3D)
+        .def("getSoundSample3D", (SoundSample*(AudioManager::*)(std::string, bool)) &AudioManager::getSoundSample3D)
+        .def("clear", (void(AudioManager::*)()) &AudioManager::clear)
+    ];
+}

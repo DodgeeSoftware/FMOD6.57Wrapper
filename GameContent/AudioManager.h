@@ -9,14 +9,14 @@
 // header for TinyXML
 #include <ticpp.h>
 
-//// LUA / LUABIND INCLUDES
-//extern "C"
-//{
-//    #include <lua.h>
-//    #include <lualib.h>
-//    #include <lauxlib.h>
-//}
-//#include <luabind/luabind.hpp>
+// LUA / LUABIND INCLUDES
+extern "C"
+{
+    #include <lua.h>
+    #include <lualib.h>
+    #include <lauxlib.h>
+}
+#include <luabind/luabind.hpp>
 
 // FMOD Includes
 #include <fmod.h>
@@ -85,8 +85,6 @@ class AudioManager
         virtual std::string getLocalPath(std::string filename)
         {
             std::string relativePath = filename;
-            /* TODO: This could represent a bug on machines that use different slashes
-            as a result this could comprimise portability */
             unsigned int pos = relativePath.find_last_of('/');
             if (pos == std::string::npos)
                 return std::string();
@@ -120,10 +118,10 @@ class AudioManager
             return (this->toUpperCase(value) == "TRUE") ? true: false;
         }
 
-//    // LUA BINDINGS
-//    public:
-//        //! Bind this class to a lua state
-//        static void bindToLua(lua_State* pLuaState);
+    // LUA BINDINGS
+    public:
+        //! Bind this class to a lua state
+        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // AUDIOMANAGER_H

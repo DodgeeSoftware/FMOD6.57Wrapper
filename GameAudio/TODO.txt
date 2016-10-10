@@ -3,11 +3,21 @@
 * TODO *
 ********
 
-[] Sound and Stream need to inherit from Channel
+[] Wrapper for the FMOD Studio API
+[] Wrapper and for the FSBank API
 
-[] Finish wrapping the AudioSystem
-    [~ started] DSP Stuff -> more complicated than I first thought
-    [] Not sure what this is FMOD_DSPCONNECTION or if I need a wrapper for it
+10/10/2016
+[DONE] Bindings
+[DONE] Sound and Stream need to inherit from Channel
+[DONE] Finish ChannelGroup functions
+[DONE] Finish DSP Functions
+
+09/10/2016
+[DONE] finishing the last parts of the wrapper the DSPConnection stuff and a few more complex functions
+
+08/10/2016
+* Saturday gettogether only did alittle bit of work
+[DONE] Isolated the callback needed for the video playback stuff :)
 
 07/10/2016
 [DONE] Mostly Finished ChannelGroup

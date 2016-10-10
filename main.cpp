@@ -11,11 +11,42 @@
 // GAMECONTENT Includes
 #include "AudioManager.h"
 
+/* The Video Class is just a
+    placeholder class used in
+    one unit test below. Where
+    we simulate streaming audio
+    from a file (such as a video)
+    for the sake of playback
+    and timing */
 class Video
 {
+    // *****************************
+    // * CONSTRUCTORS / DESTRUCTOR *
+    // *****************************
     public:
-        float a = 5;
+        //! Constructor
+        Video()
+        {
+           this->finishedFlag = true;
+        }
+        //! Destructor
+        ~Video()
+        {
 
+        }
+
+    // *********************
+    // * GENERAL FUNCTIONS *
+    // *********************
+    public:
+        //! isFinished
+        bool isFinished() { return finishedFlag; }
+        //! Set Finished
+        void setFinished(bool finishedFlag) { this->finishedFlag = finishedFlag; }
+
+    protected:
+        // finishedFlag
+        bool finishedFlag;
 };
 
 // GLOBALS
@@ -45,6 +76,8 @@ void dspUnitTest();
 void reverbTest();
 // Capture Unit Test
 void captureUnitTest();
+// Audio Stream for Video
+void audioStreamForVideo();
 
 // UTILITY FUNCTIONS
 // Wait for a Keypress
@@ -53,31 +86,25 @@ void waitForKeypress();
 void waitForNoKeypress();
 
 // CALLBACKS
-//typedef FMOD_RESULT (F_CALLBACK *FMOD_FILE_READ_CALLBACK)       (void *handle, void *buffer, unsigned int sizebytes, unsigned int *bytesread, void *userdata);
-FMOD_RESULT F_CALLBACK fileReadCallback(void *handle, void *buffer, unsigned int sizebytes, unsigned int *bytesread, void *userdata)
-{
-    std::cout << "FMOD_RESULT F_CALLBACK fileReadCallback" << std::endl;
-    return FMOD_OK;
-}
-//typedef FMOD_RESULT (F_CALLBACK *FMOD_SOUND_PCMREAD_CALLBACK)   (FMOD_SOUND *sound, void *data, unsigned int datalen);
+// pcm Callback - simulates an audio stream being read from a source such as video
 FMOD_RESULT F_CALLBACK pcmReadCallback(FMOD_SOUND *sound, void *data, unsigned int datalen)
 {
+    // Grab User Data
     void* pUserData = 0;
     FMOD_Sound_GetUserData(sound, &pUserData);
-
+    // Convert UserData into its true format
     Video* pVideo = (Video*)pUserData;
-    std::cout << pVideo->a << std::endl;
-
+    // Send a message to to console
     std::cout << "FMOD_RESULT F_CALLBACK pcmReadCallback" << std::endl;
+    // Convert our pointer to UnsignedShort16 (aka PCM16) format
     unsigned short* pData = (unsigned short*)data;
-
+    // Place static into our buffer
     unsigned int max = datalen / (sizeof(short int));
-    int d = 0;
     for (unsigned int i = 0; i < max ; i++)
     {
         pData[i] = rand();
     }
-
+    // Success
     return FMOD_OK;
 }
 
@@ -95,6 +122,8 @@ int main(int argc, char* argv[])
         // Failure
         return -1;
     }
+    // Send a message to the console
+    std::cout << "FMOD Version: " << audioSystem.getVersion() << std::endl;
     // Setup the Doppler Factor, Distance Factor and RollOffScale
     audioSystem.set3DSettings(1.0, 1.0, 1.0f);
     // Set Sound Volume
@@ -107,120 +136,29 @@ int main(int argc, char* argv[])
     std::cout << "Initialising AudioSystem Success" << std::endl;
     std::cout << std::endl;
 
-//    // UNIT TESTS
-//    // Run Sound Unit Test
-//    soundUnitTest();
-//    // Run Sound2D Unit Test
-//    sound2DUnitTest();
-//    // Run Sound3D Unit Test
-//    sound3DUnitTest();
-//    // Run Stream Unit Test
-//    streamUnitTest();
-//    // Run Stream2D Unit Test
-//    stream2DUnitTest();
-//    // Run Stream3D Unit Test
-//    stream3DUnitTest();
-//    // Run Music Unit Test
-//    musicUnitTest();
-//    // DSP Unit test
-//    dspUnitTest();
-//    // Reverb Test
-//    reverbTest();
-//    // Run Capture Test NOTE: Outside of my spec for a simple GameAudio(FMOD Wrapper)
-//    captureUnitTest();
-
-    Video video;
-
-    // Create the FMODSound
-    FMOD_SOUND* pFMODSound = 0;
-    int channels = FMODGlobals::getNumberOfChannels();
-    int systemRate = FMODGlobals::getFrequency();
-    float seconds = 1.0f;
-    FMOD_CREATESOUNDEXINFO exinfo = {0};
-        exinfo.cbsize           = sizeof(FMOD_CREATESOUNDEXINFO);
-        exinfo.numchannels      = channels;
-        exinfo.format           = FMOD_SOUND_FORMAT_PCM16;
-        exinfo.defaultfrequency = systemRate;
-        //exinfo.length           = exinfo.defaultfrequency * sizeof(short) * exinfo.numchannels * seconds;
-        exinfo.length           = systemRate;
-        exinfo.pcmreadcallback = pcmReadCallback;
-        exinfo.decodebuffersize = 44100;
-        exinfo.suggestedsoundtype = FMOD_SOUND_TYPE_OGGVORBIS;
-        exinfo.userdata = (void*)&video;
-
-//        typedef struct FMOD_CREATESOUNDEXINFO
-//        {
-//            int                            cbsize;             /* [w]   Size of this structure.  This is used so the structure can be expanded in the future and still work on older versions of FMOD Studio. */
-//            unsigned int                   length;             /* [w]   Optional. Specify 0 to ignore. Number of bytes to load starting at 'fileoffset', or size of sound to create (if FMOD_OPENUSER is used).  Required if loading from memory.  If 0 is specified, then it will use the size of the file (unless loading from memory then an error will be returned). */
-//            unsigned int                   fileoffset;         /* [w]   Optional. Specify 0 to ignore. Offset from start of the file to start loading from.  This is useful for loading files from inside big data files. */
-//            int                            numchannels;        /* [w]   Optional. Specify 0 to ignore. Number of channels in a sound mandatory if FMOD_OPENUSER or FMOD_OPENRAW is used.  Can be specified up to FMOD_MAX_CHANNEL_WIDTH. */
-//            int                            defaultfrequency;   /* [w]   Optional. Specify 0 to ignore. Default frequency of sound in Hz, mandatory if FMOD_OPENUSER or FMOD_OPENRAW is used.  Other formats use the frequency determined by the file format. */
-//            FMOD_SOUND_FORMAT              format;             /* [w]   Optional. Specify 0 or FMOD_SOUND_FORMAT_NONE to ignore. Format of the sound, mandatory if FMOD_OPENUSER or FMOD_OPENRAW is used.  Other formats use the format determined by the file format.   */
-//            unsigned int                   decodebuffersize;   /* [w]   Optional. Specify 0 to ignore. For streams.  This determines the size of the double buffer (in PCM samples) that a stream uses.  Use this for user created streams if you want to determine the size of the callback buffer passed to you.  Specify 0 to use FMOD's default size which is currently equivalent to 400ms of the sound format created/loaded. */
-//            int                            initialsubsound;    /* [w]   Optional. Specify 0 to ignore. In a multi-sample file format such as .FSB/.DLS, specify the initial subsound to seek to, only if FMOD_CREATESTREAM is used. */
-//            int                            numsubsounds;       /* [w]   Optional. Specify 0 to ignore or have no subsounds.  In a sound created with FMOD_OPENUSER, specify the number of subsounds that are accessable with Sound::getSubSound.  If not created with FMOD_OPENUSER, this will limit the number of subsounds loaded within a multi-subsound file.  If using FSB, then if FMOD_CREATESOUNDEXINFO::inclusionlist is used, this will shuffle subsounds down so that there are not any gaps.  It will mean that the indices of the sounds will be different. */
-//            int                           *inclusionlist;      /* [w]   Optional. Specify 0 to ignore. In a multi-sample format such as .FSB/.DLS it may be desirable to specify only a subset of sounds to be loaded out of the whole file.  This is an array of subsound indices to load into memory when created. */
-//            int                            inclusionlistnum;   /* [w]   Optional. Specify 0 to ignore. This is the number of integers contained within the inclusionlist array. */
-//            FMOD_SOUND_PCMREAD_CALLBACK    pcmreadcallback;    /* [w]   Optional. Specify 0 to ignore. Callback to 'piggyback' on FMOD's read functions and accept or even write PCM data while FMOD is opening the sound.  Used for user sounds created with FMOD_OPENUSER or for capturing decoded data as FMOD reads it. */
-//            FMOD_SOUND_PCMSETPOS_CALLBACK  pcmsetposcallback;  /* [w]   Optional. Specify 0 to ignore. Callback for when the user calls a seeking function such as Channel::setTime or Channel::setPosition within a multi-sample sound, and for when it is opened.*/
-//            FMOD_SOUND_NONBLOCK_CALLBACK   nonblockcallback;   /* [w]   Optional. Specify 0 to ignore. Callback for successful completion, or error while loading a sound that used the FMOD_NONBLOCKING flag.  Also called duing seeking, when setPosition is called or a stream is restarted. */
-//            const char                    *dlsname;            /* [w]   Optional. Specify 0 to ignore. Filename for a DLS sample set when loading a MIDI file. If not specified, on Windows it will attempt to open /windows/system32/drivers/gm.dls or /windows/system32/drivers/etc/gm.dls, on Mac it will attempt to load /System/Library/Components/CoreAudio.component/Contents/Resources/gs_instruments.dls, otherwise the MIDI will fail to open. Current DLS support is for level 1 of the specification. */
-//            const char                    *encryptionkey;      /* [w]   Optional. Specify 0 to ignore. Key for encrypted FSB file.  Without this key an encrypted FSB file will not load. */
-//            int                            maxpolyphony;       /* [w]   Optional. Specify 0 to ignore. For sequenced formats with dynamic channel allocation such as .MID and .IT, this specifies the maximum voice count allowed while playing.  .IT defaults to 64.  .MID defaults to 32. */
-//            void                          *userdata;           /* [w]   Optional. Specify 0 to ignore. This is user data to be attached to the sound during creation.  Access via Sound::getUserData.  Note: This is not passed to FMOD_FILE_OPEN_CALLBACK - use fileuserdata for that. */
-//            FMOD_SOUND_TYPE                suggestedsoundtype; /* [w]   Optional. Specify 0 or FMOD_SOUND_TYPE_UNKNOWN to ignore.  Instead of scanning all codec types, use this to speed up loading by making it jump straight to this codec. */
-//            FMOD_FILE_OPEN_CALLBACK        fileuseropen;       /* [w]   Optional. Specify 0 to ignore. Callback for opening this file. */
-//            FMOD_FILE_CLOSE_CALLBACK       fileuserclose;      /* [w]   Optional. Specify 0 to ignore. Callback for closing this file. */
-//            FMOD_FILE_READ_CALLBACK        fileuserread;       /* [w]   Optional. Specify 0 to ignore. Callback for reading from this file. */
-//            FMOD_FILE_SEEK_CALLBACK        fileuserseek;       /* [w]   Optional. Specify 0 to ignore. Callback for seeking within this file. */
-//            FMOD_FILE_ASYNCREAD_CALLBACK   fileuserasyncread;  /* [w]   Optional. Specify 0 to ignore. Callback for seeking within this file. */
-//            FMOD_FILE_ASYNCCANCEL_CALLBACK fileuserasynccancel;/* [w]   Optional. Specify 0 to ignore. Callback for seeking within this file. */
-//            void                          *fileuserdata;       /* [w]   Optional. Specify 0 to ignore. User data to be passed into the file callbacks. */
-//            int                            filebuffersize;     /* [w]   Optional. Specify 0 to ignore. Buffer size for reading the file, -1 to disable buffering, or 0 for system default. */
-//            FMOD_CHANNELORDER              channelorder;       /* [w]   Optional. Specify 0 to ignore. Use this to differ the way fmod maps multichannel sounds to speakers.  See FMOD_CHANNELORDER for more. */
-//            FMOD_CHANNELMASK               channelmask;        /* [w]   Optional. Specify 0 to ignore. Use this to specify which channels map to which speakers.  See FMOD_CHANNELMASK for more. */
-//            FMOD_SOUNDGROUP               *initialsoundgroup;  /* [w]   Optional. Specify 0 to ignore. Specify a sound group if required, to put sound in as it is created. */
-//            unsigned int                   initialseekposition;/* [w]   Optional. Specify 0 to ignore. For streams. Specify an initial position to seek the stream to. */
-//            FMOD_TIMEUNIT                  initialseekpostype; /* [w]   Optional. Specify 0 to ignore. For streams. Specify the time unit for the position set in initialseekposition. */
-//            int                            ignoresetfilesystem;/* [w]   Optional. Specify 0 to ignore. Set to 1 to use fmod's built in file system. Ignores setFileSystem callbacks and also FMOD_CREATESOUNEXINFO file callbacks.  Useful for specific cases where you don't want to use your own file system but want to use fmod's file system (ie net streaming). */
-//            unsigned int                   audioqueuepolicy;   /* [w]   Optional. Specify 0 or FMOD_AUDIOQUEUE_CODECPOLICY_DEFAULT to ignore. Policy used to determine whether hardware or software is used for decoding, see FMOD_AUDIOQUEUE_CODECPOLICY for options (iOS >= 3.0 required, otherwise only hardware is available) */
-//            unsigned int                   minmidigranularity; /* [w]   Optional. Specify 0 to ignore. Allows you to set a minimum desired MIDI mixer granularity. Values smaller than 512 give greater than default accuracy at the cost of more CPU and vice versa. Specify 0 for default (512 samples). */
-//            int                            nonblockthreadid;   /* [w]   Optional. Specify 0 to ignore. Specifies a thread index to execute non blocking load on.  Allows for up to 5 threads to be used for loading at once.  This is to avoid one load blocking another.  Maximum value = 4. */
-//            FMOD_GUID                     *fsbguid;            /* [r/w] Optional. Specify 0 to ignore. Allows you to provide the GUID lookup for cached FSB header info. Once loaded the GUID will be written back to the pointer. This is to avoid seeking and reading the FSB header. */
-//        } FMOD_CREATESOUNDEXINFO;
-
-    FMOD_RESULT result = FMOD_System_CreateStream(FMODGlobals::pFMODSystem, 0, FMOD_OPENUSER | FMOD_LOOP_NORMAL, &exinfo, &(pFMODSound));
-    // If there was a problem
-    if (result != FMOD_OK)
-    {
-        // Send a message to the console
-        std::cout << "ERROR: Unable to Create Sound: " << std::endl;
-        std::cout << FMOD_ErrorString(result) << std::endl;
-    }
-    if (pFMODSound == 0)
-    {
-        std::cout << "ERROR: pFMODSound is null " << std::endl;
-    }
-    //FMOD_Sound_SetUserData(pFMODSound, &video);
-    FMOD_CHANNEL* pChannel = 0;
-    FMOD_System_PlaySound(FMODGlobals::pFMODSystem, pFMODSound, 0, false, &(pChannel));
-
-    while (true)
-    {
-        // Think for the AudioSystem
-        audioSystem.think();
-        // Update the AudioSystem
-        audioSystem.update();
-        // If a key was pressed
-        if (kbhit() == true)
-        {
-            // Grab the Keypressed
-            char ch = getch();
-            // If key was space then break
-            if (ch == 32)
-                break;
-         }
-    }
+    // UNIT TESTS
+    // Run Sound Unit Test
+    soundUnitTest();
+    // Run Sound2D Unit Test
+    sound2DUnitTest();
+    // Run Sound3D Unit Test
+    sound3DUnitTest();
+    // Run Stream Unit Test
+    streamUnitTest();
+    // Run Stream2D Unit Test
+    stream2DUnitTest();
+    // Run Stream3D Unit Test
+    stream3DUnitTest();
+    // Run Music Unit Test
+    musicUnitTest();
+    // DSP Unit test
+    dspUnitTest();
+    // Reverb Test
+    reverbTest();
+    //// Run Capture Test
+    //captureUnitTest();
+    // Simulate file / video stream audio
+    audioStreamForVideo();
 
     // Shutdown AudioSystem
     audioSystem.shutdown();
@@ -989,6 +927,69 @@ void captureUnitTest()
     }
     // Release the recording
     recording.release();
+    // Send a message to the console
+    std::cout << "TEST COMPLETE" << std::endl;
+    // Wait for no keypress
+    waitForNoKeypress();
+}
+
+void audioStreamForVideo()
+{
+     // Send a message to the console
+    std::cout << std::endl;
+    std::cout << "PERFORMING AUDIO STREAM FOR VIDEO" << std::endl;
+    std::cout << std::endl;
+    // Make a placeholder video
+    Video video;
+    // Create the FMODSound
+    FMOD_SOUND* pFMODSound = 0;
+    int channels = FMODGlobals::getNumberOfChannels();
+    int systemRate = FMODGlobals::getFrequency();
+    float seconds = 1.0f;
+    FMOD_CREATESOUNDEXINFO exinfo = {0};
+        exinfo.cbsize           = sizeof(FMOD_CREATESOUNDEXINFO);
+        exinfo.numchannels      = channels;
+        exinfo.format           = FMOD_SOUND_FORMAT_PCM16;
+        exinfo.defaultfrequency = systemRate;
+        //exinfo.length           = exinfo.defaultfrequency * sizeof(short) * exinfo.numchannels * seconds;
+        exinfo.length           = systemRate;
+        exinfo.pcmreadcallback = pcmReadCallback;
+        exinfo.decodebuffersize = 44100;
+        exinfo.suggestedsoundtype = FMOD_SOUND_TYPE_OGGVORBIS;
+        exinfo.userdata = (void*)&video;
+    FMOD_RESULT result = FMOD_System_CreateStream(FMODGlobals::pFMODSystem, 0, FMOD_OPENUSER | FMOD_LOOP_NORMAL, &exinfo, &(pFMODSound));
+    // If there was a problem
+    if (result != FMOD_OK)
+    {
+        // Send a message to the console
+        std::cout << "ERROR: Unable to Create Sound: " << std::endl;
+        std::cout << FMOD_ErrorString(result) << std::endl;
+    }
+    if (pFMODSound == 0)
+    {
+        std::cout << "ERROR: pFMODSound is null " << std::endl;
+    }
+    //FMOD_Sound_SetUserData(pFMODSound, &video);
+    FMOD_CHANNEL* pChannel = 0;
+    FMOD_System_PlaySound(FMODGlobals::pFMODSystem, pFMODSound, 0, false, &(pChannel));
+    // LOOP
+    while (true)
+    {
+        // Think for the AudioSystem
+        audioSystem.think();
+        // Update the AudioSystem
+        audioSystem.update();
+        // If a key was pressed
+        if (kbhit() == true)
+        {
+            // Grab the Keypressed
+            char ch = getch();
+            // If key was space then break
+            if (ch == 32)
+                break;
+         }
+    }
+
     // Send a message to the console
     std::cout << "TEST COMPLETE" << std::endl;
     // Wait for no keypress

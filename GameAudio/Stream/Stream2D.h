@@ -19,24 +19,27 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-//// LUA AND LUABIND Includes
-//extern "C"
-//{
-//    #include <lua.h>
-//    #include <lualib.h>
-//    #include <lauxlib.h>
-//}
-//#include <luabind/luabind.hpp>
+// LUA AND LUABIND Includes
+extern "C"
+{
+    #include <lua.h>
+    #include <lualib.h>
+    #include <lauxlib.h>
+}
+#include <luabind/luabind.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
+#include "Channel/Channel.h"
 #include "Stream/Stream.h"
 
 /** The Stream2D Class creates a 2 dimension (aka x,y) representation of a streaming audio. Streaming in that
     no loading is done, sound is read directly from disc **/
 class Stream2D : public Stream
 {
-    // CONSTRUCTOR / DESTRUCTOR
+    // *****************************
+    // * CONSTRUCTORS / DESTRUCTOR *
+    // *****************************
     public:
         //! Default Constructor
         Stream2D();
@@ -85,9 +88,9 @@ class Stream2D : public Stream
     protected:
         // members and methods
 
-    // *********************
-    // * CHANNEL FUNCTIONS *
-    // *********************
+    // *****************************
+    // * SPACIAL CHANNEL FUNCTIONS *
+    // *****************************
     public:
         /** @brief Get X Position
           * @return x x position **/
@@ -151,6 +154,12 @@ class Stream2D : public Stream
         /** @brief isDistanceFilter
           * @return true if DistanceFilter is turned on **/
         virtual bool isDistanceFilter();
+        /** @brief getCustomLevel
+          * @return the manual user attenuation, where 1.0 = no attenuation and 0 = complete attenuation. Default = 1.0. **/
+        virtual float getCustomLevel();
+        /** @brief getCentreFrequency
+          * @return center frequency in hz for the high-pass filter used to simulate distance attenuation, from 10.0 to 22050.0. Default = 1500.0 **/
+        virtual float getCentreFrequency();
         /** @brief setDistanceFilter
           * @param distanceFilter true to turn on, false to turn off **/
         virtual void setDistanceFilter(bool distanceFilterFlag);
@@ -160,11 +169,13 @@ class Stream2D : public Stream
         /** @brief setDistanceFilterCentreFrquency
           * @param frequency Specify a center frequency in hz for the high-pass filter used to simulate distance attenuation, from 10.0 to 22050.0. Default = 1500.0 **/
         virtual void setDistanceFilterCentreFrequency(float frequency);
-        //// Not going to implement these
+        // Not going to implement these
         //FMOD_RESULT F_API FMOD_Channel_Set3DSpread              (FMOD_CHANNEL *channel, float angle);
         //FMOD_RESULT F_API FMOD_Channel_Get3DSpread              (FMOD_CHANNEL *channel, float *angle);
-        //// TODO: implement this one
-        //FMOD_RESULT F_API FMOD_Channel_GetAudibility            (FMOD_CHANNEL *channel, float *audibility);
+        /** @brief getAudibility
+          * @return returns the combined volume after 3D spatialization
+          * and geometry occlusion calculations including any volumes set via the API **/
+        virtual float getAudibility();
 
     protected:
         // Horizontal Position
@@ -190,13 +201,13 @@ class Stream2D : public Stream
         // centre frequency
         float centreFrequency;
 
-//    // ****************
-//    // * LUA BINDINGS *
-//    // ****************
-//    public:
-//        /** @brief Bind this class to a lua state
-//          * @param pLuaState The LuaState to bind this class to **/
-//        static void bindToLua(lua_State* pLuaState);
+    // ****************
+    // * LUA BINDINGS *
+    // ****************
+    public:
+        /** @brief Bind this class to a lua state
+          * @param pLuaState The LuaState to bind this class to **/
+        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // STREAM2D_H

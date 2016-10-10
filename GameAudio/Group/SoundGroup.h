@@ -13,15 +13,6 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-//// LUA AND LUABIND Includes
-//extern "C"
-//{
-//    #include <lua.h>
-//    #include <lualib.h>
-//    #include <lauxlib.h>
-//}
-//#include <luabind/luabind.hpp>
-
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
 
@@ -111,13 +102,6 @@ class SoundGroup
         // FMOD_SOUNDGROUP
         FMOD_SOUNDGROUP* pSoundGroup;
 
-//    // ****************
-//    // * LUA BINDINGS *
-//    // ****************
-//    public:
-//        /** @brief Bind this class to a lua state
-//          * @param pLuaState The LuaState to bind this class to **/
-//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // SOUNDGROUP_H

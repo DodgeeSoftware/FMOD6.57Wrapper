@@ -10,15 +10,6 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-//// LUA AND LUABIND Includes
-//extern "C"
-//{
-//    #include <lua.h>
-//    #include <lualib.h>
-//    #include <lauxlib.h>
-//}
-//#include <luabind/luabind.hpp>
-
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
 
@@ -93,9 +84,15 @@ class Channel
         virtual void mute();
         /** @brief Unmute this sound **/
         virtual void unmute();
-        //// TODO: Not sure yet how Reverb works to implement these
-        //FMOD_RESULT F_API FMOD_Channel_SetReverbProperties(FMOD_CHANNEL *channel, int instance, float wet);
-        //FMOD_RESULT F_API FMOD_Channel_GetReverbProperties(FMOD_CHANNEL *channel, int instance, float *wet);
+        /** @brief getReverbWet
+          * Gets the wet level (or send level) of a particular reverb instance for the Channel
+          * @param instance Index of the particular reverb instance to target, from 0 to 3.
+          * @return Wettness of a reverb instance for the channel **/
+        virtual float getReverbWet(int instance);
+        /** @brief setReverbWet
+          * @param instance Index of the particular reverb instance to target, from 0 to 3.
+          * @param Wettness of a reverb instance for the channel **/
+        virtual void setReverbWet(int instance, float wet);
         /** @brief Get Low Pass Gain
           * @return LowPass Gain**/
         virtual float getLowPassGain();
@@ -120,27 +117,55 @@ class Channel
         /** @brief Set Balance (Pan)
           * @param pan (-1.0 full left 1.0 full right) **/
         virtual void setBalance(float balance);
-        //// Don't need to implement these
+        // Don't need to implement these
         //FMOD_RESULT F_API FMOD_Channel_SetMixLevelsOutput       (FMOD_CHANNEL *channel, float frontleft, float frontright, float center, float lfe, float surroundleft, float surroundright, float backleft, float backright);
         //FMOD_RESULT F_API FMOD_Channel_SetMixLevelsInput        (FMOD_CHANNEL *channel, float *levels, int numlevels);
         //FMOD_RESULT F_API FMOD_Channel_SetMixMatrix             (FMOD_CHANNEL *channel, float *matrix, int outchannels, int inchannels, int inchannel_hop);
         //FMOD_RESULT F_API FMOD_Channel_GetMixMatrix             (FMOD_CHANNEL *channel, float *matrix, int *outchannels, int *inchannels, int inchannel_hop);
-        //// Don't need to implement these
-        //FMOD_RESULT F_API FMOD_Channel_GetDSPClock              (FMOD_CHANNEL *channel, unsigned long long *dspclock, unsigned long long *parentclock);
-        //FMOD_RESULT F_API FMOD_Channel_SetDelay                 (FMOD_CHANNEL *channel, unsigned long long dspclock_start, unsigned long long dspclock_end, FMOD_BOOL stopchannels);
-        //FMOD_RESULT F_API FMOD_Channel_GetDelay                 (FMOD_CHANNEL *channel, unsigned long long *dspclock_start, unsigned long long *dspclock_end, FMOD_BOOL *stopchannels);
-        //FMOD_RESULT F_API FMOD_Channel_AddFadePoint             (FMOD_CHANNEL *channel, unsigned long long dspclock, float volume);
-        //FMOD_RESULT F_API FMOD_Channel_SetFadePointRamp         (FMOD_CHANNEL *channel, unsigned long long dspclock, float volume);
-        //FMOD_RESULT F_API FMOD_Channel_RemoveFadePoints         (FMOD_CHANNEL *channel, unsigned long long dspclock_start, unsigned long long dspclock_end);
-        //FMOD_RESULT F_API FMOD_Channel_GetFadePoints            (FMOD_CHANNEL *channel, unsigned int *numpoints, unsigned long long *point_dspclock, float *point_volume);
-        //// Not sure how DPS system works for the new FMOD
-        //FMOD_RESULT F_API FMOD_Channel_GetDSP                   (FMOD_CHANNEL *channel, int index, FMOD_DSP **dsp);
-        //FMOD_RESULT F_API FMOD_Channel_AddDSP                   (FMOD_CHANNEL *channel, int index, FMOD_DSP *dsp);
-        //FMOD_RESULT F_API FMOD_Channel_RemoveDSP                (FMOD_CHANNEL *channel, FMOD_DSP *dsp);
-        //FMOD_RESULT F_API FMOD_Channel_GetNumDSPs               (FMOD_CHANNEL *channel, int *numdsps);
-        //FMOD_RESULT F_API FMOD_Channel_SetDSPIndex              (FMOD_CHANNEL *channel, FMOD_DSP *dsp, int index);
-        //FMOD_RESULT F_API FMOD_Channel_GetDSPIndex              (FMOD_CHANNEL *channel, FMOD_DSP *dsp, int *index);
-        //FMOD_RESULT F_API FMOD_Channel_OverridePanDSP           (FMOD_CHANNEL *channel, FMOD_DSP *pan);
+        /** @brief getDSPClock
+          * Retrieves the DSP clock values which count up by the number of samples per second in the software mixer,
+          * i.e. if the default sample rate is 48KHz, the DSP clock increments by 48000 per second
+          * @return the DSP clock value for the head DSP node **/
+        virtual unsigned long long getDSPClock();
+        /** @brief getParentDSPClock
+          * Retrieves the DSP clock values which count up by the number of samples per second in the software mixer,
+          * i.e. if the default sample rate is 48KHz, the DSP clock increments by 48000 per second
+          * @return the DSP clock value for the tail DSP node **/
+        virtual unsigned long long getParentDSPClock();
+        /** @brief getDelay
+          * Retrieves a start (and/or stop) time relative to the parent channel group DSP clock, with sample accuracy
+          * @param dspclock_start Address of a variable that receives the DSP clock of the parent channel group
+          * to audibly start playing sound at. Optional, specify 0 or NULL to ignore
+          * @param dspclock_end Address of a variable that receives the DSP clock of the parent channel group to
+          * audibly stop playing sound at. Optional, specify 0 or NULL to ignore
+          * @param stopchannels Address of a variable that receives TRUE = stop according to ChannelControl::isPlaying.
+          * FALSE = remain 'active' and a new start delay could start playback again at a later time. Optional, specify 0 or NULL to ignore **/
+        virtual void getDelay(unsigned long long* dspclock_start, unsigned long long* dspclock_end, FMOD_BOOL* stopchannels);
+        /** @brief setDelay
+          * Sets a start (and/or stop) time relative to the parent channel group DSP clock, with sample accuracy
+          * @param dspclock_start DSP clock of the parent channel group to audibly start playing sound at, a value of 0 indicates no delay
+          * @param dspclock_end DSP clock of the parent channel group to audibly stop playing sound at, a value of 0 indicates no delay
+          * @param stopchannels TRUE = stop according to ChannelControl::isPlaying. FALSE = remain 'active' and a new start delay could start playback again at a later time **/
+        virtual void setDelay(unsigned long long dspclock_start, unsigned long long dspclock_end, FMOD_BOOL stopchannels);
+        /** @brief addFadePoint
+          * @param time DSP clock of the parent channel group to set the fade point volume
+          * @param volume Volume level where 0 is silent and 1.0 is normal volume. Amplification is supported **/
+        virtual void addFadePoint(unsigned long long dspClock, float volume);
+        /** @brief setFadePointRamp
+          * @param time DSP clock of the parent channel group to set the fade point volume
+          * @param volume Volume level where 0 is silent and 1.0 is normal volume. Amplification is supported **/
+        virtual void setFadePointRamp(unsigned long long dspClock, float volume);
+        /** @brief removeFadePoints
+          * Remove volume fade points on the timeline. This function will remove multiple fade points with a
+          * single call if the points lay between the 2 specified clock values (inclusive).
+          * @param dspClockStart DSP clock of the parent channel group to start removing fade points from
+          * @param dspClockEnd DSP clock of the parent channel group to start removing fade points to **/
+        virtual void removeFadePoints(unsigned long long dspClockStart, unsigned long long dspClockEnd);
+        /** @brief getFadePoints
+          * @param numPoints address of a varible to receive the number of points
+          * @param pointDSP Clock address of a variable to receive an array of 64bit clock values. Can be 0 or NULL
+          * @param volume address of a variable to recieve an array of volumes **/
+        virtual void getFadePoints(unsigned int* numPoints, unsigned long long* pointDSPClock, float* volume);
         /** @brief Get User Data
           * @return userData associated with the channel as a void* **/
         virtual void* getUserData();
@@ -159,32 +184,60 @@ class Channel
         /** @brief Set Priority (0 Highest priority, 255 lowest)
           * @param priority (0 Highest priority, 255 lowest) **/
         virtual void setPriority(int priority);
-        //// Don't need to implement these
+        // Don't need to implement these
         //FMOD_RESULT F_API FMOD_Channel_SetPosition              (FMOD_CHANNEL *channel, unsigned int position, FMOD_TIMEUNIT postype);
         //FMOD_RESULT F_API FMOD_Channel_GetPosition              (FMOD_CHANNEL *channel, unsigned int *position, FMOD_TIMEUNIT postype);
-        //FMOD_RESULT F_API FMOD_Channel_SetChannelGroup          (FMOD_CHANNEL *channel, FMOD_CHANNELGROUP *channelgroup);
-        //FMOD_RESULT F_API FMOD_Channel_GetChannelGroup          (FMOD_CHANNEL *channel, FMOD_CHANNELGROUP **channelgroup);
+        /** @brief getChannelGroup
+          * @return a FMOD_CHANNELGROUP where the Sound is bound to a
+          * channel group otherwise 0 **/
+        virtual FMOD_CHANNELGROUP* getChannelGroup();
+        /** @brief setChannelGroup
+          * @param pChannelGroup a FMOD_CHANNELGROUP to place this channel into **/
+        virtual void setChannelGroup(FMOD_CHANNELGROUP* pChannelGroup);
         /** @brief Is loop mode
           * @return true if looping false otherwise **/
         virtual bool isLoop();
         /** @brief Set the loop mode
           * @param loopFlag **/
         virtual void setLoop(bool loopFlag);
+        // Probably don't need these
         //FMOD_RESULT F_API FMOD_Channel_SetLoopPoints            (FMOD_CHANNEL *channel, unsigned int loopstart, FMOD_TIMEUNIT loopstarttype, unsigned int loopend, FMOD_TIMEUNIT loopendtype);
         //FMOD_RESULT F_API FMOD_Channel_GetLoopPoints            (FMOD_CHANNEL *channel, unsigned int *loopstart, FMOD_TIMEUNIT loopstarttype, unsigned int *loopend, FMOD_TIMEUNIT loopendtype);
         /** @brief Is Channel Virtual
           * @return true if channel is virtual otherwise false **/
         virtual bool isChannelVirtual();
-        //FMOD_RESULT F_API FMOD_Channel_GetCurrentSound          (FMOD_CHANNEL *channel, FMOD_SOUND **sound);
-        //FMOD_RESULT F_API FMOD_Channel_GetIndex                 (FMOD_CHANNEL *channel, int *index);
-//        // TODO: Implement these
-//        FMOD_RESULT F_API FMOD_Channel_GetDSP                   (FMOD_CHANNEL *channel, int index, FMOD_DSP **dsp);
-//        FMOD_RESULT F_API FMOD_Channel_AddDSP                   (FMOD_CHANNEL *channel, int index, FMOD_DSP *dsp);
-//        FMOD_RESULT F_API FMOD_Channel_RemoveDSP                (FMOD_CHANNEL *channel, FMOD_DSP *dsp);
-//        FMOD_RESULT F_API FMOD_Channel_GetNumDSPs               (FMOD_CHANNEL *channel, int *numdsps);
-//        FMOD_RESULT F_API FMOD_Channel_SetDSPIndex              (FMOD_CHANNEL *channel, FMOD_DSP *dsp, int index);
-//        FMOD_RESULT F_API FMOD_Channel_GetDSPIndex              (FMOD_CHANNEL *channel, FMOD_DSP *dsp, int *index);
-//        FMOD_RESULT F_API FMOD_Channel_OverridePanDSP           (FMOD_CHANNEL *channel, FMOD_DSP *pan);
+        /** @brief GetChannelIndex
+          * @return channel index **/
+        virtual int getChannelIndex();
+        /** @brief getDSP
+          * @param index see FMOD_CHANNELCONTROL_DSP_INDEX for
+          * special offsets
+          * @return FMOD_DSP object or 0 **/
+        virtual FMOD_DSP* getDSP(int index);
+        /** @brief addDSP
+          * @param index DSP offset in the Channel
+          * @param pDSP pointer to an FMOD_DSP Object
+          * @return true on success false otherwise **/
+        virtual bool addDSP(int index, FMOD_DSP* pDSP);
+        /** @brief removeDSP
+          * @param pDSP pointer to an FMOD_DSP-DSP Object to remove **/
+        virtual void removeDSP(FMOD_DSP* pDSP);
+        /** @brief getNumDSPs
+          * @return the number of DSPs in use for the channel **/
+        virtual int getNumDSPs();
+        /** @brief getDSPIndex
+          * @param pDSP pointer to an FMOD_DSP Object
+          * @return index of the FMOD_DSP relative to the channel **/
+        virtual int getDSPIndex(FMOD_DSP* pDSP);
+        /** @brief setDSPIndex
+          * @param pDSP pointer to an FMOD_DSP Object
+          * @param index index of the FMOD_DSP relative to the channel **/
+        virtual void setDSPIndex(FMOD_DSP* pDSP, int index);
+        /** @brief overridePanDSP
+          * Replaces the built in panner unit FMOD uses per ChannelGroup and Channel, with a user selected panner.
+          * Can also be used to revert the panner back to the built in panner.
+          * @param pDSP pointer to an FMOD_DSP Object **/
+        virtual void overridePanDSP(FMOD_DSP* pDSP);
 
     protected:
         // FMOD Channel
@@ -210,13 +263,6 @@ class Channel
         // Loop flag
         bool loopFlag;
 
-//    // ****************
-//    // * LUA BINDINGS *
-//    // ****************
-//    public:
-//        /** @brief Bind this class to a lua state
-//          * @param pLuaState The LuaState to bind this class to **/
-//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // CHANNEL_H

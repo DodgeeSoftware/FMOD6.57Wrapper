@@ -16,6 +16,9 @@
 					<Add option="-g" />
 					<Add directory="$(#FMODStudio10809.include)" />
 					<Add directory="$(#TinyXML.include)" />
+					<Add directory="$(#Lua.include)" />
+					<Add directory="$(#LuaBind9.include)" />
+					<Add directory="$(#Boost.include)" />
 					<Add directory="GameAudio" />
 					<Add directory="GameAudio/Channel" />
 					<Add directory="GameAudio/DSP" />
@@ -33,8 +36,13 @@
 				<Linker>
 					<Add library="fmod" />
 					<Add library="ticpp" />
+					<Add library="Lua51" />
+					<Add library="LuaBindd" />
 					<Add directory="$(#FMODStudio10809.lib)" />
 					<Add directory="$(#TinyXML.lib)" />
+					<Add directory="$(#Lua.lib)" />
+					<Add directory="$(#LuaBind9.lib)" />
+					<Add directory="$(#Boost.lib)" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -67,6 +75,9 @@
 					<Add library="ticpp" />
 					<Add directory="$(#FMODStudio10809.lib)" />
 					<Add directory="$(#TinyXML.lib)" />
+					<Add directory="$(#Lua.lib)" />
+					<Add directory="$(#LuaBind9.lib)" />
+					<Add directory="$(#Boost.lib)" />
 				</Linker>
 			</Target>
 		</Build>

@@ -55,15 +55,41 @@ bool DSP::create(unsigned int pluginNandle)
     return result;
 }
 
-//void DSP::play(FMOD_CHANNEL** pChannel)
-//{
-//
-//}
-//
-//void DSP::play(FMOD_CHANNELGROUP* channelGroup)
-//{
-//
-//}
+FMOD_CHANNEL* DSP::playChannel()
+{
+    // Play our DSP on a channel
+    FMOD_CHANNEL* pChannel = 0;
+    FMOD_System_PlayDSP(FMODGlobals::pFMODSystem, this->pDSP, 0, false, &pChannel);
+    // return pChannel
+    return pChannel;
+}
+
+FMOD_CHANNEL* DSP::playChannelEx()
+{
+    // Play our DSP on a channel
+    FMOD_CHANNEL* pChannel = 0;
+    FMOD_System_PlayDSP(FMODGlobals::pFMODSystem, this->pDSP, 0, true, &pChannel);
+    // return pChannel
+    return pChannel;
+}
+
+FMOD_CHANNEL* DSP::playChannelGroup(FMOD_CHANNELGROUP* pChannelGroup)
+{
+    // Play our DSP on a channel
+    FMOD_CHANNEL* pChannel = 0;
+    FMOD_System_PlayDSP(FMODGlobals::pFMODSystem, this->pDSP, pChannelGroup, false, &pChannel);
+    // return pChannel
+    return pChannel;
+}
+
+FMOD_CHANNEL* DSP::playChannelGroupEx(FMOD_CHANNELGROUP* pChannelGroup)
+{
+    // Play our DSP on a channel
+    FMOD_CHANNEL* pChannel = 0;
+    FMOD_System_PlayDSP(FMODGlobals::pFMODSystem, this->pDSP, pChannelGroup, true, &pChannel);
+    // return pChannel
+    return pChannel;
+}
 
 void DSP::release()
 {
@@ -219,6 +245,66 @@ void DSP::setWetDryMix(float prewet, float postwet, float dry)
 {
     // Set Wet Dry Mix
     FMOD_DSP_SetWetDryMix(this->pDSP, prewet, postwet, dry);
+}
+
+FMOD_CHANNELMASK* DSP::getChannelMask()
+{
+    // Grab Channel Mask
+    FMOD_CHANNELMASK* pChannelMask = 0;
+    FMOD_DSP_GetChannelFormat(this->pDSP, pChannelMask, 0, 0);
+    //return pChannelMask
+    return pChannelMask;
+}
+
+int DSP::getNumChannels()
+{
+    // Grab number of channels
+    int numberOfChannels = 0;
+    FMOD_DSP_GetChannelFormat(this->pDSP, 0, &numberOfChannels, 0);
+    //return numberOfChannels
+    return numberOfChannels;
+}
+
+FMOD_SPEAKERMODE* DSP::getSpeakerMode()
+{
+    // Grab SpeakerMode
+    FMOD_SPEAKERMODE* pSpeakerMode = 0;
+    FMOD_DSP_GetChannelFormat(this->pDSP, 0, 0, pSpeakerMode);
+    //return pSpeakerMode
+    return pSpeakerMode;
+}
+
+void DSP::setChannelFormat(FMOD_CHANNELMASK channelMask, int numChannels, FMOD_SPEAKERMODE speakerMode)
+{
+    // Set Channel Format
+    FMOD_DSP_SetChannelFormat(this->pDSP, channelMask, numChannels, speakerMode);
+}
+
+FMOD_CHANNELMASK* DSP::getOutputChannelFormatOutputMask(FMOD_CHANNELMASK inputChannelMask, int inputChannels, FMOD_SPEAKERMODE inputSpeakerMode)
+{
+    // Grab ChannelMask
+    FMOD_CHANNELMASK* pChannelMask = 0;
+    FMOD_DSP_GetOutputChannelFormat(this->pDSP, inputChannelMask, inputChannels, inputSpeakerMode, pChannelMask, 0, 0);
+    // return pChannelMask
+    return pChannelMask;
+}
+
+int DSP::getOutputChannelFormatOutputChannels(FMOD_CHANNELMASK inputChannelMask, int inputChannels, FMOD_SPEAKERMODE inputSpeakerMode)
+{
+    // Grab output channels
+    int outputChannels = 0;
+    FMOD_DSP_GetOutputChannelFormat(this->pDSP, inputChannelMask, inputChannels, inputSpeakerMode, 0, &outputChannels, 0);
+    // return outputChannels
+    return outputChannels;
+}
+
+FMOD_SPEAKERMODE* DSP::getOutputChannelFormatOutputSpeakerMode(FMOD_CHANNELMASK inputChannelMask, int inputChannels, FMOD_SPEAKERMODE inputSpeakerMode)
+{
+    // Grab Output Speaker Mode
+    FMOD_SPEAKERMODE* pOutputSpeakerMode = 0;
+    FMOD_DSP_GetOutputChannelFormat(this->pDSP, inputChannelMask, inputChannels, inputSpeakerMode, 0, 0, pOutputSpeakerMode);
+    // return pOutputSpeakerMode
+    return pOutputSpeakerMode;
 }
 
 void DSP::reset()
@@ -386,6 +472,78 @@ bool DSP::isIdle()
     FMOD_DSP_GetIdle(this->pDSP, &idleFlag);
     // return idleFlag
     return idleFlag;
+}
+
+bool DSP::isMeteringInputEnabled()
+{
+    // Grab input enabled flag
+    FMOD_BOOL inputEnabledFlag = false;
+    FMOD_DSP_GetMeteringEnabled(this->pDSP, &inputEnabledFlag, 0);
+    // return inputEnabledFlag
+    return inputEnabledFlag;
+}
+
+void DSP::setInputMetering(bool state)
+{
+    // Set Metering Enabled
+    FMOD_DSP_SetMeteringEnabled(this->pDSP, state, this->isMeteringOutputEnabled());
+}
+
+void DSP::enableInputMetering()
+{
+    // Set Metering Enabled
+    FMOD_DSP_SetMeteringEnabled(this->pDSP, true, this->isMeteringOutputEnabled());
+}
+
+void DSP::disableInputMetering()
+{
+    // Set Metering Enabled
+    FMOD_DSP_SetMeteringEnabled(this->pDSP, false, this->isMeteringOutputEnabled());
+}
+
+bool DSP::isMeteringOutputEnabled()
+{
+    // Grab output enabled flag
+    FMOD_BOOL outputEnabledFlag = false;
+    FMOD_DSP_GetMeteringEnabled(this->pDSP, 0, &outputEnabledFlag);
+    // return outputEnabledFlag
+    return outputEnabledFlag;
+}
+
+void DSP::setOutputMetering(bool state)
+{
+    // Set Metering Enabled
+    FMOD_DSP_SetMeteringEnabled(this->pDSP, this->isMeteringInputEnabled(), state);
+}
+
+void DSP::enableOutputMetering()
+{
+    // Set Metering Enabled
+    FMOD_DSP_SetMeteringEnabled(this->pDSP, this->isMeteringInputEnabled(), true);
+}
+
+void DSP::disableOutputMetering()
+{
+    // Set Metering Enabled
+    FMOD_DSP_SetMeteringEnabled(this->pDSP, this->isMeteringInputEnabled(), false);
+}
+
+FMOD_DSP_METERING_INFO* DSP::getInputMeteringInfo()
+{
+    // Grab Metering Info
+    FMOD_DSP_METERING_INFO* pDSPMeteringInfo = 0;
+    FMOD_DSP_GetMeteringInfo(this->pDSP, pDSPMeteringInfo, 0);
+    // return pDSPMeteringInfo
+    return pDSPMeteringInfo;
+}
+
+FMOD_DSP_METERING_INFO* DSP::getOutputMeteringInfo()
+{
+    // Grab Metering Info
+    FMOD_DSP_METERING_INFO* pDSPMeteringInfo = 0;
+    FMOD_DSP_GetMeteringInfo(this->pDSP, 0, pDSPMeteringInfo);
+    // return pDSPMeteringInfo
+    return pDSPMeteringInfo;
 }
 
 FMOD_DSP* DSP::getFMODDSP()

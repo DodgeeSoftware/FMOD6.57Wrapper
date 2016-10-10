@@ -13,15 +13,6 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-//// LUA AND LUABIND Includes
-//extern "C"
-//{
-//    #include <lua.h>
-//    #include <lualib.h>
-//    #include <lauxlib.h>
-//}
-//#include <luabind/luabind.hpp>
-
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
 
@@ -135,16 +126,58 @@ class ChannelGroup
         //FMOD_RESULT F_API FMOD_ChannelGroup_SetMixLevelsInput   (FMOD_CHANNELGROUP *channelgroup, float *levels, int numlevels);
         //FMOD_RESULT F_API FMOD_ChannelGroup_GetMixMatrix        (FMOD_CHANNELGROUP *channelgroup, float *matrix, int *outchannels, int *inchannels, int inchannel_hop);
         //FMOD_RESULT F_API FMOD_ChannelGroup_SetMixMatrix        (FMOD_CHANNELGROUP *channelgroup, float *matrix, int outchannels, int inchannels, int inchannel_hop);
-        // TODO: implement these (tricky)
-        //FMOD_RESULT F_API FMOD_System_AttachChannelGroupToPort  (FMOD_SYSTEM *system, FMOD_PORT_TYPE portType, FMOD_PORT_INDEX portIndex, FMOD_CHANNELGROUP *channelgroup, FMOD_BOOL passThru);
-        //FMOD_RESULT F_API FMOD_System_DetachChannelGroupFromPort(FMOD_SYSTEM *system, FMOD_CHANNELGROUP *channelgroup);
-        //FMOD_RESULT F_API FMOD_ChannelGroup_GetDSPClock         (FMOD_CHANNELGROUP *channelgroup, unsigned long long *dspclock, unsigned long long *parentclock);
-        //FMOD_RESULT F_API FMOD_ChannelGroup_SetDelay            (FMOD_CHANNELGROUP *channelgroup, unsigned long long dspclock_start, unsigned long long dspclock_end, FMOD_BOOL stopchannels);
-        //FMOD_RESULT F_API FMOD_ChannelGroup_GetDelay            (FMOD_CHANNELGROUP *channelgroup, unsigned long long *dspclock_start, unsigned long long *dspclock_end, FMOD_BOOL *stopchannels);
-        //FMOD_RESULT F_API FMOD_ChannelGroup_AddFadePoint        (FMOD_CHANNELGROUP *channelgroup, unsigned long long dspclock, float volume);
-        //FMOD_RESULT F_API FMOD_ChannelGroup_SetFadePointRamp    (FMOD_CHANNELGROUP *channelgroup, unsigned long long dspclock, float volume);
-        //FMOD_RESULT F_API FMOD_ChannelGroup_RemoveFadePoints    (FMOD_CHANNELGROUP *channelgroup, unsigned long long dspclock_start, unsigned long long dspclock_end);
-        //FMOD_RESULT F_API FMOD_ChannelGroup_GetFadePoints       (FMOD_CHANNELGROUP *channelgroup, unsigned int *numpoints, unsigned long long *point_dspclock, float *point_volume);
+        /** @brief attachToPort
+          * Route the signal from a channel group into a seperate audio port on the output driver
+          * @param portType Output driver specific audio port type. See extra platform specific header (if it exists) for port numbers, i.e. fmod_psvita.h, fmod_wiiu.h, fmodorbis.h
+          * @param portIndex Output driver specific index of the audio port
+          * @param passThrough Channel group to route away to the new port **/
+        virtual void attachToPort(FMOD_PORT_TYPE portType, FMOD_PORT_INDEX portIndex, FMOD_CHANNELGROUP *channelgroup, FMOD_BOOL passThru);
+        /** @brief detachFromPort **/
+        virtual void detachFromPort();
+        /** @brief getDSPClock
+          * Retrieves the DSP clock values which count up by the number of samples per second in the software mixer,
+          * i.e. if the default sample rate is 48KHz, the DSP clock increments by 48000 per second
+          * @return the DSP clock value for the head DSP node **/
+        virtual unsigned long long getDSPClock();
+        /** @brief getParentDSPClock
+          * Retrieves the DSP clock values which count up by the number of samples per second in the software mixer,
+          * i.e. if the default sample rate is 48KHz, the DSP clock increments by 48000 per second
+          * @return the DSP clock value for the tail DSP node **/
+        virtual unsigned long long getParentDSPClock();
+        /** @brief getDelay
+          * Retrieves a start (and/or stop) time relative to the parent channel group DSP clock, with sample accuracy
+          * @param dspclock_start Address of a variable that receives the DSP clock of the parent channel group
+          * to audibly start playing sound at. Optional, specify 0 or NULL to ignore
+          * @param dspclock_end Address of a variable that receives the DSP clock of the parent channel group to
+          * audibly stop playing sound at. Optional, specify 0 or NULL to ignore
+          * @param stopchannels Address of a variable that receives TRUE = stop according to ChannelControl::isPlaying.
+          * FALSE = remain 'active' and a new start delay could start playback again at a later time. Optional, specify 0 or NULL to ignore **/
+        virtual void getDelay(unsigned long long* dspclock_start, unsigned long long* dspclock_end, FMOD_BOOL* stopchannels);
+        /** @brief setDelay
+          * Sets a start (and/or stop) time relative to the parent channel group DSP clock, with sample accuracy
+          * @param dspclock_start DSP clock of the parent channel group to audibly start playing sound at, a value of 0 indicates no delay
+          * @param dspclock_end DSP clock of the parent channel group to audibly stop playing sound at, a value of 0 indicates no delay
+          * @param stopchannels TRUE = stop according to ChannelControl::isPlaying. FALSE = remain 'active' and a new start delay could start playback again at a later time **/
+        virtual void setDelay(unsigned long long dspclock_start, unsigned long long dspclock_end, FMOD_BOOL stopchannels);
+        /** @brief addFadePoint
+          * @param time DSP clock of the parent channel group to set the fade point volume
+          * @param volume Volume level where 0 is silent and 1.0 is normal volume. Amplification is supported **/
+        virtual void addFadePoint(unsigned long long dspClock, float volume);
+        /** @brief setFadePointRamp
+          * @param time DSP clock of the parent channel group to set the fade point volume
+          * @param volume Volume level where 0 is silent and 1.0 is normal volume. Amplification is supported **/
+        virtual void setFadePointRamp(unsigned long long dspClock, float volume);
+        /** @brief removeFadePoints
+          * Remove volume fade points on the timeline. This function will remove multiple fade points with a
+          * single call if the points lay between the 2 specified clock values (inclusive).
+          * @param dspClockStart DSP clock of the parent channel group to start removing fade points from
+          * @param dspClockEnd DSP clock of the parent channel group to start removing fade points to **/
+        virtual void removeFadePoints(unsigned long long dspClockStart, unsigned long long dspClockEnd);
+        /** @brief getFadePoints
+          * @param numPoints address of a varible to receive the number of points
+          * @param pointDSP Clock address of a variable to receive an array of 64bit clock values. Can be 0 or NULL
+          * @param volume address of a variable to recieve an array of volumes **/
+        virtual void getFadePoints(unsigned int* numPoints, unsigned long long* pointDSPClock, float* volume);
         /** @brief getDSP
           * @param index see FMOD_CHANNELCONTROL_DSP_INDEX for
           * special offsets
@@ -327,14 +360,6 @@ class ChannelGroup
     protected:
         // FMOD_CHANNELGROUP
         FMOD_CHANNELGROUP* pChannelGroup;
-
-//    // ****************
-//    // * LUA BINDINGS *
-//    // ****************
-//    public:
-//        /** @brief Bind this class to a lua state
-//          * @param pLuaState The LuaState to bind this class to **/
-//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // CHANNELGROUP_H

@@ -401,6 +401,21 @@ bool Sound3D::isDistanceFilter()
 {
     // return distanceFilterFlag
     return this->distanceFilterFlag;
+    // Alternative:  FMOD_Channel_Get3DDistanceFilter
+}
+
+float Sound3D::getCustomLevel()
+{
+    //return customLevel
+    return this->customLevel;
+    // Alternative:  FMOD_Channel_Get3DDistanceFilter
+}
+
+float Sound3D::getCentreFrequency()
+{
+    // return centreFrequency
+    return this->centreFrequency;
+    // Alternative:  FMOD_Channel_Get3DDistanceFilter
 }
 
 void Sound3D::setDistanceFilter(bool distanceFilterFlag)
@@ -436,51 +451,100 @@ float Sound3D::getAudibility()
     return audibility;
 }
 
-//void Sound3D::bindToLua(lua_State* pLuaState)
-//{
-//    // TODO: More bindings
-//    // Bind functions to lua state
-//    luabind::module(pLuaState)
-//    [
-//        luabind::class_<Sound3D>("Sound3D")
-//        .def(luabind::constructor<>())
-//        .def("play", (void(Sound3D::*)()) &Sound3D::play)
-//        .def("playEx", (void(Sound3D::*)()) &Sound3D::playEx)
-//        .def("stop", (void(Sound3D::*)()) &Sound3D::stop)
-////        .def("setFrequency", (void(Sound3D::*)(int)) &Sound3D::setFrequency)
-////        .def("setLoop", (void(Sound3D::*)(bool)) &Sound3D::setLoop)
-////        .def("setMute", (void(Sound3D::*)(bool)) &Sound3D::setMute)
-////        .def("setPan", (void(Sound3D::*)(int)) &Sound3D::setPan)
-////        .def("setPaused", (void(Sound3D::*)(bool)) &Sound3D::setPaused)
-////        .def("setPriority", (void(Sound3D::*)(int)) &Sound3D::setPriority)
-////        .def("setReserved", (void(Sound3D::*)(bool)) &Sound3D::setReserved)
-////        .def("setSurround", (void(Sound3D::*)(bool)) &Sound3D::setSurround)
-////        .def("setVolume", (void(Sound3D::*)(int)) &Sound3D::setVolume)
-////        .def("setVolumeAbsolute", (void(Sound3D::*)(int)) &Sound3D::setVolumeAbsolute)
-////        .def("getVolume", (int(Sound3D::*)()) &Sound3D::getVolume)
-////        .def("getAmplitude", (int(Sound3D::*)()) &Sound3D::getAmplitude)
-////        .def("setCurrentPosition", (void(Sound3D::*)(unsigned int)) &Sound3D::setCurrentPosition)
-////        .def("getCurrentPosition", (unsigned int(Sound3D::*)()) &Sound3D::getCurrentPosition)
-////        .def("isLoop", (bool(Sound3D::*)()) &Sound3D::isLoop)
-////        .def("isMute", (bool(Sound3D::*)()) &Sound3D::isMute)
-////        .def("getSubChannelCount", (int(Sound3D::*)()) &Sound3D::getSubChannelCount)
-////        .def("getPan", (int(Sound3D::*)()) &Sound3D::getPan)
-////        .def("isPaused", (bool(Sound3D::*)()) &Sound3D::isPaused)
-////        .def("setPaused", (void(Sound3D::*)(bool)) &Sound3D::setPaused)
-////        .def("pause", (void(Sound3D::*)()) &Sound3D::pause)
-////        .def("resume", (void(Sound3D::*)()) &Sound3D::resume)
-////        .def("getPriority", (int(Sound3D::*)()) &Sound3D::getPriority)
-////        .def("getReserved", (bool(Sound3D::*)()) &Sound3D::getReserved)
-////        .def("getSurround", (bool(Sound3D::*)()) &Sound3D::getSurround)
-////        .def("isPlaying", (bool(Sound3D::*)()) &Sound3D::isPlaying)
-////        .def("getX", (float(Sound3D::*)()) &Sound3D::getX)
-////        .def("getY", (float(Sound3D::*)()) &Sound3D::getY)
-////        .def("setPosition", (float(Sound3D::*)(float, float)) &Sound3D::setPosition)
-////        .def("getXVelocity", (float(Sound3D::*)()) &Sound3D::getXVelocity)
-////        .def("getYVelocity", (float(Sound3D::*)()) &Sound3D::getYVelocity)
-////        .def("setVelocity", (float(Sound3D::*)(float, float)) &Sound3D::setVelocity)
-////        .def("setMinMaxDistance", (float(Sound3D::*)(float, float)) &Sound3D::setMinMaxDistance)
-////        .def("getMinDistance", (float(Sound3D::*)()) &Sound3D::getMinDistance)
-////        .def("getMaxDistance", (float(Sound3D::*)()) &Sound3D::getMaxDistance)
-//    ];
-//}
+void Sound3D::bindToLua(lua_State* pLuaState)
+{
+    // Bind functions to lua state
+    luabind::module(pLuaState)
+    [
+        luabind::class_<Sound3D>("Sound3D")
+        .def(luabind::constructor<>())
+        // GENERAL
+        .def("play", (void (Sound3D::*)()) &Sound3D::play)
+        .def("playEx", (void (Sound3D::*)()) &Sound3D::playEx)
+        .def("start", (void (Sound3D::*)()) &Sound3D::start)
+        .def("stop", (void (Sound3D::*)()) &Sound3D::stop)
+        .def("reset", (void (Sound3D::*)()) &Sound3D::reset)
+        .def("isPaused", (bool(Sound3D::*)()) &Sound3D::isPaused)
+        .def("setPaused", (void (Sound3D::*)(bool)) &Sound3D::setPaused)
+        .def("pause", (void (Sound3D::*)()) &Sound3D::pause)
+        .def("resume", (void (Sound3D::*)()) &Sound3D::resume)
+        .def("isPlaying", (bool(Sound3D::*)()) &Sound3D::isPlaying)
+        .def("clear", (void (Sound3D::*)()) &Sound3D::clear)
+        .def("free", (void(Sound3D::*)()) &Sound3D::free)
+        .def("getVolume", (float (Sound3D::*)()) &Sound3D::getVolume)
+        .def("setVolume", (void (Sound3D::*)(float)) &Sound3D::setVolume)
+        .def("isVolumeRamping", (bool(Sound3D::*)()) &Sound3D::isVolumeRamping)
+        .def("setVolumeRamping", (void (Sound3D::*)(bool)) &Sound3D::setVolumeRamping)
+        .def("getPitch", (float (Sound3D::*)()) &Sound3D::getPitch)
+        .def("setPitch", (void (Sound3D::*)(float)) &Sound3D::setPitch)
+        .def("isMute", (bool(Sound3D::*)()) &Sound3D::isMute)
+        .def("setMute", (void (Sound3D::*)(bool)) &Sound3D::setMute)
+        .def("mute", (void (Sound3D::*)()) &Sound3D::mute)
+        .def("unmute", (void (Sound3D::*)()) &Sound3D::unmute)
+        .def("getReverbWet", (float (Sound3D::*)(int)) &Sound3D::getReverbWet)
+        .def("setReverbWet", (void (Sound3D::*)(int, float)) &Sound3D::setReverbWet)
+        .def("getLowPassGain", (float (Sound3D::*)()) &Sound3D::getLowPassGain)
+        .def("setLowPassGain", (void (Sound3D::*)(float)) &Sound3D::setLowPassGain)
+        .def("getMode", (unsigned int (Sound3D::*)()) &Sound3D::getMode)
+        .def("setMode", (void (Sound3D::*)(unsigned int)) &Sound3D::setMode)
+        .def("getBalance", (float (Sound3D::*)()) &Sound3D::getBalance)
+        .def("setBalance", (void (Sound3D::*)(float)) &Sound3D::setBalance)
+        .def("getFrequency", (float (Sound3D::*)()) &Sound3D::getFrequency)
+        .def("setFrequency", (void (Sound3D::*)(float)) &Sound3D::setFrequency)
+        .def("getPriority", (int (Sound3D::*)()) &Sound3D::getPriority)
+        .def("setPriority", (void (Sound3D::*)(int)) &Sound3D::setPriority)
+        .def("isLoop", (bool(Sound3D::*)()) &Sound3D::isLoop)
+        .def("setLoop", (void (Sound3D::*)(bool)) &Sound3D::setLoop)
+        .def("isChannelVirtual", (bool(Sound3D::*)()) &Sound3D::isChannelVirtual)
+        // FILENAME
+        .def("getFilename", (std::string (Sound3D::*)()) &Sound3D::getFilename)
+        // SOUND SAMPLE
+        .def("getSoundSample", (SoundSample* (Sound::*)()) &Sound::getSoundSample)
+        .def("setSoundSample", (void (Sound::*)(SoundSample*)) &Sound::setSoundSample)
+        // ENABLED
+        .def("isEnabled", (bool(Sound3D::*)()) &Sound3D::isEnabled)
+        .def("setEnabled", (void (Sound3D::*)(bool)) &Sound3D::setEnabled)
+        .def("enable", (void (Sound3D::*)()) &Sound3D::enable)
+        .def("disable", (void (Sound3D::*)()) &Sound3D::disable)
+        // NAME
+        .def("getName", (std::string (Sound3D::*)()) &Sound3D::getName)
+        .def("setName", (void (Sound3D::*)(std::string)) &Sound3D::setName)
+        .def("isNamed", (bool(Sound3D::*)()) &Sound3D::isNamed)
+        .def("clearName", (void (Sound3D::*)()) &Sound3D::clearName)
+        // SPACIAL CHANNEL FUNCTIONS
+        .def("getX", (float (Sound3D::*)()) &Sound3D::getX)
+        .def("getY", (float (Sound3D::*)()) &Sound3D::getY)
+        .def("getZ", (float (Sound3D::*)()) &Sound3D::getZ)
+        .def("setPosition", (float (Sound3D::*)(float, float, float)) &Sound3D::setPosition)
+        .def("getXVelocity", (float (Sound3D::*)()) &Sound3D::getXVelocity)
+        .def("getYVelocity", (float (Sound3D::*)()) &Sound3D::getYVelocity)
+        .def("getZVelocity", (float (Sound3D::*)()) &Sound3D::getZVelocity)
+        .def("setVelocity", (float (Sound3D::*)(float, float, float)) &Sound3D::setVelocity)
+        .def("getMinDistance", (float (Sound3D::*)()) &Sound3D::getMinDistance)
+        .def("getMaxDistance", (float (Sound3D::*)()) &Sound3D::getMaxDistance)
+        .def("setMinMaxDistance", (float (Sound3D::*)(float, float)) &Sound3D::setMinMaxDistance)
+        .def("get3DConeInsideAngle", (float (Sound3D::*)()) &Sound3D::get3DConeInsideAngle)
+        .def("get3DConeOutsideAngle", (float (Sound3D::*)()) &Sound3D::get3DConeOutsideAngle)
+        .def("get3DConeOutsideVolume", (float (Sound3D::*)()) &Sound3D::get3DConeOutsideVolume)
+        .def("set3DConeSettings", (void (Sound3D::*)(float, float, float)) &Sound3D::set3DConeSettings)
+        .def("getRotationX", (float (Sound3D::*)()) &Sound3D::getRotationX)
+        .def("getRotationY", (float (Sound3D::*)()) &Sound3D::getRotationY)
+        .def("getRotationZ", (float (Sound3D::*)()) &Sound3D::getRotationZ)
+        .def("setRotation", (void (Sound3D::*)(float, float, float)) &Sound3D::setRotation)
+        .def("getDirectOcclusion", (float (Sound3D::*)()) &Sound3D::getDirectOcclusion)
+        .def("setDirectOcclusion", (void (Sound3D::*)(float)) &Sound3D::setDirectOcclusion)
+        .def("getReverbOcclusion", (float (Sound3D::*)()) &Sound3D::getReverbOcclusion)
+        .def("setReverbOcclusion", (void (Sound3D::*)(float)) &Sound3D::setReverbOcclusion)
+        .def("getLevel", (float (Sound3D::*)()) &Sound3D::getLevel)
+        .def("setLevel", (void (Sound3D::*)(float)) &Sound3D::setLevel)
+        .def("getDopplerLevel", (float (Sound3D::*)()) &Sound3D::getDopplerLevel)
+        .def("setDopplerLevel", (void (Sound3D::*)(float)) &Sound3D::setDopplerLevel)
+        .def("isDistanceFilter", (bool(Sound3D::*)()) &Sound3D::isDistanceFilter)
+        .def("getCustomLevel", (float (Sound3D::*)()) &Sound3D::getCustomLevel)
+        .def("getCentreFrequency", (float (Sound3D::*)()) &Sound3D::getCentreFrequency)
+        .def("setDistanceFilter", (void (Sound3D::*)(bool)) &Sound3D::setDistanceFilter)
+        .def("setDistanceFilterCustomLevel", (void (Sound3D::*)(float)) &Sound3D::setDistanceFilterCustomLevel)
+        .def("setDistanceFilterCentreFrequency", (void (Sound3D::*)(float)) &Sound3D::setDistanceFilterCentreFrequency)
+        .def("getAudibility", (float (Sound3D::*)()) &Sound3D::getAudibility)
+    ];
+}

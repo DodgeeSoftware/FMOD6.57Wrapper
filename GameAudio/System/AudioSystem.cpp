@@ -1184,14 +1184,25 @@ void AudioSystem::setAllCallBack(FMOD_SYSTEM_CALLBACK pCallBack)
     FMOD_System_SetCallback(FMODGlobals::pFMODSystem, pCallBack, FMOD_SYSTEM_CALLBACK_ALL);
 }
 
-//void AudioSystem::bindToLua(lua_State* pLuaState)
-//{
-//    // TODO: More bindings
-//    // Bind functions to lua state
-//    luabind::module(pLuaState)
-//    [
-//        luabind::class_<AudioSystem>("AudioSystem")
-//        .def(luabind::constructor<>())
+void AudioSystem::bindToLua(lua_State* pLuaState)
+{
+    // Bind functions to lua state
+    luabind::module(pLuaState)
+    [
+        luabind::class_<AudioSystem>("AudioSystem")
+        .def(luabind::constructor<>())
+        .def("getVersion", (unsigned int (AudioSystem::*)()) &AudioSystem::getVersion)
+        .def("getSoundEffectsVolume", (float (AudioSystem::*)()) &AudioSystem::getSoundEffectsVolume)
+        .def("setSoundEffectsVolume", (void (AudioSystem::*)(float)) &AudioSystem::setSoundEffectsVolume)
+        .def("getMusicVolume", (float (AudioSystem::*)()) &AudioSystem::getMusicVolume)
+        .def("setMusicVolume", (void (AudioSystem::*)(float)) &AudioSystem::setMusicVolume)
+        .def("getBalance", (float (AudioSystem::*)()) &AudioSystem::getBalance)
+        .def("setBalance", (void (AudioSystem::*)(float)) &AudioSystem::setBalance)
+        .def("isMute", (bool (AudioSystem::*)()) &AudioSystem::isMute)
+        .def("setMute", (void (AudioSystem::*)(bool)) &AudioSystem::setMute)
+        .def("mute", (void (AudioSystem::*)()) &AudioSystem::mute)
+        .def("unmute", (void (AudioSystem::*)()) &AudioSystem::unmute)
+//// TODO: I would like to bind the reverb section of the AudioSystem
 ////        // REVERB
 ////        .def("reverbOff", (void(AudioSystem::*)()) &AudioSystem::reverbOff)
 ////        .def("reverbGeneric", (void(AudioSystem::*)()) &AudioSystem::reverbGeneric)
@@ -1220,5 +1231,5 @@ void AudioSystem::setAllCallBack(FMOD_SYSTEM_CALLBACK pCallBack)
 ////        .def("reverbDrugged", (void(AudioSystem::*)()) &AudioSystem::reverbDrugged)
 ////        .def("reverbDizzy", (void(AudioSystem::*)()) &AudioSystem::reverbDizzy)
 ////        .def("reverbPsychotic", (void(AudioSystem::*)()) &AudioSystem::reverbPsychotic)
-//    ];
-//}
+    ];
+}

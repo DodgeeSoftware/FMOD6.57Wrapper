@@ -151,6 +151,21 @@ void Channel::unmute()
     FMOD_Channel_SetMute(this->pChannel, this->muteFlag);
 }
 
+float Channel::getReverbWet(int instance)
+{
+    // Get Reverb Wet
+    float wet = 1.0f;
+    FMOD_Channel_GetReverbProperties(this->pChannel, instance, &wet);
+    // return wet
+    return wet;
+}
+
+void Channel::setReverbWet(int instance, float wet)
+{
+    // Set the wetness for and instance of Reverb associated with this channel
+    FMOD_Channel_SetReverbProperties(this->pChannel, instance, wet);
+}
+
 float Channel::getLowPassGain()
 {
     // return local lowpass gain
@@ -208,6 +223,60 @@ void Channel::setBalance(float balance)
     FMOD_Channel_SetPan(this->pChannel, this->balance);
 }
 
+unsigned long long Channel::getDSPClock()
+{
+    // Get DSP Clock
+    unsigned long long dspClock = 0;
+    FMOD_Channel_GetDSPClock(this->pChannel, &dspClock, 0);
+    // return dspClock
+    return dspClock;
+}
+
+unsigned long  long Channel::getParentDSPClock()
+{
+    // Get DSP Clock
+    unsigned long long parentDSPClock = 0;
+    FMOD_Channel_GetDSPClock(this->pChannel, 0, &parentDSPClock);
+    // return parentDSPClock
+    return parentDSPClock;
+}
+
+void Channel::getDelay(unsigned long long* dspclock_start, unsigned long long* dspclock_end, FMOD_BOOL* stopchannels)
+{
+    // Get Delay
+    FMOD_Channel_GetDelay(this->pChannel, dspclock_start, dspclock_end, stopchannels);
+}
+
+void Channel::setDelay(unsigned long long dspclock_start, unsigned long long dspclock_end, FMOD_BOOL stopchannels)
+{
+    // Set Delay
+    FMOD_Channel_SetDelay(this->pChannel, dspclock_start, dspclock_end, stopchannels);
+}
+
+void Channel::addFadePoint(unsigned long long dspClock, float volume)
+{
+    // Add Fade Point
+    FMOD_Channel_AddFadePoint(this->pChannel, dspClock, volume);
+}
+
+void Channel::setFadePointRamp(unsigned long long dspClock, float volume)
+{
+    // Set Fade Point Ramp
+    FMOD_Channel_SetFadePointRamp(this->pChannel, dspClock, volume);
+}
+
+void Channel::removeFadePoints(unsigned long long dspClockStart, unsigned long long dspClockEnd)
+{
+    // Remove Fade Points
+    FMOD_Channel_RemoveFadePoints(this->pChannel, dspClockStart, dspClockEnd);
+}
+
+void Channel::getFadePoints(unsigned int* numPoints, unsigned long long* pointDSPClock, float* volume)
+{
+    // Get Fade Points
+    FMOD_Channel_GetFadePoints(this->pChannel, numPoints, pointDSPClock, volume);
+}
+
 void* Channel::getUserData()
 {
     // Grab user data for the channel
@@ -256,6 +325,21 @@ void Channel::setPriority(int priority)
     FMOD_Channel_SetPriority(this->pChannel, this->priority);
 }
 
+FMOD_CHANNELGROUP* Channel::getChannelGroup()
+{
+    // Grab ChannelGroup
+    FMOD_CHANNELGROUP* pChannelGroup = 0;
+    FMOD_Channel_GetChannelGroup(this->pChannel, &pChannelGroup);
+    // return pChannelGroup
+    return pChannelGroup;
+}
+
+void Channel::setChannelGroup(FMOD_CHANNELGROUP* pChannelGroup)
+{
+    // Set the ChannelGroup for this Channel
+    FMOD_Channel_SetChannelGroup(this->pChannel, pChannelGroup);
+}
+
 bool Channel::isLoop()
 {
     // return loop flag
@@ -280,4 +364,68 @@ bool Channel::isChannelVirtual()
     FMOD_Channel_IsVirtual(this->pChannel, &isVirtual);
     // Return is Virtual
     return isVirtual;
+}
+
+int Channel::getChannelIndex()
+{
+    // Grab channel index
+    int channelIndex = 0;
+    FMOD_Channel_GetIndex(this->pChannel, &channelIndex);
+    // return channelIndex
+    return channelIndex;
+}
+
+FMOD_DSP* Channel::getDSP(int index)
+{
+    // Grab DSP
+    FMOD_DSP* pDSP = 0;
+    FMOD_Channel_GetDSP(this->pChannel, index, &pDSP);
+    // return DSP
+    return pDSP;
+}
+
+bool Channel::addDSP(int index, FMOD_DSP* pDSP)
+{
+    // Add DSP to the Channel at Index
+    FMOD_RESULT result;
+    result = FMOD_Channel_AddDSP(this->pChannel, index, pDSP);
+    // return result
+     return result;
+}
+
+void Channel::removeDSP(FMOD_DSP* pDSP)
+{
+    // Remove DSP from the Channel
+    FMOD_Channel_RemoveDSP(this->pChannel, pDSP);
+}
+
+int Channel::getNumDSPs()
+{
+    // Grab Number of DSPs associated with the channel
+    int numDSPs = -1;
+    FMOD_Channel_GetNumDSPs(this->pChannel, &numDSPs);
+    // return numDSPs
+    return numDSPs;
+}
+
+int Channel::getDSPIndex(FMOD_DSP* pDSP)
+{
+    // Grab the DSP Index
+    int index = -1;
+    FMOD_Channel_GetDSPIndex(this->pChannel, pDSP, &index);
+    // return index
+    return index;
+}
+
+void Channel::setDSPIndex(FMOD_DSP* pDSP, int index)
+{
+    // Set the index for the DSP on the Channel
+    FMOD_Channel_SetDSPIndex(this->pChannel, pDSP, index);
+}
+
+void Channel::overridePanDSP(FMOD_DSP* pDSP)
+{
+    /* Override FMOD's default pan with a new DSP or
+        if 0 restore to default */
+    FMOD_Channel_OverridePanDSP(this->pChannel, pDSP);
 }

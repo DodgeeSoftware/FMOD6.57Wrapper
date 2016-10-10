@@ -221,6 +221,72 @@ void ChannelGroup::setBalance(float balance)
     FMOD_ChannelGroup_SetPan(this->pChannelGroup, balance);
 }
 
+void ChannelGroup::attachToPort(FMOD_PORT_TYPE portType, FMOD_PORT_INDEX portIndex, FMOD_CHANNELGROUP* channelgroup, FMOD_BOOL passThru)
+{
+    // Attach to Port
+    FMOD_System_AttachChannelGroupToPort(FMODGlobals::pFMODSystem, portType, portIndex, this->pChannelGroup, passThru);
+}
+
+void ChannelGroup::detachFromPort()
+{
+    // Detach From Port
+    FMOD_System_DetachChannelGroupFromPort(FMODGlobals::pFMODSystem, this->pChannelGroup);
+}
+
+unsigned long long ChannelGroup::getDSPClock()
+{
+    // Grab DSP Clock
+    unsigned long long dspClock = 0;
+    FMOD_ChannelGroup_GetDSPClock(this->pChannelGroup, &dspClock, 0);
+    // return dspClock
+    return dspClock;
+}
+
+unsigned long long ChannelGroup::getParentDSPClock()
+{
+    // Grab Parent DSP Clock
+    unsigned long long parentDSPClock = 0;
+    FMOD_ChannelGroup_GetDSPClock(this->pChannelGroup, 0, &parentDSPClock);
+    // return parentDSPClock
+    return parentDSPClock;
+}
+
+void ChannelGroup::getDelay(unsigned long long* dspclock_start, unsigned long long* dspclock_end, FMOD_BOOL* stopchannels)
+{
+    // Get Delay
+    FMOD_ChannelGroup_GetDelay(this->pChannelGroup, dspclock_start, dspclock_end, stopchannels);
+}
+
+void ChannelGroup::setDelay(unsigned long long dspclock_start, unsigned long long dspclock_end, FMOD_BOOL stopchannels)
+{
+    // Set Delay
+    FMOD_ChannelGroup_SetDelay(this->pChannelGroup, dspclock_start, dspclock_end, stopchannels);
+}
+
+void ChannelGroup::addFadePoint(unsigned long long dspClock, float volume)
+{
+    // Add Fade Point
+    FMOD_ChannelGroup_AddFadePoint(this->pChannelGroup, dspClock, volume);
+}
+
+void ChannelGroup::setFadePointRamp(unsigned long long dspClock, float volume)
+{
+    // Set Fade Point Ramp
+    FMOD_ChannelGroup_SetFadePointRamp(this->pChannelGroup, dspClock, volume);
+}
+
+void ChannelGroup::removeFadePoints(unsigned long long dspClockStart, unsigned long long dspClockEnd)
+{
+    // Remove Fade Points
+    FMOD_ChannelGroup_RemoveFadePoints(this->pChannelGroup, dspClockStart, dspClockEnd);
+}
+
+void ChannelGroup::getFadePoints(unsigned int* numPoints, unsigned long long* pointDSPClock, float* volume)
+{
+    // Get FadePoints
+    FMOD_ChannelGroup_GetFadePoints(this->pChannelGroup, numPoints, pointDSPClock, volume);
+}
+
 FMOD_DSP* ChannelGroup::getDSP(int index)
 {
     // Grab DSP

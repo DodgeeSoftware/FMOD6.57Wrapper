@@ -13,19 +13,19 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-//// LUA Includes
-//extern "C"
-//{
-//    #include <lua.h>
-//    #include <lualib.h>
-//    #include <lauxlib.h>
-//}
-//// LUABIND Includes
-//#include <luabind/luabind.hpp>
+// LUA Includes
+extern "C"
+{
+    #include <lua.h>
+    #include <lualib.h>
+    #include <lauxlib.h>
+}
+// LUABIND Includes
+#include <luabind/luabind.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
-#include "Channel.h"
+#include "Channel/Channel.h"
 
 /** @class Recording
   * @brief Use to record and playback recorded audio
@@ -98,7 +98,6 @@ class Recording : public Channel
           * @param index a number from between 0 and the number of conected devices
           * @return Retrieves the current recording position of the record buffer in PCM samples **/
         virtual unsigned int getRecordPosition();
-        /* TODO: Save functions would be really pracical to make this useful */
 
     protected:
         // Recording Device ID
@@ -143,13 +142,13 @@ class Recording : public Channel
         // A pointer to the FMOD_SOUND
         FMOD_SOUND* pFMODSound;
 
-//    // ****************
-//    // * LUA BINDINGS *
-//    // ****************
-//    public:
-//        /** @brief Bind this class to a lua state
-//          * @param pLuaState The LuaState to bind this class to **/
-//        static void bindToLua(lua_State* pLuaState);
+    // ****************
+    // * LUA BINDINGS *
+    // ****************
+    public:
+        /** @brief Bind this class to a lua state
+          * @param pLuaState The LuaState to bind this class to **/
+        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // RECORDING_H

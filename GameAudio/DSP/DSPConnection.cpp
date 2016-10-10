@@ -48,7 +48,8 @@ float* DSPConnection::getMatrix()
 {
     // Get Matrix
     float* matrix = 0;
-    FMOD_DSPConnection_GetMixMatrix(this->pDSPConnection, matrix, 0, 0, 0); // TODO: the last value here int inchannel_hop is incorrect, I don't know how to calc the correct value
+    // Get Matrix
+    FMOD_DSPConnection_GetMixMatrix(this->pDSPConnection, matrix, 0, 0, this->getNumberOfInChannels());
     // return matrix
     return matrix;
 }
@@ -57,7 +58,8 @@ int DSPConnection::getNumberOfInChannels()
 {
     // Get in Channels
     int inChannels = 0;
-    FMOD_DSPConnection_GetMixMatrix(this->pDSPConnection, 0, 0, &inChannels, 0); // TODO: the last value here int inchannel_hop is incorrect, I don't know how to calc the correct value
+    // Get Matrix
+    FMOD_DSPConnection_GetMixMatrix(this->pDSPConnection, 0, 0, &inChannels, this->getNumberOfInChannels());
     // return inChannels
     return inChannels;
 }
@@ -66,13 +68,14 @@ int DSPConnection::getNumberOfOutChannels()
 {
     // Get number of out channels
     int outChannels = 0;
-    FMOD_DSPConnection_GetMixMatrix(this->pDSPConnection, 0, &outChannels, 0, 0); // TODO: the last value here int inchannel_hop is incorrect, I don't know how to calc the correct value
+    // Get Matrix
+    FMOD_DSPConnection_GetMixMatrix(this->pDSPConnection, 0, &outChannels, 0, this->getNumberOfInChannels());
 }
 
 void DSPConnection::setMatrix(float* matrix, int outChannels, int inChannels)
 {
-    // Set matrix
-    FMOD_DSPConnection_SetMixMatrix(this->pDSPConnection, matrix, this->getNumberOfOutChannels(), this->getNumberOfInChannels(), 0); // TODO: the last value here int inchannel_hop is incorrect, I don't know how to calc the correct value
+    // Set MixMatrix
+    FMOD_DSPConnection_SetMixMatrix(this->pDSPConnection, matrix, this->getNumberOfOutChannels(), this->getNumberOfInChannels(), this->getNumberOfInChannels());
 }
 
 FMOD_DSPCONNECTION_TYPE DSPConnection::getType()

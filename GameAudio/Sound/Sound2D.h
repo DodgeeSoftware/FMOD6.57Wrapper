@@ -20,17 +20,18 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-//// LUA AND LUABIND Includes
-//extern "C"
-//{
-//    #include <lua.h>
-//    #include <lualib.h>
-//    #include <lauxlib.h>
-//}
-//#include <luabind/luabind.hpp>
+// LUA AND LUABIND Includes
+extern "C"
+{
+    #include <lua.h>
+    #include <lualib.h>
+    #include <lauxlib.h>
+}
+#include <luabind/luabind.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
+#include "Channel/Channel.h"
 #include "Sound/Sound.h"
 #include "Sound/SoundSample.h"
 
@@ -81,9 +82,9 @@ class Sound2D : public Sound
         /** @brief Play the sound paused **/
         virtual void playEx();
 
-    // *********************
-    // * CHANNEL FUNCTIONS *
-    // *********************
+    // *****************************
+    // * SPACIAL CHANNEL FUNCTIONS *
+    // *****************************
     public:
         /** @brief Get X Position
           * @return x x position **/
@@ -147,6 +148,12 @@ class Sound2D : public Sound
         /** @brief isDistanceFilter
           * @return true if DistanceFilter is turned on **/
         virtual bool isDistanceFilter();
+        /** @brief getCustomLevel
+          * @return the manual user attenuation, where 1.0 = no attenuation and 0 = complete attenuation. Default = 1.0. **/
+        virtual float getCustomLevel();
+        /** @brief getCentreFrequency
+          * @return center frequency in hz for the high-pass filter used to simulate distance attenuation, from 10.0 to 22050.0. Default = 1500.0 **/
+        virtual float getCentreFrequency();
         /** @brief setDistanceFilter
           * @param distanceFilter true to turn on, false to turn off **/
         virtual void setDistanceFilter(bool distanceFilterFlag);
@@ -187,13 +194,13 @@ class Sound2D : public Sound
         // centre frequency
         float centreFrequency;
 
-//    // ****************
-//    // * LUA BINDINGS *
-//    // ****************
-//    public:
-//        /** @brief Bind this class to a lua state
-//          * @param pLuaState The LuaState to bind this class to **/
-//        static void bindToLua(lua_State* pLuaState);
+    // ****************
+    // * LUA BINDINGS *
+    // ****************
+    public:
+        /** @brief Bind this class to a lua state
+          * @param pLuaState The LuaState to bind this class to **/
+        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // SOUND2D_H

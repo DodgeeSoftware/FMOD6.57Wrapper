@@ -30,12 +30,16 @@
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
-#include "Stream.h"
+#include "Channel/Channel.h"
+#include "Stream/Stream.h"
 
 /** The Stream3D Class creates a 3 dimension (aka x,y) representation of a streaming audio. Streaming in that
     no loading is done, sound is read directly from disc **/
 class Stream3D : public Stream
 {
+    // *****************************
+    // * CONSTRUCTORS / DESTRUCTOR *
+    // *****************************
     public:
         //! Default Constructor
         Stream3D();
@@ -81,9 +85,9 @@ class Stream3D : public Stream
         /** @brief PlayEx (play paused) **/
         virtual void playEx();
 
-    // *********************
-    // * CHANNEL FUNCTIONS *
-    // *********************
+    // *****************************
+    // * SPACIAL CHANNEL FUNCTIONS *
+    // *****************************
     public:
         /** @brief Get X Position
           * @return x x position **/
@@ -195,6 +199,12 @@ class Stream3D : public Stream
         /** @brief isDistanceFilter
           * @return true if DistanceFilter is turned on **/
         virtual bool isDistanceFilter();
+        /** @brief getCustomLevel
+          * @return the manual user attenuation, where 1.0 = no attenuation and 0 = complete attenuation. Default = 1.0. **/
+        virtual float getCustomLevel();
+        /** @brief getCentreFrequency
+          * @return center frequency in hz for the high-pass filter used to simulate distance attenuation, from 10.0 to 22050.0. Default = 1500.0 **/
+        virtual float getCentreFrequency();
         /** @brief setDistanceFilter
           * @param distanceFilter true to turn on, false to turn off **/
         virtual void setDistanceFilter(bool distanceFilterFlag);
@@ -204,7 +214,7 @@ class Stream3D : public Stream
         /** @brief setDistanceFilterCentreFrquency
           * @param frequency Specify a center frequency in hz for the high-pass filter used to simulate distance attenuation, from 10.0 to 22050.0. Default = 1500.0 **/
         virtual void setDistanceFilterCentreFrequency(float frequency);
-        //// Not going to implement these
+        // Not going to implement these
         //FMOD_RESULT F_API FMOD_Channel_Set3DSpread              (FMOD_CHANNEL *channel, float angle);
         //FMOD_RESULT F_API FMOD_Channel_Get3DSpread              (FMOD_CHANNEL *channel, float *angle);
         /** @brief getAudibility
@@ -256,13 +266,13 @@ class Stream3D : public Stream
         // centre frequency
         float centreFrequency;
 
-//    // ****************
-//    // * LUA BINDINGS *
-//    // ****************
-//    public:
-//        /** @brief Bind this class to a lua state
-//          * @param pLuaState The LuaState to bind this class to **/
-//        static void bindToLua(lua_State* pLuaState);
+    // ****************
+    // * LUA BINDINGS *
+    // ****************
+    public:
+        /** @brief Bind this class to a lua state
+          * @param pLuaState The LuaState to bind this class to **/
+        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // STREAM3D_H

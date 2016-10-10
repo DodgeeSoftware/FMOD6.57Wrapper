@@ -13,15 +13,6 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-//// LUA AND LUABIND Includes
-//extern "C"
-//{
-//    #include <lua.h>
-//    #include <lualib.h>
-//    #include <lauxlib.h>
-//}
-//#include <luabind/luabind.hpp>
-
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
 
@@ -150,7 +141,8 @@ class Geometry
         /** @brief getMaxVertices
           * @return maxVertices **/
         virtual int getMaxVertices();
-        // TODO: Consider implementing 2D versions of the geometry functions where the z axis is simply set to 0
+        /* NOTE: A future possibility is to implement 2D versions of the geometry functions where the z axis is simply set to 0
+            I am not sure how FMOD would handle this so I haven't implemented it */
         /** @brief addPolygon
           * @param directOcclusion
           * @param reverbOcclusion
@@ -229,13 +221,6 @@ class Geometry
         // zScale
         float zScale;
 
-//    // ****************
-//    // * LUA BINDINGS *
-//    // ****************
-//    public:
-//        /** @brief Bind this class to a lua state
-//          * @param pLuaState The LuaState to bind this class to **/
-//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // GEOMETRY_H
