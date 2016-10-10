@@ -94,6 +94,8 @@ FMOD_RESULT F_CALLBACK pcmReadCallback(FMOD_SOUND *sound, void *data, unsigned i
     FMOD_Sound_GetUserData(sound, &pUserData);
     // Convert UserData into its true format
     Video* pVideo = (Video*)pUserData;
+    if (pVideo->isFinished() == true)
+        return FMOD_OK;
     // Send a message to to console
     std::cout << "FMOD_RESULT F_CALLBACK pcmReadCallback" << std::endl;
     // Convert our pointer to UnsignedShort16 (aka PCM16) format
@@ -118,7 +120,7 @@ int main(int argc, char* argv[])
     if (audioSystem.init(1024) == false)
     {
         // Send a message to the console
-        std::cout << "ERROR: nitialising AudioSystem Failure" << std::endl;
+        std::cout << "ERROR: initialising AudioSystem Failure" << std::endl;
         // Failure
         return -1;
     }
