@@ -27,7 +27,7 @@ SoundSample* AudioManager::getSoundSample(std::string filename, bool addToMap)
     // Make a pointer to an FMODSound
     FMOD_SOUND* pFMODSound = 0;
     // Create an FMODSound
-    result = FMOD_System_CreateSound(FMODGlobals::pFMODSystem, filename.c_str(), FMOD_DEFAULT | FMOD_LOOP_NORMAL, 0, &pFMODSound);
+    result = FMOD_System_CreateSound(FMODGlobals::pFMODSystem, filename.c_str(), FMOD_DEFAULT | FMOD_LOOP_NORMAL, 0, &pFMODSound); // FMOD_LOOP_NORMAL
     // If there were any problems
     if (result != FMOD_OK)
     {
@@ -50,6 +50,16 @@ SoundSample* AudioManager::getSoundSample(std::string filename, bool addToMap)
     }
     // sound effect was successfully loaded
     return pSoundSample;
+}
+
+SoundSample* AudioManager::getSoundSample2D(std::string filename)
+{
+    return this->getSoundSample3D(filename, true);
+}
+
+SoundSample* AudioManager::getSoundSample2D(std::string filename, bool addToMap)
+{
+    return this->getSoundSample3D(filename, addToMap);
 }
 
 SoundSample* AudioManager::getSoundSample3D(std::string filename)
@@ -102,14 +112,19 @@ SoundSample* AudioManager::getSoundSample3D(std::string filename, bool addToMap)
     return pSoundSample;
 }
 
+void AudioManager::destroySoundSample(SoundSample* pSoundSample)
+{
+    FMOD_Sound_Release(pSoundSample->getFMODSound());
+    delete pSoundSample;
+}
+
 void AudioManager::clear()
 {
     // Release Sound Samples
     for (std::map<std::string, SoundSample*>::iterator i = this->soundSampleMap.begin(); i != this->soundSampleMap.end(); i++)
     {
         SoundSample* pSoundSample = i->second;
-        FMOD_Sound_Release(pSoundSample->getFMODSound());
-        delete pSoundSample;
+        this->destroySoundSample(pSoundSample);
     }
     // Clear sound Sample Map
     this->soundSampleMap.clear();
@@ -117,25 +132,31 @@ void AudioManager::clear()
     for (std::map<std::string, SoundSample*>::iterator i = this->soundSample3DMap.begin(); i != this->soundSample3DMap.end(); i++)
     {
         SoundSample* pSoundSample = i->second;
-        FMOD_Sound_Release(pSoundSample->getFMODSound());
-        delete pSoundSample;
+        this->destroySoundSample(pSoundSample);
     }
     // Clear sound Sample Map
     this->soundSample3DMap.clear();
 }
 
-void AudioManager::bindToLua(lua_State* pLuaState)
-{
-    // Bind functions to lua state
-    luabind::module(pLuaState)
-    [
-        luabind::class_<AudioManager>("AudioManager")
-        .def(luabind::constructor<>())
-        .def("getVersion", (std::string (AudioManager::*)()) &AudioManager::getVersion)
-        .def("getSoundSample", (SoundSample*(AudioManager::*)(std::string)) &AudioManager::getSoundSample)
-        .def("getSoundSample", (SoundSample*(AudioManager::*)(std::string, bool)) &AudioManager::getSoundSample)
-        .def("getSoundSample3D", (SoundSample*(AudioManager::*)(std::string)) &AudioManager::getSoundSample3D)
-        .def("getSoundSample3D", (SoundSample*(AudioManager::*)(std::string, bool)) &AudioManager::getSoundSample3D)
-        .def("clear", (void(AudioManager::*)()) &AudioManager::clear)
-    ];
-}
+//void AudioManager::bindToLua(lua_State* pLuaState)
+//{
+//    // ***************
+//    // * BIND TO LUA *
+//    // ***************
+//
+//    // Bind functions to lua state
+//    luabind::module(pLuaState)
+//    [
+//        luabind::class_<AudioManager>("AudioManager")
+//        .def(luabind::constructor<>())
+//        .def("getVersion", (std::string (AudioManager::*)()) &AudioManager::getVersion)
+//        .def("getSoundSample", (SoundSample*(AudioManager::*)(std::string)) &AudioManager::getSoundSample)
+//        .def("getSoundSample", (SoundSample*(AudioManager::*)(std::string, bool)) &AudioManager::getSoundSample)
+//        .def("getSoundSample2D", (SoundSample*(AudioManager::*)(std::string)) &AudioManager::getSoundSample2D)
+//        .def("getSoundSample2D", (SoundSample*(AudioManager::*)(std::string, bool)) &AudioManager::getSoundSample2D)
+//        .def("getSoundSample3D", (SoundSample*(AudioManager::*)(std::string)) &AudioManager::getSoundSample3D)
+//        .def("getSoundSample3D", (SoundSample*(AudioManager::*)(std::string, bool)) &AudioManager::getSoundSample3D)
+//        .def("destroySoundSample", (void(AudioManager::*)()) &AudioManager::destroySoundSample)
+//        .def("clear", (void(AudioManager::*)()) &AudioManager::clear)
+//    ];
+//}

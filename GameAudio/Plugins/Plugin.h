@@ -30,7 +30,7 @@ class Plugin
 
     protected:
         //! Copy Constructor
-        Plugin(Plugin& other) {}
+        Plugin(Plugin& other);
 
     // ************************
     // * OVERLOADED OPERATORS *
@@ -40,7 +40,7 @@ class Plugin
 
     protected:
         //! Plugin Assignment operator
-        Plugin& operator=(const Plugin& other) { return *this; }
+        Plugin& operator=(const Plugin& other);
 
     // ********************
     // * PLUGIN FUNCTIONS *

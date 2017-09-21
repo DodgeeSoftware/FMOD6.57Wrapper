@@ -14,6 +14,7 @@ Stream::Stream()
     this->balance = 0.0f;
     this->priority = 0;
     this->loopFlag = false;
+    this->loopCount = -1;
     // Stream Specific Stuff
     this->pFMODSound = 0;
     this->filename.clear();
@@ -22,6 +23,11 @@ Stream::Stream()
 }
 
 Stream::~Stream()
+{
+
+}
+
+Stream::Stream(const Stream& other)
 {
 
 }
@@ -39,7 +45,7 @@ bool Stream::load(std::string filename)
     // Track Result of calling FMOD Functions
     FMOD_RESULT result;
     // Create the FMODSound
-    result = FMOD_System_CreateStream(FMODGlobals::pFMODSystem, filename.c_str(), FMOD_DEFAULT | FMOD_LOOP_NORMAL, 0, &(this->pFMODSound));
+    result = FMOD_System_CreateSound(FMODGlobals::pFMODSystem, filename.c_str(), FMOD_CREATESTREAM, 0, &(this->pFMODSound));
     // If there was a problem
     if (result != FMOD_OK)
     {
@@ -49,11 +55,35 @@ bool Stream::load(std::string filename)
         // Failure
         return false;
     }
+    // 8888888888888
+    // Grab the current mode
+    FMOD_MODE mode = (FMOD_MODE)0;
+    FMOD_Sound_GetMode(this->pFMODSound, &mode);
+    if (this->loopFlag == true)
+    {
+        // TURN LOOP ON
+        mode = mode & !FMOD_LOOP_OFF;
+        mode = mode & !FMOD_LOOP_NORMAL;
+        mode = mode | FMOD_LOOP_NORMAL;
+        FMOD_Sound_SetMode(this->pFMODSound, mode);
+    }
+    if (this->loopFlag == false)
+    {
+        // TURN LOOP OFF
+        {
+            mode = mode & !FMOD_LOOP_OFF;
+            mode = mode & !FMOD_LOOP_NORMAL;
+            mode = mode | FMOD_LOOP_OFF;
+            FMOD_Sound_SetMode(this->pFMODSound, mode);
+        }
+    }
+    // 88888888888888888
     // Send a message to the console
     std::cout << "bool Stream::load((" << filename.c_str() << ")" << std::endl;
     std::cout << "bool Stream::load((" << filename.c_str() << ") success" << std::endl;
     // Set the Filename
     this->filename = filename;
+
     // Success
     return true;
 }
@@ -125,12 +155,18 @@ void Stream::play()
     // If playback failed return
     if (result != FMOD_OK)
         return;
+
+
     // Set User Data for the Channel
     FMOD_Channel_SetUserData(this->pChannel, (void*)this);
     // Set Paused (if the sound has been paused)
     this->setPaused(this->pausedFlag);
-    // Set if playback should loop or not
-    this->setLoop(this->loopFlag);
+        // Set if playback should loop or not
+        this->setLoop(this->loopFlag);
+        // 888888888
+        //// Set the Loop Count
+        //this->setLoopCount(this->loopCount);
+        //8888888888
     // Set if the Sound should be muted or not
     this->setMute(this->muteFlag);
     // Set the balance
@@ -162,8 +198,12 @@ void Stream::playEx()
     FMOD_Channel_SetUserData(this->pChannel, (void*)this);
     // Set Paused (if the sound has been paused)
     this->setPaused(this->pausedFlag);
-    // Set if playback should loop or not
-    this->setLoop(this->loopFlag);
+        // Set if playback should loop or not
+        this->setLoop(this->loopFlag);
+        // 888888888
+        //// Set the Loop Count
+        //this->setLoopCount(this->loopCount);
+        //8888888888
     // Set if the Sound should be muted or not
     this->setMute(this->muteFlag);
     // Set the speak balance
@@ -242,6 +282,64 @@ bool Stream::isPlaying()
     // Return playingFlag
     return playingFlag;
 }
+
+bool Stream::isLoop()
+{
+    return this->loopFlag;
+}
+
+/* TODO: If this fixes the stream loop problem, radiate this change to the Sound Classes too*/
+void Stream::setLoop(bool loopFlag)
+{
+    // Set local loop flag
+    this->loopFlag = loopFlag;
+
+    if (this->pFMODSound == 0)
+        return;
+
+    // Grab the current mode
+    FMOD_MODE mode = (FMOD_MODE)0;
+    FMOD_Sound_GetMode(this->pFMODSound, &mode);
+    if (this->loopFlag == true)
+    {
+        // TURN LOOP ON
+        mode = mode & !FMOD_LOOP_OFF;
+        mode = mode & !FMOD_LOOP_NORMAL;
+        mode = mode | FMOD_LOOP_NORMAL;
+        FMOD_Sound_SetMode(this->pFMODSound, mode);
+    }
+    if (this->loopFlag == false)
+    {
+        // TURN LOOP OFF
+        {
+            mode = mode & !FMOD_LOOP_OFF;
+            mode = mode & !FMOD_LOOP_NORMAL;
+            mode = mode | FMOD_LOOP_OFF;
+            FMOD_Sound_SetMode(this->pFMODSound, mode);
+        }
+    }
+}
+
+int Stream::getLoopCount()
+{
+    // Return our loop COunt
+    return this->loopCount;
+}
+
+void Stream::setLoopCount(int loopCount)
+{
+    // Set the local loopCount
+    this->loopCount = loopCount;
+
+    // Channel::setLoopCount(loopCount); // TODO: Should this be here? Why does stream and channel loop have to be in conflict what were Fireflight thinking?
+
+    if (this->pFMODSound != 0)
+    {
+        // Set the FMOD Sound Loop Count
+        FMOD_Sound_SetLoopCount(this->pFMODSound, this->loopCount);
+    }
+}
+
 
 //FMOD_SYSTEM* Stream::getSystemObject()
 //{
@@ -531,63 +629,63 @@ bool Stream::isPlaying()
 //    FMOD_Channel_OverridePanDSP(this->pChannel, pDSP);
 //}
 
-void Stream::bindToLua(lua_State* pLuaState)
-{
-    // Bind functions to lua state
-    luabind::module(pLuaState)
-    [
-        luabind::class_<Stream>("Stream")
-        .def(luabind::constructor<>())
-        // GENERAL
-        .def("load", (bool (Stream::*)(std::string)) &Stream::load)
-        .def("play", (void (Stream::*)()) &Stream::play)
-        .def("playEx", (void (Stream::*)()) &Stream::playEx)
-        .def("start", (void (Stream::*)()) &Stream::start)
-        .def("stop", (void (Stream::*)()) &Stream::stop)
-        .def("reset", (void (Stream::*)()) &Stream::reset)
-        .def("isPaused", (bool(Stream::*)()) &Stream::isPaused)
-        .def("setPaused", (void (Stream::*)(bool)) &Stream::setPaused)
-        .def("pause", (void (Stream::*)()) &Stream::pause)
-        .def("resume", (void (Stream::*)()) &Stream::resume)
-        .def("isPlaying", (bool(Stream::*)()) &Stream::isPlaying)
-        .def("clear", (void (Stream::*)()) &Stream::clear)
-        .def("free", (void(Stream::*)()) &Stream::free)
-        .def("getVolume", (float (Stream::*)()) &Stream::getVolume)
-        .def("setVolume", (void (Stream::*)(float)) &Stream::setVolume)
-        .def("isVolumeRamping", (bool(Stream::*)()) &Stream::isVolumeRamping)
-        .def("setVolumeRamping", (void (Stream::*)(bool)) &Stream::setVolumeRamping)
-        .def("getPitch", (float (Stream::*)()) &Stream::getPitch)
-        .def("setPitch", (void (Stream::*)(float)) &Stream::setPitch)
-        .def("isMute", (bool(Stream::*)()) &Stream::isMute)
-        .def("setMute", (void (Stream::*)(bool)) &Stream::setMute)
-        .def("mute", (void (Stream::*)()) &Stream::mute)
-        .def("unmute", (void (Stream::*)()) &Stream::unmute)
-        .def("getReverbWet", (float (Stream::*)(int)) &Stream::getReverbWet)
-        .def("setReverbWet", (void (Stream::*)(int, float)) &Stream::setReverbWet)
-        .def("getLowPassGain", (float (Stream::*)()) &Stream::getLowPassGain)
-        .def("setLowPassGain", (void (Stream::*)(float)) &Stream::setLowPassGain)
-        .def("getMode", (unsigned int (Stream::*)()) &Stream::getMode)
-        .def("setMode", (void (Stream::*)(unsigned int)) &Stream::setMode)
-        .def("getBalance", (float (Stream::*)()) &Stream::getBalance)
-        .def("setBalance", (void (Stream::*)(float)) &Stream::setBalance)
-        .def("getFrequency", (float (Stream::*)()) &Stream::getFrequency)
-        .def("setFrequency", (void (Stream::*)(float)) &Stream::setFrequency)
-        .def("getPriority", (int (Stream::*)()) &Stream::getPriority)
-        .def("setPriority", (void (Stream::*)(int)) &Stream::setPriority)
-        .def("isLoop", (bool(Stream::*)()) &Stream::isLoop)
-        .def("setLoop", (void (Stream::*)(bool)) &Stream::setLoop)
-        .def("isChannelVirtual", (bool(Stream::*)()) &Stream::isChannelVirtual)
-        // FILENAME
-        .def("getFilename", (std::string (Stream::*)()) &Stream::getFilename)
-        // ENABLED
-        .def("isEnabled", (bool(Stream::*)()) &Stream::isEnabled)
-        .def("setEnabled", (void (Stream::*)(bool)) &Stream::setEnabled)
-        .def("enable", (void (Stream::*)()) &Stream::enable)
-        .def("disable", (void (Stream::*)()) &Stream::disable)
-        // NAME
-        .def("getName", (std::string (Stream::*)()) &Stream::getName)
-        .def("setName", (void (Stream::*)(std::string)) &Stream::setName)
-        .def("isNamed", (bool(Stream::*)()) &Stream::isNamed)
-        .def("clearName", (void (Stream::*)()) &Stream::clearName)
-    ];
-}
+//void Stream::bindToLua(lua_State* pLuaState)
+//{
+//    // Bind functions to lua state
+//    luabind::module(pLuaState)
+//    [
+//        luabind::class_<Stream>("Stream")
+//        .def(luabind::constructor<>())
+//        // GENERAL
+//        .def("load", (bool (Stream::*)(std::string)) &Stream::load)
+//        .def("play", (void (Stream::*)()) &Stream::play)
+//        .def("playEx", (void (Stream::*)()) &Stream::playEx)
+//        .def("start", (void (Stream::*)()) &Stream::start)
+//        .def("stop", (void (Stream::*)()) &Stream::stop)
+//        .def("reset", (void (Stream::*)()) &Stream::reset)
+//        .def("isPaused", (bool(Stream::*)()) &Stream::isPaused)
+//        .def("setPaused", (void (Stream::*)(bool)) &Stream::setPaused)
+//        .def("pause", (void (Stream::*)()) &Stream::pause)
+//        .def("resume", (void (Stream::*)()) &Stream::resume)
+//        .def("isPlaying", (bool(Stream::*)()) &Stream::isPlaying)
+//        .def("clear", (void (Stream::*)()) &Stream::clear)
+//        .def("free", (void(Stream::*)()) &Stream::free)
+//        .def("getVolume", (float (Stream::*)()) &Stream::getVolume)
+//        .def("setVolume", (void (Stream::*)(float)) &Stream::setVolume)
+//        .def("isVolumeRamping", (bool(Stream::*)()) &Stream::isVolumeRamping)
+//        .def("setVolumeRamping", (void (Stream::*)(bool)) &Stream::setVolumeRamping)
+//        .def("getPitch", (float (Stream::*)()) &Stream::getPitch)
+//        .def("setPitch", (void (Stream::*)(float)) &Stream::setPitch)
+//        .def("isMute", (bool(Stream::*)()) &Stream::isMute)
+//        .def("setMute", (void (Stream::*)(bool)) &Stream::setMute)
+//        .def("mute", (void (Stream::*)()) &Stream::mute)
+//        .def("unmute", (void (Stream::*)()) &Stream::unmute)
+//        .def("getReverbWet", (float (Stream::*)(int)) &Stream::getReverbWet)
+//        .def("setReverbWet", (void (Stream::*)(int, float)) &Stream::setReverbWet)
+//        .def("getLowPassGain", (float (Stream::*)()) &Stream::getLowPassGain)
+//        .def("setLowPassGain", (void (Stream::*)(float)) &Stream::setLowPassGain)
+//        .def("getMode", (unsigned int (Stream::*)()) &Stream::getMode)
+//        .def("setMode", (void (Stream::*)(unsigned int)) &Stream::setMode)
+//        .def("getBalance", (float (Stream::*)()) &Stream::getBalance)
+//        .def("setBalance", (void (Stream::*)(float)) &Stream::setBalance)
+//        .def("getFrequency", (float (Stream::*)()) &Stream::getFrequency)
+//        .def("setFrequency", (void (Stream::*)(float)) &Stream::setFrequency)
+//        .def("getPriority", (int (Stream::*)()) &Stream::getPriority)
+//        .def("setPriority", (void (Stream::*)(int)) &Stream::setPriority)
+//        .def("isLoop", (bool(Stream::*)()) &Stream::isLoop)
+//        .def("setLoop", (void (Stream::*)(bool)) &Stream::setLoop)
+//        .def("isChannelVirtual", (bool(Stream::*)()) &Stream::isChannelVirtual)
+//        // FILENAME
+//        .def("getFilename", (std::string (Stream::*)()) &Stream::getFilename)
+//        // ENABLED
+//        .def("isEnabled", (bool(Stream::*)()) &Stream::isEnabled)
+//        .def("setEnabled", (void (Stream::*)(bool)) &Stream::setEnabled)
+//        .def("enable", (void (Stream::*)()) &Stream::enable)
+//        .def("disable", (void (Stream::*)()) &Stream::disable)
+//        // NAME
+//        .def("getName", (std::string (Stream::*)()) &Stream::getName)
+//        .def("setName", (void (Stream::*)(std::string)) &Stream::setName)
+//        .def("isNamed", (bool(Stream::*)()) &Stream::isNamed)
+//        .def("clearName", (void (Stream::*)()) &Stream::clearName)
+//    ];
+//}

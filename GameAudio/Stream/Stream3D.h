@@ -27,6 +27,7 @@
 //    #include <lauxlib.h>
 //}
 //#include <luabind/luabind.hpp>
+//#include <luabind/operator.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
@@ -48,7 +49,7 @@ class Stream3D : public Stream
 
     protected:
         //! Stream2D Copy constructor
-        Stream3D(const Stream3D& other) : Stream() {}
+        Stream3D(const Stream3D& other);
 
     // ************************
     // * OVERLOADED OPERATORS *
@@ -58,7 +59,7 @@ class Stream3D : public Stream
 
     protected:
         //! Stream3D Assignment operator
-        Stream3D& operator=(const Stream3D& other) { return *this; }
+        Stream3D& operator=(const Stream3D& other);
 
     // *********************
     // * GENERAL FUNCTIONS *
@@ -77,6 +78,10 @@ class Stream3D : public Stream
         virtual void clear();
         /** @brief free the stream **/
         virtual void free();
+        /** @brief reset **/
+        virtual void reset();
+        /** @brief start **/
+        virtual void start();
 
     // PLAYBACK
     public:
@@ -103,6 +108,21 @@ class Stream3D : public Stream
           * @param y y position
           * @param z z position **/
         virtual void setPosition(float x, float y, float z);
+
+        /** @brief Get StartX Position
+          * @return startX startX position **/
+        virtual float getStartX();
+        /** @brief Get StartY Position
+          * @return startY startY position **/
+        virtual float getStartY();
+        /** @brief Get StartZ Position
+          * @return startZ startZ position **/
+        virtual float getStartZ();
+        /** @brief Set Start Position
+          * @param startx start x position
+          * @param starty start y position **/
+        virtual void setStartPosition(float startX, float startY, float startZ);
+
         /** @brief Get X Velocity
           * @return x velocity **/
         virtual float getXVelocity();
@@ -117,6 +137,22 @@ class Stream3D : public Stream
           * @param yVelocity y velocity
           * @param zVelocity z velocity **/
         virtual void setVelocity(float xVelocity, float yVelocity, float zVelocity);
+
+        /** @brief Get Start X Velocity
+          * @return x velocity **/
+        virtual float getStartXVelocity();
+        /** @brief Get Start Y Velocity
+          * @return y velocity **/
+        virtual float getStartYVelocity();
+        /** @brief Get Start Z Velocity
+          * @return z velocity **/
+        virtual float getStartZVelocity();
+        /** @brief Set Start Velocity
+          * @param startXVelocity x Velocity
+          * @param startYVelocity y Velocity
+          * @param startZVelocity z Velocity **/
+        virtual void setStartVelocity(float startXVelocity, float startYVelocity, float startZVelocity);
+
         /** @brief Get min distance
           * @return min Distance the sound can be heard **/
         virtual float getMinDistance();
@@ -229,12 +265,24 @@ class Stream3D : public Stream
         float y;
         // Depth Position
         float z;
+        // startX
+        float startX;
+        // startY
+        float startY;
+        // startZ
+        float startZ;
         // Horizontal Velocity
         float xVelocity;
         // Vertical Velocity
         float yVelocity;
         // Depth Velocity
         float zVelocity;
+        // Start XVelocity
+        float startXVelocity;
+        // Start YVelocity
+        float startYVelocity;
+        // Start ZVelocity
+        float startZVelocity;
         // The smaller (0.1f - 0.3f) this value the shorter range the sound is audible
         float minDistance;
         // Usually 100000.0f and safely ignored
@@ -266,13 +314,13 @@ class Stream3D : public Stream
         // centre frequency
         float centreFrequency;
 
-    // ****************
-    // * LUA BINDINGS *
-    // ****************
-    public:
-        /** @brief Bind this class to a lua state
-          * @param pLuaState The LuaState to bind this class to **/
-        static void bindToLua(lua_State* pLuaState);
+//    // ****************
+//    // * LUA BINDINGS *
+//    // ****************
+//    public:
+//        /** @brief Bind this class to a lua state
+//          * @param pLuaState The LuaState to bind this class to **/
+//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // STREAM3D_H

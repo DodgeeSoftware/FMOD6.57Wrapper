@@ -31,7 +31,7 @@ class DSP
 
     protected:
         //! Copy Constructor
-        DSP(DSP& other) {}
+        DSP(DSP& other);
 
     // ************************
     // * OVERLOADED OPERATORS *

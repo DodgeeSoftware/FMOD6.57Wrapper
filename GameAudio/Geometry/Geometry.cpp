@@ -27,6 +27,11 @@ Geometry::~Geometry()
 
 }
 
+Geometry::Geometry(Geometry& other)
+{
+
+}
+
 bool Geometry::create(int maxPolygons, int maxVertices)
 {
     // Try and Create the Geometry

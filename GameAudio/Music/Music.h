@@ -20,15 +20,16 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-// LUA Includes
-extern "C"
-{
-    #include <lua.h>
-    #include <lualib.h>
-    #include <lauxlib.h>
-}
-// LUABIND Includes
-#include <luabind/luabind.hpp>
+//// LUA Includes
+//extern "C"
+//{
+//    #include <lua.h>
+//    #include <lualib.h>
+//    #include <lauxlib.h>
+//}
+//// LUABIND Includes
+//#include <luabind/luabind.hpp>
+//#include <luabind/operator.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
@@ -51,7 +52,7 @@ class Music : public Channel
 
     protected:
         //! Copy constructor
-        Music(const Music& other) {}
+        Music(const Music& other);
 
     // ************************
     // * OVERLOADED OPERATORS *
@@ -61,7 +62,7 @@ class Music : public Channel
 
     protected:
         //! Music Assignment operator
-        Music& operator=(const Music& other) { return *this; }
+        Music& operator=(const Music& other);
 
     // *********************
     // * GENERAL FUNCTIONS *
@@ -407,13 +408,13 @@ class Music : public Channel
         // A pointer to the FMOD_SOUND
         FMOD_SOUND* pFMODSound;
 
-    // ****************
-    // * LUA BINDINGS *
-    // ****************
-    public:
-        /** @brief Bind this class to a lua state
-          * @param pLuaState The LuaState to bind this class to **/
-        static void bindToLua(lua_State* pLuaState);
+//    // ****************
+//    // * LUA BINDINGS *
+//    // ****************
+//    public:
+//        /** @brief Bind this class to a lua state
+//          * @param pLuaState The LuaState to bind this class to **/
+//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // MUSIC_H

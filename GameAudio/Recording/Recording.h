@@ -13,15 +13,16 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-// LUA Includes
-extern "C"
-{
-    #include <lua.h>
-    #include <lualib.h>
-    #include <lauxlib.h>
-}
-// LUABIND Includes
-#include <luabind/luabind.hpp>
+//// LUA Includes
+//extern "C"
+//{
+//    #include <lua.h>
+//    #include <lualib.h>
+//    #include <lauxlib.h>
+//}
+//// LUABIND Includes
+//#include <luabind/luabind.hpp>
+//#include <luabind/operator.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
@@ -44,7 +45,7 @@ class Recording : public Channel
 
     protected:
         //! Copy Constructor
-        Recording(Recording& other) {}
+        Recording(Recording& other);
 
     // ************************
     // * OVERLOADED OPERATORS *
@@ -142,13 +143,13 @@ class Recording : public Channel
         // A pointer to the FMOD_SOUND
         FMOD_SOUND* pFMODSound;
 
-    // ****************
-    // * LUA BINDINGS *
-    // ****************
-    public:
-        /** @brief Bind this class to a lua state
-          * @param pLuaState The LuaState to bind this class to **/
-        static void bindToLua(lua_State* pLuaState);
+//    // ****************
+//    // * LUA BINDINGS *
+//    // ****************
+//    public:
+//        /** @brief Bind this class to a lua state
+//          * @param pLuaState The LuaState to bind this class to **/
+//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // RECORDING_H

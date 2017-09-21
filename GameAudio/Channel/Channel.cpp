@@ -13,9 +13,15 @@ Channel::Channel()
     this->balance = 0.0f;
     this->priority = 0;
     this->loopFlag = false;
+    this->loopCount = -1;
 }
 
 Channel::~Channel()
+{
+
+}
+
+Channel::Channel(const Channel& other)
 {
 
 }
@@ -357,6 +363,23 @@ void Channel::setLoop(bool loopFlag)
     }
 }
 
+int Channel::getLoopCount()
+{
+    // return loopCount
+    return this->loopCount;
+}
+
+void Channel::setLoopCount(int loopCount)
+{
+    // Set the local loop count
+    this->loopCount = loopCount;
+    if (this->pChannel != 0)
+    {
+        // Set the channel loop count
+        FMOD_Channel_SetLoopCount(this->pChannel, this->loopCount);
+    }
+}
+
 bool Channel::isChannelVirtual()
 {
     // Grab virtual flag from the channel
@@ -423,9 +446,9 @@ void Channel::setDSPIndex(FMOD_DSP* pDSP, int index)
     FMOD_Channel_SetDSPIndex(this->pChannel, pDSP, index);
 }
 
-void Channel::overridePanDSP(FMOD_DSP* pDSP)
-{
-    /* Override FMOD's default pan with a new DSP or
-        if 0 restore to default */
-    FMOD_Channel_OverridePanDSP(this->pChannel, pDSP);
-}
+//void Channel::overridePanDSP(FMOD_DSP* pDSP)
+//{
+//    /* Override FMOD's default pan with a new DSP or
+//        if 0 restore to default */
+//    FMOD_Channel_OverridePanDSP(this->pChannel, pDSP);
+//}

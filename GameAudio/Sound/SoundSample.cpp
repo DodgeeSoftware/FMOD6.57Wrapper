@@ -13,6 +13,11 @@ SoundSample::~SoundSample()
 
 }
 
+SoundSample& SoundSample::operator=(const SoundSample& other)
+{
+    return *this;
+}
+
 FMOD_SYSTEM* SoundSample::getSystemObject()
 {
     // Grab the FMODSystem associated with this channel
@@ -341,37 +346,37 @@ void SoundSample::setFilename(const char* filename)
     this->filename = filename;
 }
 
-void SoundSample::bindToLua(lua_State* pLuaState)
-{
-    // Bind functions to lua state
-    luabind::module(pLuaState)
-    [
-        /* An FSOUND_SAMPLE is a predeclared datatype from the FMOD Library we have had problems
-        with this design pattern from other 3rd party libraries. I created an intermediatery object
-        called a sound sample which is used in place of an FSOUND_SAMPLE */
-        luabind::class_<SoundSample>("SoundSample")
-        .def(luabind::constructor<>())
-        .def("getFrequency", (float (SoundSample::*)()) &SoundSample::getFrequency)
-        .def("setFrequency", (void (SoundSample::*)(float)) &SoundSample::setFrequency)
-        .def("getPriority", (float (SoundSample::*)()) &SoundSample::getPriority)
-        .def("getMinDistance", (float (SoundSample::*)()) &SoundSample::getMinDistance)
-        .def("getMaxDistance", (float (SoundSample::*)()) &SoundSample::getMaxDistance)
-        .def("setMinMaxDistance", (void (SoundSample::*)(float, float)) &SoundSample::setMinMaxDistance)
-        .def("get3DConeInsideAngle", (float (SoundSample::*)()) &SoundSample::get3DConeInsideAngle)
-        .def("get3DConeOutsideAngle", (float (SoundSample::*)()) &SoundSample::get3DConeOutsideAngle)
-        .def("get3DConeOutsideVolume", (float (SoundSample::*)()) &SoundSample::get3DConeOutsideVolume)
-        .def("set3DConeSettings", (void (SoundSample::*)(float, float, float)) &SoundSample::set3DConeSettings)
-        .def("getName", (std::string (SoundSample::*)()) &SoundSample::getName)
-        .def("getLengthInSeconds", (float (SoundSample::*)()) &SoundSample::getLengthInSeconds)
-        .def("getLengthInMilliseconds", (unsigned int (SoundSample::*)()) &SoundSample::getLengthInMilliseconds)
-        .def("getSizeInBytes", (unsigned int (SoundSample::*)()) &SoundSample::getSizeInBytes)
-            // TRACKER ONLY FUNCTIONS
-            .def("getChannels", (int (SoundSample::*)()) &SoundSample::getChannels)
-            .def("getMusicChannelVolume", (float (SoundSample::*)(int)) &SoundSample::getMusicChannelVolume)
-            .def("setMusicChannelVolume", (void (SoundSample::*)(int, float)) &SoundSample::setMusicChannelVolume)
-            .def("getMusicSpeed", (float (SoundSample::*)()) &SoundSample::getMusicSpeed)
-            .def("setMusicSpeed", (void (SoundSample::*)(float)) &SoundSample::setMusicSpeed)
-        // FILENAME
-        .def("getFilename", (std::string (SoundSample::*)()) &SoundSample::getFilename)
-    ];
-}
+//void SoundSample::bindToLua(lua_State* pLuaState)
+//{
+//    // Bind functions to lua state
+//    luabind::module(pLuaState)
+//    [
+//        /* An FSOUND_SAMPLE is a predeclared datatype from the FMOD Library we have had problems
+//        with this design pattern from other 3rd party libraries. I created an intermediatery object
+//        called a sound sample which is used in place of an FSOUND_SAMPLE */
+//        luabind::class_<SoundSample>("SoundSample")
+//        .def(luabind::constructor<>())
+//        .def("getFrequency", (float (SoundSample::*)()) &SoundSample::getFrequency)
+//        .def("setFrequency", (void (SoundSample::*)(float)) &SoundSample::setFrequency)
+//        .def("getPriority", (float (SoundSample::*)()) &SoundSample::getPriority)
+//        .def("getMinDistance", (float (SoundSample::*)()) &SoundSample::getMinDistance)
+//        .def("getMaxDistance", (float (SoundSample::*)()) &SoundSample::getMaxDistance)
+//        .def("setMinMaxDistance", (void (SoundSample::*)(float, float)) &SoundSample::setMinMaxDistance)
+//        .def("get3DConeInsideAngle", (float (SoundSample::*)()) &SoundSample::get3DConeInsideAngle)
+//        .def("get3DConeOutsideAngle", (float (SoundSample::*)()) &SoundSample::get3DConeOutsideAngle)
+//        .def("get3DConeOutsideVolume", (float (SoundSample::*)()) &SoundSample::get3DConeOutsideVolume)
+//        .def("set3DConeSettings", (void (SoundSample::*)(float, float, float)) &SoundSample::set3DConeSettings)
+//        .def("getName", (std::string (SoundSample::*)()) &SoundSample::getName)
+//        .def("getLengthInSeconds", (float (SoundSample::*)()) &SoundSample::getLengthInSeconds)
+//        .def("getLengthInMilliseconds", (unsigned int (SoundSample::*)()) &SoundSample::getLengthInMilliseconds)
+//        .def("getSizeInBytes", (unsigned int (SoundSample::*)()) &SoundSample::getSizeInBytes)
+//            // TRACKER ONLY FUNCTIONS
+//            .def("getChannels", (int (SoundSample::*)()) &SoundSample::getChannels)
+//            .def("getMusicChannelVolume", (float (SoundSample::*)(int)) &SoundSample::getMusicChannelVolume)
+//            .def("setMusicChannelVolume", (void (SoundSample::*)(int, float)) &SoundSample::setMusicChannelVolume)
+//            .def("getMusicSpeed", (float (SoundSample::*)()) &SoundSample::getMusicSpeed)
+//            .def("setMusicSpeed", (void (SoundSample::*)(float)) &SoundSample::setMusicSpeed)
+//        // FILENAME
+//        .def("getFilename", (std::string (SoundSample::*)()) &SoundSample::getFilename)
+//    ];
+//}

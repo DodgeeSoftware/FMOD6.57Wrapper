@@ -30,7 +30,7 @@ class ChannelGroup
 
     protected:
         //! Copy Constructor
-        ChannelGroup(ChannelGroup& other) {}
+        ChannelGroup(ChannelGroup& other);
 
     // ************************
     // * OVERLOADED OPERATORS *
@@ -40,7 +40,7 @@ class ChannelGroup
 
     protected:
         //! ChannelGroup Assignment operator
-        ChannelGroup& operator=(const ChannelGroup& other) { return *this; }
+        ChannelGroup& operator=(const ChannelGroup& other);
 
     // ***************************
     // * CHANNEL GROUP FUNCTIONS *
@@ -202,11 +202,11 @@ class ChannelGroup
           * @param pDSP pointer to an FMOD_DSP Object
           * @param index index of the FMOD_DSP relative to the channel **/
         virtual void setDSPIndex(FMOD_DSP* pDSP, int index);
-        /** @brief overridePanDSP
-          * Replaces the built in panner unit FMOD uses per ChannelGroup and Channel, with a user selected panner.
-          * Can also be used to revert the panner back to the built in panner.
-          * @param pDSP pointer to an FMOD_DSP Object **/
-        virtual void overridePanDSP(FMOD_DSP* pDSP);
+//        /** @brief overridePanDSP
+//          * Replaces the built in panner unit FMOD uses per ChannelGroup and Channel, with a user selected panner.
+//          * Can also be used to revert the panner back to the built in panner.
+//          * @param pDSP pointer to an FMOD_DSP Object **/
+//        virtual void overridePanDSP(FMOD_DSP* pDSP);
         /** @brief addChildChannelGroup
           * Adds a channel group as a child of the current channel group.
           * @param pChildChannelGroup Channel group to add as a child.

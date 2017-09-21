@@ -36,6 +36,8 @@ void Sound2D::update(float dTime)
 {
     // Call the base update  method
     Sound::update(dTime);
+    // Set Position
+    this->setPosition(this->x, this->y);
 }
 
 void Sound2D::clear()
@@ -57,6 +59,30 @@ void Sound2D::free()
     this->maxDistance = 10000.0f;
     // Call the base Free method
     Sound::free();
+}
+
+void Sound2D::reset()
+{
+    // Reset Position
+    this->x = startX;
+    this->y = startY;
+    // Reset Velocity
+    this->xVelocity = this->startXVelocity;
+    this->yVelocity = this->startYVelocity;
+    // Reset
+    Sound::reset();
+}
+
+void Sound2D::start()
+{
+    // Start Position
+    this->x = startX;
+    this->y = startY;
+    // Start Velocity
+    this->xVelocity = this->startXVelocity;
+    this->yVelocity = this->startYVelocity;
+    // Start
+    Sound2D::play();
 }
 
 void Sound2D::play()
@@ -143,6 +169,22 @@ void Sound2D::setPosition(float x, float y)
     FMOD_Channel_Set3DAttributes(this->pChannel, &position, &velocity, &altPanPos);
 }
 
+float Sound2D::getStartX()
+{
+    return this->startX;
+}
+
+float Sound2D::getStartY()
+{
+    return this->startY;
+}
+
+void Sound2D::setStartPosition(float startX, float startY)
+{
+    this->startX = startX;
+    this->startY = startY;
+}
+
 float Sound2D::getXVelocity()
 {
     // Return xVelocity
@@ -178,6 +220,24 @@ void Sound2D::setVelocity(float xVelocity, float yVelocity)
         altPanPos.z = 0.0f;
     // Set Position of the Channel
     FMOD_Channel_Set3DAttributes(this->pChannel, &position, &velocity, &altPanPos);
+}
+
+float Sound2D::getStartXVelocity()
+{
+    return this->startXVelocity;
+}
+
+float Sound2D::getStartYVelocity()
+{
+    return this->startYVelocity;
+}
+
+void Sound2D::setStartVelocity(float xStartVelocity, float yStartVelocity)
+{
+    // Set local startXVelocity
+    this->startXVelocity = startXVelocity;
+    // Set local startYVelocity
+    this->startYVelocity = startYVelocity;
 }
 
 float Sound2D::getMinDistance()
@@ -300,87 +360,87 @@ float Sound2D::getAudibility()
     return audibility;
 }
 
-void Sound2D::bindToLua(lua_State* pLuaState)
-{
-    // Bind functions to lua state
-    luabind::module(pLuaState)
-    [
-        luabind::class_<Sound2D>("Sound2D")
-        .def(luabind::constructor<>())
-        // GENERAL
-        .def("play", (void (Sound2D::*)()) &Sound2D::play)
-        .def("playEx", (void (Sound2D::*)()) &Sound2D::playEx)
-        .def("start", (void (Sound2D::*)()) &Sound2D::start)
-        .def("stop", (void (Sound2D::*)()) &Sound2D::stop)
-        .def("reset", (void (Sound2D::*)()) &Sound2D::reset)
-        .def("isPaused", (bool(Sound2D::*)()) &Sound2D::isPaused)
-        .def("setPaused", (void (Sound2D::*)(bool)) &Sound2D::setPaused)
-        .def("pause", (void (Sound2D::*)()) &Sound2D::pause)
-        .def("resume", (void (Sound2D::*)()) &Sound2D::resume)
-        .def("isPlaying", (bool(Sound2D::*)()) &Sound2D::isPlaying)
-        .def("clear", (void (Sound2D::*)()) &Sound2D::clear)
-        .def("free", (void(Sound2D::*)()) &Sound2D::free)
-        .def("getVolume", (float (Sound2D::*)()) &Sound2D::getVolume)
-        .def("setVolume", (void (Sound2D::*)(float)) &Sound2D::setVolume)
-        .def("isVolumeRamping", (bool(Sound2D::*)()) &Sound2D::isVolumeRamping)
-        .def("setVolumeRamping", (void (Sound2D::*)(bool)) &Sound2D::setVolumeRamping)
-        .def("getPitch", (float (Sound2D::*)()) &Sound2D::getPitch)
-        .def("setPitch", (void (Sound2D::*)(float)) &Sound2D::setPitch)
-        .def("isMute", (bool(Sound2D::*)()) &Sound2D::isMute)
-        .def("setMute", (void (Sound2D::*)(bool)) &Sound2D::setMute)
-        .def("mute", (void (Sound2D::*)()) &Sound2D::mute)
-        .def("unmute", (void (Sound2D::*)()) &Sound2D::unmute)
-        .def("getReverbWet", (float (Sound2D::*)(int)) &Sound2D::getReverbWet)
-        .def("setReverbWet", (void (Sound2D::*)(int, float)) &Sound2D::setReverbWet)
-        .def("getLowPassGain", (float (Sound2D::*)()) &Sound2D::getLowPassGain)
-        .def("setLowPassGain", (void (Sound2D::*)(float)) &Sound2D::setLowPassGain)
-        .def("getMode", (unsigned int (Sound2D::*)()) &Sound2D::getMode)
-        .def("setMode", (void (Sound2D::*)(unsigned int)) &Sound2D::setMode)
-        .def("getBalance", (float (Sound2D::*)()) &Sound2D::getBalance)
-        .def("setBalance", (void (Sound2D::*)(float)) &Sound2D::setBalance)
-        .def("getFrequency", (float (Sound2D::*)()) &Sound2D::getFrequency)
-        .def("setFrequency", (void (Sound2D::*)(float)) &Sound2D::setFrequency)
-        .def("getPriority", (int (Sound2D::*)()) &Sound2D::getPriority)
-        .def("setPriority", (void (Sound2D::*)(int)) &Sound2D::setPriority)
-        .def("isLoop", (bool(Sound2D::*)()) &Sound2D::isLoop)
-        .def("setLoop", (void (Sound2D::*)(bool)) &Sound2D::setLoop)
-        .def("isChannelVirtual", (bool(Sound2D::*)()) &Sound2D::isChannelVirtual)
-        // FILENAME
-        .def("getFilename", (std::string (Sound2D::*)()) &Sound2D::getFilename)
-        // SOUND SAMPLE
-        .def("getSoundSample", (SoundSample* (Sound::*)()) &Sound::getSoundSample)
-        .def("setSoundSample", (void (Sound::*)(SoundSample*)) &Sound::setSoundSample)
-        // ENABLED
-        .def("isEnabled", (bool(Sound2D::*)()) &Sound2D::isEnabled)
-        .def("setEnabled", (void (Sound2D::*)(bool)) &Sound2D::setEnabled)
-        .def("enable", (void (Sound2D::*)()) &Sound2D::enable)
-        .def("disable", (void (Sound2D::*)()) &Sound2D::disable)
-        // NAME
-        .def("getName", (std::string (Sound2D::*)()) &Sound2D::getName)
-        .def("setName", (void (Sound2D::*)(std::string)) &Sound2D::setName)
-        .def("isNamed", (bool(Sound2D::*)()) &Sound2D::isNamed)
-        .def("clearName", (void (Sound2D::*)()) &Sound2D::clearName)
-        // SPACIAL CHANNEL FUNCTIONS
-        .def("getX", (float (Sound2D::*)()) &Sound2D::getX)
-        .def("getY", (float (Sound2D::*)()) &Sound2D::getY)
-        .def("setPosition", (float (Sound2D::*)(float, float)) &Sound2D::setPosition)
-        .def("getXVelocity", (float (Sound2D::*)()) &Sound2D::getXVelocity)
-        .def("getYVelocity", (float (Sound2D::*)()) &Sound2D::getYVelocity)
-        .def("setVelocity", (float (Sound2D::*)(float, float)) &Sound2D::setVelocity)
-        .def("getMinDistance", (float (Sound2D::*)()) &Sound2D::getMinDistance)
-        .def("getMaxDistance", (float (Sound2D::*)()) &Sound2D::getMaxDistance)
-        .def("setMinMaxDistance", (float (Sound2D::*)(float, float)) &Sound2D::setMinMaxDistance)
-        .def("getLevel", (float (Sound2D::*)()) &Sound2D::getLevel)
-        .def("setLevel", (void (Sound2D::*)(float)) &Sound2D::setLevel)
-        .def("getDopplerLevel", (float (Sound2D::*)()) &Sound2D::getDopplerLevel)
-        .def("setDopplerLevel", (void (Sound2D::*)(float)) &Sound2D::setDopplerLevel)
-        .def("isDistanceFilter", (bool(Sound2D::*)()) &Sound2D::isDistanceFilter)
-        .def("getCustomLevel", (float (Sound2D::*)()) &Sound2D::getCustomLevel)
-        .def("getCentreFrequency", (float (Sound2D::*)()) &Sound2D::getCentreFrequency)
-        .def("setDistanceFilter", (void (Sound2D::*)(bool)) &Sound2D::setDistanceFilter)
-        .def("setDistanceFilterCustomLevel", (void (Sound2D::*)(float)) &Sound2D::setDistanceFilterCustomLevel)
-        .def("setDistanceFilterCentreFrequency", (void (Sound2D::*)(float)) &Sound2D::setDistanceFilterCentreFrequency)
-        .def("getAudibility", (float (Sound2D::*)()) &Sound2D::getAudibility)
-    ];
-}
+//void Sound2D::bindToLua(lua_State* pLuaState)
+//{
+//    // Bind functions to lua state
+//    luabind::module(pLuaState)
+//    [
+//        luabind::class_<Sound2D>("Sound2D")
+//        .def(luabind::constructor<>())
+//        // GENERAL
+//        .def("play", (void (Sound2D::*)()) &Sound2D::play)
+//        .def("playEx", (void (Sound2D::*)()) &Sound2D::playEx)
+//        .def("start", (void (Sound2D::*)()) &Sound2D::start)
+//        .def("stop", (void (Sound2D::*)()) &Sound2D::stop)
+//        .def("reset", (void (Sound2D::*)()) &Sound2D::reset)
+//        .def("isPaused", (bool(Sound2D::*)()) &Sound2D::isPaused)
+//        .def("setPaused", (void (Sound2D::*)(bool)) &Sound2D::setPaused)
+//        .def("pause", (void (Sound2D::*)()) &Sound2D::pause)
+//        .def("resume", (void (Sound2D::*)()) &Sound2D::resume)
+//        .def("isPlaying", (bool(Sound2D::*)()) &Sound2D::isPlaying)
+//        .def("clear", (void (Sound2D::*)()) &Sound2D::clear)
+//        .def("free", (void(Sound2D::*)()) &Sound2D::free)
+//        .def("getVolume", (float (Sound2D::*)()) &Sound2D::getVolume)
+//        .def("setVolume", (void (Sound2D::*)(float)) &Sound2D::setVolume)
+//        .def("isVolumeRamping", (bool(Sound2D::*)()) &Sound2D::isVolumeRamping)
+//        .def("setVolumeRamping", (void (Sound2D::*)(bool)) &Sound2D::setVolumeRamping)
+//        .def("getPitch", (float (Sound2D::*)()) &Sound2D::getPitch)
+//        .def("setPitch", (void (Sound2D::*)(float)) &Sound2D::setPitch)
+//        .def("isMute", (bool(Sound2D::*)()) &Sound2D::isMute)
+//        .def("setMute", (void (Sound2D::*)(bool)) &Sound2D::setMute)
+//        .def("mute", (void (Sound2D::*)()) &Sound2D::mute)
+//        .def("unmute", (void (Sound2D::*)()) &Sound2D::unmute)
+//        .def("getReverbWet", (float (Sound2D::*)(int)) &Sound2D::getReverbWet)
+//        .def("setReverbWet", (void (Sound2D::*)(int, float)) &Sound2D::setReverbWet)
+//        .def("getLowPassGain", (float (Sound2D::*)()) &Sound2D::getLowPassGain)
+//        .def("setLowPassGain", (void (Sound2D::*)(float)) &Sound2D::setLowPassGain)
+//        .def("getMode", (unsigned int (Sound2D::*)()) &Sound2D::getMode)
+//        .def("setMode", (void (Sound2D::*)(unsigned int)) &Sound2D::setMode)
+//        .def("getBalance", (float (Sound2D::*)()) &Sound2D::getBalance)
+//        .def("setBalance", (void (Sound2D::*)(float)) &Sound2D::setBalance)
+//        .def("getFrequency", (float (Sound2D::*)()) &Sound2D::getFrequency)
+//        .def("setFrequency", (void (Sound2D::*)(float)) &Sound2D::setFrequency)
+//        .def("getPriority", (int (Sound2D::*)()) &Sound2D::getPriority)
+//        .def("setPriority", (void (Sound2D::*)(int)) &Sound2D::setPriority)
+//        .def("isLoop", (bool(Sound2D::*)()) &Sound2D::isLoop)
+//        .def("setLoop", (void (Sound2D::*)(bool)) &Sound2D::setLoop)
+//        .def("isChannelVirtual", (bool(Sound2D::*)()) &Sound2D::isChannelVirtual)
+//        // FILENAME
+//        .def("getFilename", (std::string (Sound2D::*)()) &Sound2D::getFilename)
+//        // SOUND SAMPLE
+//        .def("getSoundSample", (SoundSample* (Sound::*)()) &Sound::getSoundSample)
+//        .def("setSoundSample", (void (Sound::*)(SoundSample*)) &Sound::setSoundSample)
+//        // ENABLED
+//        .def("isEnabled", (bool(Sound2D::*)()) &Sound2D::isEnabled)
+//        .def("setEnabled", (void (Sound2D::*)(bool)) &Sound2D::setEnabled)
+//        .def("enable", (void (Sound2D::*)()) &Sound2D::enable)
+//        .def("disable", (void (Sound2D::*)()) &Sound2D::disable)
+//        // NAME
+//        .def("getName", (std::string (Sound2D::*)()) &Sound2D::getName)
+//        .def("setName", (void (Sound2D::*)(std::string)) &Sound2D::setName)
+//        .def("isNamed", (bool(Sound2D::*)()) &Sound2D::isNamed)
+//        .def("clearName", (void (Sound2D::*)()) &Sound2D::clearName)
+//        // SPACIAL CHANNEL FUNCTIONS
+//        .def("getX", (float (Sound2D::*)()) &Sound2D::getX)
+//        .def("getY", (float (Sound2D::*)()) &Sound2D::getY)
+//        .def("setPosition", (float (Sound2D::*)(float, float)) &Sound2D::setPosition)
+//        .def("getXVelocity", (float (Sound2D::*)()) &Sound2D::getXVelocity)
+//        .def("getYVelocity", (float (Sound2D::*)()) &Sound2D::getYVelocity)
+//        .def("setVelocity", (float (Sound2D::*)(float, float)) &Sound2D::setVelocity)
+//        .def("getMinDistance", (float (Sound2D::*)()) &Sound2D::getMinDistance)
+//        .def("getMaxDistance", (float (Sound2D::*)()) &Sound2D::getMaxDistance)
+//        .def("setMinMaxDistance", (float (Sound2D::*)(float, float)) &Sound2D::setMinMaxDistance)
+//        .def("getLevel", (float (Sound2D::*)()) &Sound2D::getLevel)
+//        .def("setLevel", (void (Sound2D::*)(float)) &Sound2D::setLevel)
+//        .def("getDopplerLevel", (float (Sound2D::*)()) &Sound2D::getDopplerLevel)
+//        .def("setDopplerLevel", (void (Sound2D::*)(float)) &Sound2D::setDopplerLevel)
+//        .def("isDistanceFilter", (bool(Sound2D::*)()) &Sound2D::isDistanceFilter)
+//        .def("getCustomLevel", (float (Sound2D::*)()) &Sound2D::getCustomLevel)
+//        .def("getCentreFrequency", (float (Sound2D::*)()) &Sound2D::getCentreFrequency)
+//        .def("setDistanceFilter", (void (Sound2D::*)(bool)) &Sound2D::setDistanceFilter)
+//        .def("setDistanceFilterCustomLevel", (void (Sound2D::*)(float)) &Sound2D::setDistanceFilterCustomLevel)
+//        .def("setDistanceFilterCentreFrequency", (void (Sound2D::*)(float)) &Sound2D::setDistanceFilterCentreFrequency)
+//        .def("getAudibility", (float (Sound2D::*)()) &Sound2D::getAudibility)
+//    ];
+//}
 

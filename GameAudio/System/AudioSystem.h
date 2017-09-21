@@ -29,26 +29,27 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-// LUA AND LUABIND Includes
-extern "C"
-{
-    #include <lua.h>
-    #include <lualib.h>
-    #include <lauxlib.h>
-}
-#include <luabind/luabind.hpp>
+//// LUA AND LUABIND Includes
+//extern "C"
+//{
+//    #include <lua.h>
+//    #include <lualib.h>
+//    #include <lauxlib.h>
+//}
+//#include <luabind/luabind.hpp>
+//#include <luabind/operator.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
-#include "SoundSample.h"
-#include "Sound.h"
-#include "Sound2D.h"
-#include "Sound3D.h"
-#include "Stream.h"
-#include "Stream2D.h"
-#include "Stream3D.h"
-#include "Music.h"
-//#include "IDSPEffect.h"
+#include "Sound/SoundSample.h"
+#include "Sound/Sound.h"
+#include "Sound/Sound2D.h"
+#include "Sound/Sound3D.h"
+#include "Stream/Stream.h"
+#include "Stream/Stream2D.h"
+#include "Stream/Stream3D.h"
+#include "Music/Music.h"
+//#include "DSP/IDSPEffect.h"
 
 /** The AudioSystem class intialises and shutdowns the audio system along with
     setting important things like volume, balance, allowing you to mute audio,
@@ -194,7 +195,7 @@ class AudioSystem
         //FMOD_RESULT F_API FMOD_System_GetDriver                 (FMOD_SYSTEM *system, int *driver);
         /** @brief Get Max Software Channels
           * @return softwareChannels Get the maximum number of software mixed channels possible. **/
-        virtual int getMaxSoftwareChannel();
+        virtual int getMaxSoftwareChannels();
         /** @brief Set Max Software Channels
           * @param softwareChannels Sets the maximum number of software mixed channels possible. **/
         virtual void setMaxSoftwareChannels(int maxSoftwareChannels);
@@ -450,16 +451,22 @@ class AudioSystem
         /** @brief Set the Stereo Balance
           * @param value -1.0 for full left pan, 0.0 for centre and 1.0 for full right **/
         virtual void setBalance(float balance);
-        /** @brief Is the AudioSystem muted
+
+    public:
+        /** @brief Is Sound Effects muted
           * @return true if mute otherwise false **/
-        virtual bool isMute() { return this->muteFlag; }
-        /** @brief Set MuteState for the AudioSystem
-          * @param state true to mute, false to unmute **/
-        virtual void setMute(bool state);
-        /** @brief Mute the AudioSystem **/
-        virtual void mute();
-        /** @brief Unmute the AudioSystem **/
-        virtual void unmute();
+        virtual bool isSoundEffectsMute() { return this->muteSoundEffectsFlag; }
+        /** @brief Is the Music muted
+          * @return true if mute otherwise false **/
+        virtual bool isMusicMute() { return this->muteMusicFlag; }
+        /** @brief mute Sound Effects **/
+        virtual void muteSoundEffects();
+        /** @brief unmute Sound Effects **/
+        virtual void unmuteSoundEffects();
+        /** @brief mute the Music */
+        virtual void muteMusic();
+        /** @brief unmute the Music **/
+        virtual void unmuteMusic();
 
     protected:
         // Sound Effects Volume
@@ -468,8 +475,10 @@ class AudioSystem
         int musicVolume;
         // balance
         float balance;
-        // Mute Flag
-        bool muteFlag;
+        // Mute Music Flag
+        bool muteSoundEffectsFlag;
+        // Mute Music Flag
+        bool muteMusicFlag;
 
     // *************
     // * RECORDING *
@@ -635,14 +644,13 @@ class AudioSystem
     protected:
         // Members and methods
 
-    // ****************
-    // * LUA BINDINGS *
-    // ****************
-    public:
-        /** @brief Bind this class to a lua state
-          * @param pLuaState The LuaState to bind this class to **/
-        static void bindToLua(lua_State* pLuaState);
-
+//    // ****************
+//    // * LUA BINDINGS *
+//    // ****************
+//    public:
+//        /** @brief Bind this class to a lua state
+//          * @param pLuaState The LuaState to bind this class to **/
+//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // AUDIOSYSTEM_H

@@ -26,6 +26,16 @@ Stream2D::~Stream2D()
 
 }
 
+Stream2D::Stream2D(const Stream2D& other) : Stream()
+{
+
+}
+
+Stream2D& Stream2D::operator=(const Stream2D& other)
+{
+    return *this;
+}
+
 bool Stream2D::load(std::string filename)
 {
     // If there is an existing sound stream then get rid of it
@@ -68,6 +78,8 @@ void Stream2D::update(float dTime)
 {
     // Call the base update method
     Stream::update(dTime);
+    // Set Position
+    this->setPosition(this->x, this->y);
 }
 
 void Stream2D::clear()
@@ -89,6 +101,30 @@ void Stream2D::free()
     this->maxDistance = 10000.0f;
     // Call free from the base Class
     Stream::free();
+}
+
+void Stream2D::reset()
+{
+    // Reset
+    Stream::reset();
+    // Reset Position
+    this->x = startX;
+    this->y = startY;
+    // Reset Velocity
+    this->xVelocity = this->startXVelocity;
+    this->yVelocity = this->startYVelocity;
+}
+
+void Stream2D::start()
+{
+    // Start Position
+    this->x = startX;
+    this->y = startY;
+    // Start Velocity
+    this->xVelocity = this->startXVelocity;
+    this->yVelocity = this->startYVelocity;
+    // Start
+    Stream2D::play();
 }
 
 void Stream2D::play()
@@ -175,6 +211,22 @@ void Stream2D::setPosition(float x, float y)
     FMOD_Channel_Set3DAttributes(this->pChannel, &position, &velocity, &altPanPos);
 }
 
+float Stream2D::getStartX()
+{
+    return this->startX;
+}
+
+float Stream2D::getStartY()
+{
+    return this->startY;
+}
+
+void Stream2D::setStartPosition(float startX, float startY)
+{
+    this->startX = startX;
+    this->startY = startY;
+}
+
 float Stream2D::getXVelocity()
 {
     //return xVelocity
@@ -210,6 +262,22 @@ void Stream2D::setVelocity(float xVelocity, float yVelocity)
         altPanPos.z = 0.0f;
     // Set Position of the Channel
     FMOD_Channel_Set3DAttributes(this->pChannel, &position, &velocity, &altPanPos);
+}
+
+float Stream2D::getStartXVelocity()
+{
+    return this->startXVelocity;
+}
+
+float Stream2D::getStartYVelocity()
+{
+    return this->startYVelocity;
+}
+
+void Stream2D::setStartVelocity(float startXVelocity, float startYStartVelocity)
+{
+    this->startXVelocity = startXVelocity;
+    this->startYVelocity = startYVelocity;
 }
 
 float Stream2D::getMinDistance()
@@ -332,84 +400,84 @@ float Stream2D::getAudibility()
     return audibility;
 }
 
-void Stream2D::bindToLua(lua_State* pLuaState)
-{
-    // Bind functions to lua state
-    luabind::module(pLuaState)
-    [
-        luabind::class_<Stream2D>("Stream2D")
-        .def(luabind::constructor<>())
-        // GENERAL
-        .def("load", (bool (Stream2D::*)(std::string)) &Stream2D::load)
-        .def("play", (void (Stream2D::*)()) &Stream2D::play)
-        .def("playEx", (void (Stream2D::*)()) &Stream2D::playEx)
-        .def("start", (void (Stream2D::*)()) &Stream2D::start)
-        .def("stop", (void (Stream2D::*)()) &Stream2D::stop)
-        .def("reset", (void (Stream2D::*)()) &Stream2D::reset)
-        .def("isPaused", (bool(Stream2D::*)()) &Stream2D::isPaused)
-        .def("setPaused", (void (Stream2D::*)(bool)) &Stream2D::setPaused)
-        .def("pause", (void (Stream2D::*)()) &Stream2D::pause)
-        .def("resume", (void (Stream2D::*)()) &Stream2D::resume)
-        .def("isPlaying", (bool(Stream2D::*)()) &Stream2D::isPlaying)
-        .def("clear", (void (Stream2D::*)()) &Stream2D::clear)
-        .def("free", (void(Stream2D::*)()) &Stream2D::free)
-        .def("getVolume", (float (Stream2D::*)()) &Stream2D::getVolume)
-        .def("setVolume", (void (Stream2D::*)(float)) &Stream2D::setVolume)
-        .def("isVolumeRamping", (bool(Stream2D::*)()) &Stream2D::isVolumeRamping)
-        .def("setVolumeRamping", (void (Stream2D::*)(bool)) &Stream2D::setVolumeRamping)
-        .def("getPitch", (float (Stream2D::*)()) &Stream2D::getPitch)
-        .def("setPitch", (void (Stream2D::*)(float)) &Stream2D::setPitch)
-        .def("isMute", (bool(Stream2D::*)()) &Stream2D::isMute)
-        .def("setMute", (void (Stream2D::*)(bool)) &Stream2D::setMute)
-        .def("mute", (void (Stream2D::*)()) &Stream2D::mute)
-        .def("unmute", (void (Stream2D::*)()) &Stream2D::unmute)
-        .def("getReverbWet", (float (Stream2D::*)(int)) &Stream2D::getReverbWet)
-        .def("setReverbWet", (void (Stream2D::*)(int, float)) &Stream2D::setReverbWet)
-        .def("getLowPassGain", (float (Stream2D::*)()) &Stream2D::getLowPassGain)
-        .def("setLowPassGain", (void (Stream2D::*)(float)) &Stream2D::setLowPassGain)
-        .def("getMode", (unsigned int (Stream2D::*)()) &Stream2D::getMode)
-        .def("setMode", (void (Stream2D::*)(unsigned int)) &Stream2D::setMode)
-        .def("getBalance", (float (Stream2D::*)()) &Stream2D::getBalance)
-        .def("setBalance", (void (Stream2D::*)(float)) &Stream2D::setBalance)
-        .def("getFrequency", (float (Stream2D::*)()) &Stream2D::getFrequency)
-        .def("setFrequency", (void (Stream2D::*)(float)) &Stream2D::setFrequency)
-        .def("getPriority", (int (Stream2D::*)()) &Stream2D::getPriority)
-        .def("setPriority", (void (Stream2D::*)(int)) &Stream2D::setPriority)
-        .def("isLoop", (bool(Stream2D::*)()) &Stream2D::isLoop)
-        .def("setLoop", (void (Stream2D::*)(bool)) &Stream2D::setLoop)
-        .def("isChannelVirtual", (bool(Stream2D::*)()) &Stream2D::isChannelVirtual)
-        // FILENAME
-        .def("getFilename", (std::string (Stream2D::*)()) &Stream2D::getFilename)
-        // ENABLED
-        .def("isEnabled", (bool(Stream2D::*)()) &Stream2D::isEnabled)
-        .def("setEnabled", (void (Stream2D::*)(bool)) &Stream2D::setEnabled)
-        .def("enable", (void (Stream2D::*)()) &Stream2D::enable)
-        .def("disable", (void (Stream2D::*)()) &Stream2D::disable)
-        // NAME
-        .def("getName", (std::string (Stream2D::*)()) &Stream2D::getName)
-        .def("setName", (void (Stream2D::*)(std::string)) &Stream2D::setName)
-        .def("isNamed", (bool(Stream2D::*)()) &Stream2D::isNamed)
-        .def("clearName", (void (Stream2D::*)()) &Stream::clearName)
-        // SPACIAL CHANNEL FUNCTIONS
-        .def("getX", (float (Stream2D::*)()) &Stream2D::getX)
-        .def("getY", (float (Stream2D::*)()) &Stream2D::getY)
-        .def("setPosition", (float (Stream2D::*)(float, float)) &Stream2D::setPosition)
-        .def("getXVelocity", (float (Stream2D::*)()) &Stream2D::getXVelocity)
-        .def("getYVelocity", (float (Stream2D::*)()) &Stream2D::getYVelocity)
-        .def("setVelocity", (float (Stream2D::*)(float, float)) &Stream2D::setVelocity)
-        .def("getMinDistance", (float (Stream2D::*)()) &Stream2D::getMinDistance)
-        .def("getMaxDistance", (float (Stream2D::*)()) &Stream2D::getMaxDistance)
-        .def("setMinMaxDistance", (float (Stream2D::*)(float, float)) &Stream2D::setMinMaxDistance)
-        .def("getLevel", (float (Stream2D::*)()) &Stream2D::getLevel)
-        .def("setLevel", (void (Stream2D::*)(float)) &Stream2D::setLevel)
-        .def("getDopplerLevel", (float (Stream2D::*)()) &Stream2D::getDopplerLevel)
-        .def("setDopplerLevel", (void (Stream2D::*)(float)) &Stream2D::setDopplerLevel)
-        .def("isDistanceFilter", (bool(Stream2D::*)()) &Stream2D::isDistanceFilter)
-        .def("getCustomLevel", (float (Stream2D::*)()) &Stream2D::getCustomLevel)
-        .def("getCentreFrequency", (float (Stream2D::*)()) &Stream2D::getCentreFrequency)
-        .def("setDistanceFilter", (void (Stream2D::*)(bool)) &Stream2D::setDistanceFilter)
-        .def("setDistanceFilterCustomLevel", (void (Stream2D::*)(float)) &Stream2D::setDistanceFilterCustomLevel)
-        .def("setDistanceFilterCentreFrequency", (void (Stream2D::*)(float)) &Stream2D::setDistanceFilterCentreFrequency)
-        .def("getAudibility", (float (Stream2D::*)()) &Stream2D::getAudibility)
-    ];
-}
+//void Stream2D::bindToLua(lua_State* pLuaState)
+//{
+//    // Bind functions to lua state
+//    luabind::module(pLuaState)
+//    [
+//        luabind::class_<Stream2D>("Stream2D")
+//        .def(luabind::constructor<>())
+//        // GENERAL
+//        .def("load", (bool (Stream2D::*)(std::string)) &Stream2D::load)
+//        .def("play", (void (Stream2D::*)()) &Stream2D::play)
+//        .def("playEx", (void (Stream2D::*)()) &Stream2D::playEx)
+//        .def("start", (void (Stream2D::*)()) &Stream2D::start)
+//        .def("stop", (void (Stream2D::*)()) &Stream2D::stop)
+//        .def("reset", (void (Stream2D::*)()) &Stream2D::reset)
+//        .def("isPaused", (bool(Stream2D::*)()) &Stream2D::isPaused)
+//        .def("setPaused", (void (Stream2D::*)(bool)) &Stream2D::setPaused)
+//        .def("pause", (void (Stream2D::*)()) &Stream2D::pause)
+//        .def("resume", (void (Stream2D::*)()) &Stream2D::resume)
+//        .def("isPlaying", (bool(Stream2D::*)()) &Stream2D::isPlaying)
+//        .def("clear", (void (Stream2D::*)()) &Stream2D::clear)
+//        .def("free", (void(Stream2D::*)()) &Stream2D::free)
+//        .def("getVolume", (float (Stream2D::*)()) &Stream2D::getVolume)
+//        .def("setVolume", (void (Stream2D::*)(float)) &Stream2D::setVolume)
+//        .def("isVolumeRamping", (bool(Stream2D::*)()) &Stream2D::isVolumeRamping)
+//        .def("setVolumeRamping", (void (Stream2D::*)(bool)) &Stream2D::setVolumeRamping)
+//        .def("getPitch", (float (Stream2D::*)()) &Stream2D::getPitch)
+//        .def("setPitch", (void (Stream2D::*)(float)) &Stream2D::setPitch)
+//        .def("isMute", (bool(Stream2D::*)()) &Stream2D::isMute)
+//        .def("setMute", (void (Stream2D::*)(bool)) &Stream2D::setMute)
+//        .def("mute", (void (Stream2D::*)()) &Stream2D::mute)
+//        .def("unmute", (void (Stream2D::*)()) &Stream2D::unmute)
+//        .def("getReverbWet", (float (Stream2D::*)(int)) &Stream2D::getReverbWet)
+//        .def("setReverbWet", (void (Stream2D::*)(int, float)) &Stream2D::setReverbWet)
+//        .def("getLowPassGain", (float (Stream2D::*)()) &Stream2D::getLowPassGain)
+//        .def("setLowPassGain", (void (Stream2D::*)(float)) &Stream2D::setLowPassGain)
+//        .def("getMode", (unsigned int (Stream2D::*)()) &Stream2D::getMode)
+//        .def("setMode", (void (Stream2D::*)(unsigned int)) &Stream2D::setMode)
+//        .def("getBalance", (float (Stream2D::*)()) &Stream2D::getBalance)
+//        .def("setBalance", (void (Stream2D::*)(float)) &Stream2D::setBalance)
+//        .def("getFrequency", (float (Stream2D::*)()) &Stream2D::getFrequency)
+//        .def("setFrequency", (void (Stream2D::*)(float)) &Stream2D::setFrequency)
+//        .def("getPriority", (int (Stream2D::*)()) &Stream2D::getPriority)
+//        .def("setPriority", (void (Stream2D::*)(int)) &Stream2D::setPriority)
+//        .def("isLoop", (bool(Stream2D::*)()) &Stream2D::isLoop)
+//        .def("setLoop", (void (Stream2D::*)(bool)) &Stream2D::setLoop)
+//        .def("isChannelVirtual", (bool(Stream2D::*)()) &Stream2D::isChannelVirtual)
+//        // FILENAME
+//        .def("getFilename", (std::string (Stream2D::*)()) &Stream2D::getFilename)
+//        // ENABLED
+//        .def("isEnabled", (bool(Stream2D::*)()) &Stream2D::isEnabled)
+//        .def("setEnabled", (void (Stream2D::*)(bool)) &Stream2D::setEnabled)
+//        .def("enable", (void (Stream2D::*)()) &Stream2D::enable)
+//        .def("disable", (void (Stream2D::*)()) &Stream2D::disable)
+//        // NAME
+//        .def("getName", (std::string (Stream2D::*)()) &Stream2D::getName)
+//        .def("setName", (void (Stream2D::*)(std::string)) &Stream2D::setName)
+//        .def("isNamed", (bool(Stream2D::*)()) &Stream2D::isNamed)
+//        .def("clearName", (void (Stream2D::*)()) &Stream::clearName)
+//        // SPACIAL CHANNEL FUNCTIONS
+//        .def("getX", (float (Stream2D::*)()) &Stream2D::getX)
+//        .def("getY", (float (Stream2D::*)()) &Stream2D::getY)
+//        .def("setPosition", (float (Stream2D::*)(float, float)) &Stream2D::setPosition)
+//        .def("getXVelocity", (float (Stream2D::*)()) &Stream2D::getXVelocity)
+//        .def("getYVelocity", (float (Stream2D::*)()) &Stream2D::getYVelocity)
+//        .def("setVelocity", (float (Stream2D::*)(float, float)) &Stream2D::setVelocity)
+//        .def("getMinDistance", (float (Stream2D::*)()) &Stream2D::getMinDistance)
+//        .def("getMaxDistance", (float (Stream2D::*)()) &Stream2D::getMaxDistance)
+//        .def("setMinMaxDistance", (float (Stream2D::*)(float, float)) &Stream2D::setMinMaxDistance)
+//        .def("getLevel", (float (Stream2D::*)()) &Stream2D::getLevel)
+//        .def("setLevel", (void (Stream2D::*)(float)) &Stream2D::setLevel)
+//        .def("getDopplerLevel", (float (Stream2D::*)()) &Stream2D::getDopplerLevel)
+//        .def("setDopplerLevel", (void (Stream2D::*)(float)) &Stream2D::setDopplerLevel)
+//        .def("isDistanceFilter", (bool(Stream2D::*)()) &Stream2D::isDistanceFilter)
+//        .def("getCustomLevel", (float (Stream2D::*)()) &Stream2D::getCustomLevel)
+//        .def("getCentreFrequency", (float (Stream2D::*)()) &Stream2D::getCentreFrequency)
+//        .def("setDistanceFilter", (void (Stream2D::*)(bool)) &Stream2D::setDistanceFilter)
+//        .def("setDistanceFilterCustomLevel", (void (Stream2D::*)(float)) &Stream2D::setDistanceFilterCustomLevel)
+//        .def("setDistanceFilterCentreFrequency", (void (Stream2D::*)(float)) &Stream2D::setDistanceFilterCentreFrequency)
+//        .def("getAudibility", (float (Stream2D::*)()) &Stream2D::getAudibility)
+//    ];
+//}

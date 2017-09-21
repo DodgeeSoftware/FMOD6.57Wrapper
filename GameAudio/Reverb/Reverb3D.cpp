@@ -20,6 +20,11 @@ Reverb3D::~Reverb3D()
 
 }
 
+Reverb3D::Reverb3D(const Reverb3D& other)
+{
+
+}
+
 bool Reverb3D::create()
 {
     // If we already have an FMODReverb3D object then don't make another one
@@ -129,26 +134,26 @@ void Reverb3D::setMinMaxDistance(float minDistance, float maxDistance)
     FMOD_Reverb3D_Set3DAttributes(this->pFMODReverb3D, &position, this->minDistance, this->maxDistance);
 }
 
-void Reverb3D::bindToLua(lua_State* pLuaState)
-{
-    // Bind functions to lua state
-    luabind::module(pLuaState)
-    [
-        luabind::class_<Reverb3D>("Reverb3D")
-        .def(luabind::constructor<>())
-        // GENERAL
-        .def("create", (void (Reverb3D::*)()) &Reverb3D::create)
-        .def("release", (void (Reverb3D::*)()) &Reverb3D::release)
-        .def("isActive", (bool(Reverb3D::*)()) &Reverb3D::isActive)
-        .def("setActive", (void (Reverb3D::*)(bool)) &Reverb3D::setActive)
-        .def("activate", (void (Reverb3D::*)()) &Reverb3D::activate)
-        .def("deactivate", (void (Reverb3D::*)()) &Reverb3D::deactivate)
-        .def("getX", (float (Reverb3D::*)()) &Reverb3D::getX)
-        .def("getY", (float (Reverb3D::*)()) &Reverb3D::getY)
-        .def("getZ", (float (Reverb3D::*)()) &Reverb3D::getZ)
-        .def("setPosition", (float (Reverb3D::*)(float, float, float)) &Reverb3D::setPosition)
-        .def("getMinDistance", (float (Reverb3D::*)()) &Reverb3D::getMinDistance)
-        .def("getMaxDistance", (float (Reverb3D::*)()) &Reverb3D::getMaxDistance)
-        .def("setMinMaxDistance", (float (Reverb3D::*)(float, float)) &Reverb3D::setMinMaxDistance)
-    ];
-}
+//void Reverb3D::bindToLua(lua_State* pLuaState)
+//{
+//    // Bind functions to lua state
+//    luabind::module(pLuaState)
+//    [
+//        luabind::class_<Reverb3D>("Reverb3D")
+//        .def(luabind::constructor<>())
+//        // GENERAL
+//        .def("create", (void (Reverb3D::*)()) &Reverb3D::create)
+//        .def("release", (void (Reverb3D::*)()) &Reverb3D::release)
+//        .def("isActive", (bool(Reverb3D::*)()) &Reverb3D::isActive)
+//        .def("setActive", (void (Reverb3D::*)(bool)) &Reverb3D::setActive)
+//        .def("activate", (void (Reverb3D::*)()) &Reverb3D::activate)
+//        .def("deactivate", (void (Reverb3D::*)()) &Reverb3D::deactivate)
+//        .def("getX", (float (Reverb3D::*)()) &Reverb3D::getX)
+//        .def("getY", (float (Reverb3D::*)()) &Reverb3D::getY)
+//        .def("getZ", (float (Reverb3D::*)()) &Reverb3D::getZ)
+//        .def("setPosition", (void (Reverb3D::*)(float, float, float)) &Reverb3D::setPosition)
+//        .def("getMinDistance", (float (Reverb3D::*)()) &Reverb3D::getMinDistance)
+//        .def("getMaxDistance", (float (Reverb3D::*)()) &Reverb3D::getMaxDistance)
+//        .def("setMinMaxDistance", (float (Reverb3D::*)(float, float)) &Reverb3D::setMinMaxDistance)
+//    ];
+//}

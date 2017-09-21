@@ -10,6 +10,11 @@ DSPConnection::~DSPConnection()
 
 }
 
+DSPConnection::DSPConnection(DSPConnection& other)
+{
+
+}
+
 FMOD_DSP* DSPConnection::getInputDSP()
 {
     // Grab DSP

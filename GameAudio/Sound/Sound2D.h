@@ -20,14 +20,15 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-// LUA AND LUABIND Includes
-extern "C"
-{
-    #include <lua.h>
-    #include <lualib.h>
-    #include <lauxlib.h>
-}
-#include <luabind/luabind.hpp>
+//// LUA AND LUABIND Includes
+//extern "C"
+//{
+//    #include <lua.h>
+//    #include <lualib.h>
+//    #include <lauxlib.h>
+//}
+//#include <luabind/luabind.hpp>
+//#include <luabind/operator.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
@@ -75,6 +76,10 @@ class Sound2D : public Sound
         virtual void clear();
         /** @brief free the stream **/
         virtual void free();
+        /** @brief reset **/
+        virtual void reset();
+        /** @brief start **/
+        virtual void start();
 
     public:
         /** @brief Play the sound **/
@@ -96,6 +101,16 @@ class Sound2D : public Sound
           * @param x x position
           * @param y y position **/
         virtual void setPosition(float x, float y);
+        /** @brief Get StartX Position
+          * @return startX startX position **/
+        virtual float getStartX();
+        /** @brief Get StartY Position
+          * @return startY startY position **/
+        virtual float getStartY();
+        /** @brief Set Start Position
+          * @param startx start x position
+          * @param starty start y position **/
+        virtual void setStartPosition(float startX, float startY);
         /** @brief Get X Velocity
           * @return x velocity **/
         virtual float getXVelocity();
@@ -106,6 +121,16 @@ class Sound2D : public Sound
           * @param xVelocity x Velocity
           * @param yVelocity y Velocity **/
         virtual void setVelocity(float xVelocity, float yVelocity);
+        /** @brief Get StartX Velocity
+          * @return startXVelocity **/
+        virtual float getStartXVelocity();
+        /** @brief Get StartYVelocity
+          * @return startYVelocity **/
+        virtual float getStartYVelocity();
+        /** @brief Set Start Velocity
+          * @param xStartVelocity xStartVelocity
+          * @param yStartVelocity yStartVelocity **/
+        virtual void setStartVelocity(float xStartVelocity, float yStartVelocity);
         /** @brief Get min distance
           * @return min Distance the sound can be heard **/
         virtual float getMinDistance();
@@ -171,14 +196,22 @@ class Sound2D : public Sound
         virtual float getAudibility();
 
     protected:
-        // Horizontal Position
+        // x
         float x;
-        // Vertical Position
+        // y
         float y;
-        // Horizontal Velocity
+        // startX
+        float startX;
+        // startY
+        float startY;
+        // XVelocity
         float xVelocity;
-        // Vertical Velocity
+        // YVelocity
         float yVelocity;
+        // Start XVelocity
+        float startXVelocity;
+        // Start YVelocity
+        float startYVelocity;
         // The smaller (0.1f - 0.3f) this value the shorter range the sound is audible
         float minDistance;
         // Usually 100000.0f and safely ignored
@@ -194,13 +227,13 @@ class Sound2D : public Sound
         // centre frequency
         float centreFrequency;
 
-    // ****************
-    // * LUA BINDINGS *
-    // ****************
-    public:
-        /** @brief Bind this class to a lua state
-          * @param pLuaState The LuaState to bind this class to **/
-        static void bindToLua(lua_State* pLuaState);
+//    // ****************
+//    // * LUA BINDINGS *
+//    // ****************
+//    public:
+//        /** @brief Bind this class to a lua state
+//          * @param pLuaState The LuaState to bind this class to **/
+//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // SOUND2D_H

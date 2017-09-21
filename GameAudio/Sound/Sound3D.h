@@ -20,14 +20,15 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-// LUA AND LUABIND Includes
-extern "C"
-{
-    #include <lua.h>
-    #include <lualib.h>
-    #include <lauxlib.h>
-}
-#include <luabind/luabind.hpp>
+//// LUA AND LUABIND Includes
+//extern "C"
+//{
+//    #include <lua.h>
+//    #include <lualib.h>
+//    #include <lauxlib.h>
+//}
+//#include <luabind/luabind.hpp>
+//#include <luabind/operator.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
@@ -75,6 +76,10 @@ class Sound3D : public Sound
         virtual void clear();
         /** @brief free the stream **/
         virtual void free();
+        /** @brief reset **/
+        virtual void reset();
+        /** @brief start **/
+        virtual void start();
 
     public:
         /** @brief Play the sound **/
@@ -100,6 +105,19 @@ class Sound3D : public Sound
           * @param y y position
           * @param z z position **/
         virtual void setPosition(float x, float y, float z);
+        /** @brief Get StartX Position
+          * @return startX startX position **/
+        virtual float getStartX();
+        /** @brief Get StartY Position
+          * @return startY startY position **/
+        virtual float getStartY();
+        /** @brief Get StartZ Position
+          * @return startZ startZ position **/
+        virtual float getStartZ();
+        /** @brief Set Start Position
+          * @param startx start x position
+          * @param starty start y position **/
+        virtual void setStartPosition(float startX, float startY, float startZ);
         /** @brief Get X Velocity
           * @return x velocity **/
         virtual float getXVelocity();
@@ -114,6 +132,20 @@ class Sound3D : public Sound
           * @param yVelocity y Velocity
           * @param zVelocity z Velocity **/
         virtual void setVelocity(float xVelocity, float yVelocity, float zVelocity);
+        /** @brief Get Start X Velocity
+          * @return x velocity **/
+        virtual float getStartXVelocity();
+        /** @brief Get Start Y Velocity
+          * @return y velocity **/
+        virtual float getStartYVelocity();
+        /** @brief Get Start Z Velocity
+          * @return z velocity **/
+        virtual float getStartZVelocity();
+        /** @brief Set Start Velocity
+          * @param startXVelocity x Velocity
+          * @param startYVelocity y Velocity
+          * @param startZVelocity z Velocity **/
+        virtual void setStartVelocity(float startXVelocity, float startYVelocity, float startZVelocity);
         /** @brief Get min distance
           * @return min Distance the sound can be heard **/
         virtual float getMinDistance();
@@ -214,18 +246,30 @@ class Sound3D : public Sound
         virtual float getAudibility();
 
     protected:
-        // Horizontal Position
+        // x
         float x;
-        // Vertical Position
+        // y
         float y;
-        // Depth Position
+        // z
         float z;
-        // Horizontal Velocity
+        // startX
+        float startX;
+        // startY
+        float startY;
+        // startZ
+        float startZ;
+        // XVelocity
         float xVelocity;
-        // Vertical Velocity
+        // YVelocity
         float yVelocity;
-        // Depth Velocity
+        // ZVelocity
         float zVelocity;
+        // Start XVelocity
+        float startXVelocity;
+        // Start YVelocity
+        float startYVelocity;
+        // Start ZVelocity
+        float startZVelocity;
         // The smaller (0.1f - 0.3f) this value the shorter range the sound is audible
         float minDistance;
         // Usually 100000.0f and safely ignored
@@ -257,13 +301,13 @@ class Sound3D : public Sound
         // centre frequency
         float centreFrequency;
 
-    // ****************
-    // * LUA BINDINGS *
-    // ****************
-    public:
-        /** @brief Bind this class to a lua state
-          * @param pLuaState The LuaState to bind this class to **/
-        static void bindToLua(lua_State* pLuaState);
+//    // ****************
+//    // * LUA BINDINGS *
+//    // ****************
+//    public:
+//        /** @brief Bind this class to a lua state
+//          * @param pLuaState The LuaState to bind this class to **/
+//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // SOUND3D_H

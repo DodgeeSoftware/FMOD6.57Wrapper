@@ -11,6 +11,16 @@ SoundGroup::~SoundGroup()
 
 }
 
+SoundGroup::SoundGroup(SoundGroup& other)
+{
+
+}
+
+SoundGroup& SoundGroup::operator=(const SoundGroup& other)
+{
+    return *this;
+}
+
 FMOD_SYSTEM* SoundGroup::getSystemObject()
 {
     // Get System Object for the SoundGroup

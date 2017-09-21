@@ -30,7 +30,7 @@ class SoundGroup
 
     protected:
         //! Copy Constructor
-        SoundGroup(SoundGroup& other) {}
+        SoundGroup(SoundGroup& other);
 
     // ************************
     // * OVERLOADED OPERATORS *
@@ -40,7 +40,7 @@ class SoundGroup
 
     protected:
         //! SoundGroup Assignment operator
-        SoundGroup& operator=(const SoundGroup& other) { return *this; }
+        SoundGroup& operator=(const SoundGroup& other);
 
     // ************************
     // * SOUNDGROUP FUNCTIONS *

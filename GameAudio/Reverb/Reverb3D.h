@@ -10,14 +10,15 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-// LUA AND LUABIND Includes
-extern "C"
-{
-    #include <lua.h>
-    #include <lualib.h>
-    #include <lauxlib.h>
-}
-#include <luabind/luabind.hpp>
+//// LUA AND LUABIND Includes
+//extern "C"
+//{
+//    #include <lua.h>
+//    #include <lualib.h>
+//    #include <lauxlib.h>
+//}
+//#include <luabind/luabind.hpp>
+//#include <luabind/operator.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
@@ -36,7 +37,7 @@ class Reverb3D
 
     protected:
         //! Reverb3D Copy constructor
-        Reverb3D(const Reverb3D& other) {}
+        Reverb3D(const Reverb3D& other);
 
     // ************************
     // * OVERLOADED OPERATORS *
@@ -111,13 +112,13 @@ class Reverb3D
         // Usually 100000.0f and safely ignored
         float maxDistance;
 
-    // ****************
-    // * LUA BINDINGS *
-    // ****************
-    public:
-        /** @brief Bind this class to a lua state
-          * @param pLuaState The LuaState to bind this class to **/
-        static void bindToLua(lua_State* pLuaState);
+//    // ****************
+//    // * LUA BINDINGS *
+//    // ****************
+//    public:
+//        /** @brief Bind this class to a lua state
+//          * @param pLuaState The LuaState to bind this class to **/
+//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // REVERB3D_H

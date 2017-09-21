@@ -27,7 +27,7 @@ class Channel
 
     protected:
         //! Channel Copy constructor
-        Channel(const Channel& other) {}
+        Channel(const Channel& other);
 
     // ************************
     // * OVERLOADED OPERATORS *
@@ -200,6 +200,12 @@ class Channel
         /** @brief Set the loop mode
           * @param loopFlag **/
         virtual void setLoop(bool loopFlag);
+        /** @brief Get the Loop count
+          * @return -1 for endless, 0 for once, anything higher is once plus value **/
+        virtual int getLoopCount();
+        /** @brief Set Loop Count
+          * @param loopCount: -1 for endless, 0 for once, anything higher is once plus value **/
+        virtual void setLoopCount(int loopCount);
         // Probably don't need these
         //FMOD_RESULT F_API FMOD_Channel_SetLoopPoints            (FMOD_CHANNEL *channel, unsigned int loopstart, FMOD_TIMEUNIT loopstarttype, unsigned int loopend, FMOD_TIMEUNIT loopendtype);
         //FMOD_RESULT F_API FMOD_Channel_GetLoopPoints            (FMOD_CHANNEL *channel, unsigned int *loopstart, FMOD_TIMEUNIT loopstarttype, unsigned int *loopend, FMOD_TIMEUNIT loopendtype);
@@ -233,11 +239,11 @@ class Channel
           * @param pDSP pointer to an FMOD_DSP Object
           * @param index index of the FMOD_DSP relative to the channel **/
         virtual void setDSPIndex(FMOD_DSP* pDSP, int index);
-        /** @brief overridePanDSP
-          * Replaces the built in panner unit FMOD uses per ChannelGroup and Channel, with a user selected panner.
-          * Can also be used to revert the panner back to the built in panner.
-          * @param pDSP pointer to an FMOD_DSP Object **/
-        virtual void overridePanDSP(FMOD_DSP* pDSP);
+//        /** @brief overridePanDSP
+//          * Replaces the built in panner unit FMOD uses per ChannelGroup and Channel, with a user selected panner.
+//          * Can also be used to revert the panner back to the built in panner.
+//          * @param pDSP pointer to an FMOD_DSP Object **/
+//        virtual void overridePanDSP(FMOD_DSP* pDSP);
 
     protected:
         // FMOD Channel
@@ -262,6 +268,8 @@ class Channel
         int priority;
         // Loop flag
         bool loopFlag;
+        // Loop count
+        int loopCount;
 
 };
 

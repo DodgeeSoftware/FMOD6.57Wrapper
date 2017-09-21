@@ -18,6 +18,16 @@ ChannelGroup::~ChannelGroup()
     this->pChannelGroup = 0;
 }
 
+ChannelGroup::ChannelGroup(ChannelGroup& other)
+{
+
+}
+
+ChannelGroup& ChannelGroup::operator=(const ChannelGroup& other)
+{
+    return *this;
+}
+
 bool ChannelGroup::create()
 {
     // Create the ChannelGroup
@@ -332,11 +342,11 @@ void ChannelGroup::setDSPIndex(FMOD_DSP* pDSP, int index)
     FMOD_ChannelGroup_SetDSPIndex(this->pChannelGroup, pDSP, index);
 }
 
-void ChannelGroup::overridePanDSP(FMOD_DSP* pDSP)
-{
-    // Set the DSP to override the Pan / Balance
-    FMOD_ChannelGroup_OverridePanDSP(this->pChannelGroup, pDSP);
-}
+//void ChannelGroup::overridePanDSP(FMOD_DSP* pDSP)
+//{
+//    // Set the DSP to override the Pan / Balance
+//    FMOD_ChannelGroup_OverridePanDSP(this->pChannelGroup, pDSP);
+//}
 
 FMOD_DSPCONNECTION* ChannelGroup::addChildChannelGroup(FMOD_CHANNELGROUP* pChildChannelGroup, bool inheritParentDSPClock)
 {

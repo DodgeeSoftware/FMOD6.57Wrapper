@@ -13,14 +13,15 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-// LUA AND LUABIND Includes
-extern "C"
-{
-    #include <lua.h>
-    #include <lualib.h>
-    #include <lauxlib.h>
-}
-#include <luabind/luabind.hpp>
+//// LUA AND LUABIND Includes
+//extern "C"
+//{
+//    #include <lua.h>
+//    #include <lualib.h>
+//    #include <lauxlib.h>
+//}
+//#include <luabind/luabind.hpp>
+//#include <luabind/operator.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
@@ -48,7 +49,7 @@ class SoundSample
 
     protected:
         //! SoundSample Assignment operator
-        SoundSample& operator=(const SoundSample& other) { return *this; }
+        SoundSample& operator=(const SoundSample& other);
 
     // *********************
     // * GENERAL FUNCTIONS *
@@ -234,13 +235,13 @@ class SoundSample
         // Sound filename
         std::string filename;
 
-    // ****************
-    // * LUA BINDINGS *
-    // ****************
-    public:
-        /** @brief Bind this class to a lua state
-          * @param pLuaState The LuaState to bind this class to **/
-        static void bindToLua(lua_State* pLuaState);
+//    // ****************
+//    // * LUA BINDINGS *
+//    // ****************
+//    public:
+//        /** @brief Bind this class to a lua state
+//          * @param pLuaState The LuaState to bind this class to **/
+//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // SOUNDSAMPLE_H

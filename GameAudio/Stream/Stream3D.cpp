@@ -34,6 +34,16 @@ Stream3D::~Stream3D()
 
 }
 
+Stream3D::Stream3D(const Stream3D& other)  : Stream()
+{
+
+}
+
+Stream3D& Stream3D::operator=(const Stream3D& other)
+{
+
+}
+
 bool Stream3D::load(std::string filename)
 {
     // If there is an existing sound stream then get rid of it
@@ -76,6 +86,8 @@ void Stream3D::update(float dTime)
 {
     // Call the base update method
     Stream::update(dTime);
+    // Set Position
+    this->setPosition(this->x, this->y, this->z);
 }
 
 void Stream3D::clear()
@@ -113,6 +125,34 @@ void Stream3D::free()
     this->centreFrequency = 1500.0f;
     // Call free from the base Class
     Stream::free();
+}
+
+void Stream3D::reset()
+{
+    // Reset
+    Stream::reset();
+    // Reset Position
+    this->x = startX;
+    this->y = startY;
+    this->z = startZ;
+    // Reset Velocity
+    this->xVelocity = this->startXVelocity;
+    this->yVelocity = this->startYVelocity;
+    this->zVelocity = this->startZVelocity;
+}
+
+void Stream3D::start()
+{
+    // Start
+    Stream::start();
+    // Start Position
+    this->x = startX;
+    this->y = startY;
+    this->z = startZ;
+    // Start Velocity
+    this->xVelocity = this->startXVelocity;
+    this->yVelocity = this->startYVelocity;
+    this->zVelocity = this->startZVelocity;
 }
 
 void Stream3D::play()
@@ -199,6 +239,8 @@ void Stream3D::setPosition(float x, float y, float z)
     this->x = x;
     // Set Local y
     this->y = y;
+    // Set Local z
+    this->z = z;
     // Only set Channel Properties when we have a valid channel
     if (this->pChannel == 0)
         return;
@@ -219,6 +261,28 @@ void Stream3D::setPosition(float x, float y, float z)
         altPanPos.z = 0.0f;
     // Set Position of the Channel
     FMOD_Channel_Set3DAttributes(this->pChannel, &position, &velocity, &altPanPos);
+}
+
+float Stream3D::getStartX()
+{
+    return this->startX;
+}
+
+float Stream3D::getStartY()
+{
+    return this->startY;
+}
+
+float Stream3D::getStartZ()
+{
+    return this->startZ;
+}
+
+void Stream3D::setStartPosition(float startX, float startY, float startZ)
+{
+    this->startX = startX;
+    this->startY = startY;
+    this->startZ = startZ;
 }
 
 float Stream3D::getXVelocity()
@@ -249,12 +313,12 @@ void Stream3D::setVelocity(float xVelocity, float yVelocity, float zVelocity)
     FMOD_VECTOR position;
         position.x = this->x;
         position.y = this->y;
-        position.z = 0.0f;
+        position.z = this->z;
     // Velocity
     FMOD_VECTOR velocity;
         velocity.x = this->xVelocity;
         velocity.y = this->yVelocity;
-        velocity.z = 0.0f;
+        velocity.z = this->zVelocity;
     // AltPanPos
     FMOD_VECTOR altPanPos;
         altPanPos.x = 0.0f;
@@ -262,6 +326,28 @@ void Stream3D::setVelocity(float xVelocity, float yVelocity, float zVelocity)
         altPanPos.z = 0.0f;
     // Set Position of the Channel
     FMOD_Channel_Set3DAttributes(this->pChannel, &position, &velocity, &altPanPos);
+}
+
+float Stream3D::getStartXVelocity()
+{
+    return this->startXVelocity;
+}
+
+float Stream3D::getStartYVelocity()
+{
+    return this->startYVelocity;
+}
+
+float Stream3D::getStartZVelocity()
+{
+    return this->startZVelocity;
+}
+
+void Stream3D::setStartVelocity(float startXVelocity, float startYVelocity, float startZVelocity)
+{
+    this->startXVelocity = startXVelocity;
+    this->startYVelocity = startYVelocity;
+    this->startZVelocity = startZVelocity;
 }
 
 float Stream3D::getMinDistance()
@@ -475,98 +561,98 @@ float Stream3D::getAudibility()
     return audibility;
 }
 
-void Stream3D::bindToLua(lua_State* pLuaState)
-{
-    // Bind functions to lua state
-    luabind::module(pLuaState)
-    [
-        luabind::class_<Stream3D>("Stream3D")
-        .def(luabind::constructor<>())
-        // GENERAL
-        .def("load", (bool (Stream3D::*)(std::string)) &Stream3D::load)
-        .def("play", (void (Stream3D::*)()) &Stream3D::play)
-        .def("playEx", (void (Stream3D::*)()) &Stream3D::playEx)
-        .def("start", (void (Stream3D::*)()) &Stream3D::start)
-        .def("stop", (void (Stream3D::*)()) &Stream3D::stop)
-        .def("reset", (void (Stream3D::*)()) &Stream3D::reset)
-        .def("isPaused", (bool(Stream3D::*)()) &Stream3D::isPaused)
-        .def("setPaused", (void (Stream3D::*)(bool)) &Stream3D::setPaused)
-        .def("pause", (void (Stream3D::*)()) &Stream3D::pause)
-        .def("resume", (void (Stream3D::*)()) &Stream3D::resume)
-        .def("isPlaying", (bool(Stream3D::*)()) &Stream3D::isPlaying)
-        .def("clear", (void (Stream3D::*)()) &Stream3D::clear)
-        .def("free", (void(Stream3D::*)()) &Stream3D::free)
-        .def("getVolume", (float (Stream3D::*)()) &Stream3D::getVolume)
-        .def("setVolume", (void (Stream3D::*)(float)) &Stream3D::setVolume)
-        .def("isVolumeRamping", (bool(Stream3D::*)()) &Stream3D::isVolumeRamping)
-        .def("setVolumeRamping", (void (Stream3D::*)(bool)) &Stream3D::setVolumeRamping)
-        .def("getPitch", (float (Stream3D::*)()) &Stream3D::getPitch)
-        .def("setPitch", (void (Stream3D::*)(float)) &Stream3D::setPitch)
-        .def("isMute", (bool(Stream3D::*)()) &Stream3D::isMute)
-        .def("setMute", (void (Stream3D::*)(bool)) &Stream3D::setMute)
-        .def("mute", (void (Stream3D::*)()) &Stream3D::mute)
-        .def("unmute", (void (Stream3D::*)()) &Stream3D::unmute)
-        .def("getReverbWet", (float (Stream3D::*)(int)) &Stream3D::getReverbWet)
-        .def("setReverbWet", (void (Stream3D::*)(int, float)) &Stream3D::setReverbWet)
-        .def("getLowPassGain", (float (Stream3D::*)()) &Stream3D::getLowPassGain)
-        .def("setLowPassGain", (void (Stream3D::*)(float)) &Stream3D::setLowPassGain)
-        .def("getMode", (unsigned int (Stream3D::*)()) &Stream3D::getMode)
-        .def("setMode", (void (Stream3D::*)(unsigned int)) &Stream3D::setMode)
-        .def("getBalance", (float (Stream3D::*)()) &Stream3D::getBalance)
-        .def("setBalance", (void (Stream3D::*)(float)) &Stream3D::setBalance)
-        .def("getFrequency", (float (Stream3D::*)()) &Stream3D::getFrequency)
-        .def("setFrequency", (void (Stream3D::*)(float)) &Stream3D::setFrequency)
-        .def("getPriority", (int (Stream3D::*)()) &Stream3D::getPriority)
-        .def("setPriority", (void (Stream3D::*)(int)) &Stream3D::setPriority)
-        .def("isLoop", (bool(Stream3D::*)()) &Stream3D::isLoop)
-        .def("setLoop", (void (Stream3D::*)(bool)) &Stream3D::setLoop)
-        .def("isChannelVirtual", (bool(Stream3D::*)()) &Stream3D::isChannelVirtual)
-        // FILENAME
-        .def("getFilename", (std::string (Stream3D::*)()) &Stream3D::getFilename)
-        // ENABLED
-        .def("isEnabled", (bool(Stream3D::*)()) &Stream3D::isEnabled)
-        .def("setEnabled", (void (Stream3D::*)(bool)) &Stream3D::setEnabled)
-        .def("enable", (void (Stream3D::*)()) &Stream3D::enable)
-        .def("disable", (void (Stream3D::*)()) &Stream3D::disable)
-        // NAME
-        .def("getName", (std::string (Stream3D::*)()) &Stream3D::getName)
-        .def("setName", (void (Stream3D::*)(std::string)) &Stream3D::setName)
-        .def("isNamed", (bool(Stream3D::*)()) &Stream3D::isNamed)
-        .def("clearName", (void (Stream3D::*)()) &Stream::clearName)
-        // SPACIAL CHANNEL FUNCTIONS
-        .def("getX", (float (Stream3D::*)()) &Stream3D::getX)
-        .def("getY", (float (Stream3D::*)()) &Stream3D::getY)
-        .def("getZ", (float (Stream3D::*)()) &Stream3D::getZ)
-        .def("setPosition", (float (Stream3D::*)(float, float, float)) &Stream3D::setPosition)
-        .def("getXVelocity", (float (Stream3D::*)()) &Stream3D::getXVelocity)
-        .def("getYVelocity", (float (Stream3D::*)()) &Stream3D::getYVelocity)
-        .def("getZVelocity", (float (Stream3D::*)()) &Stream3D::getZVelocity)
-        .def("setVelocity", (float (Stream3D::*)(float, float, float)) &Stream3D::setVelocity)
-        .def("getMinDistance", (float (Stream3D::*)()) &Stream3D::getMinDistance)
-        .def("getMaxDistance", (float (Stream3D::*)()) &Stream3D::getMaxDistance)
-        .def("setMinMaxDistance", (float (Stream3D::*)(float, float)) &Stream3D::setMinMaxDistance)
-        .def("get3DConeInsideAngle", (float (Stream3D::*)()) &Stream3D::get3DConeInsideAngle)
-        .def("get3DConeOutsideAngle", (float (Stream3D::*)()) &Stream3D::get3DConeOutsideAngle)
-        .def("get3DConeOutsideVolume", (float (Stream3D::*)()) &Stream3D::get3DConeOutsideVolume)
-        .def("set3DConeSettings", (void (Stream3D::*)(float, float, float)) &Stream3D::set3DConeSettings)
-        .def("getRotationX", (float (Stream3D::*)()) &Stream3D::getRotationX)
-        .def("getRotationY", (float (Stream3D::*)()) &Stream3D::getRotationY)
-        .def("getRotationZ", (float (Stream3D::*)()) &Stream3D::getRotationZ)
-        .def("setRotation", (void (Stream3D::*)(float, float, float)) &Stream3D::setRotation)
-        .def("getDirectOcclusion", (float (Stream3D::*)()) &Stream3D::getDirectOcclusion)
-        .def("setDirectOcclusion", (void (Stream3D::*)(float)) &Stream3D::setDirectOcclusion)
-        .def("getReverbOcclusion", (float (Stream3D::*)()) &Stream3D::getReverbOcclusion)
-        .def("setReverbOcclusion", (void (Stream3D::*)(float)) &Stream3D::setReverbOcclusion)
-        .def("getLevel", (float (Stream3D::*)()) &Stream3D::getLevel)
-        .def("setLevel", (void (Stream3D::*)(float)) &Stream3D::setLevel)
-        .def("getDopplerLevel", (float (Stream3D::*)()) &Stream3D::getDopplerLevel)
-        .def("setDopplerLevel", (void (Stream3D::*)(float)) &Stream3D::setDopplerLevel)
-        .def("isDistanceFilter", (bool(Stream3D::*)()) &Stream3D::isDistanceFilter)
-        .def("getCustomLevel", (float (Stream3D::*)()) &Stream3D::getCustomLevel)
-        .def("getCentreFrequency", (float (Stream3D::*)()) &Stream3D::getCentreFrequency)
-        .def("setDistanceFilter", (void (Stream3D::*)(bool)) &Stream3D::setDistanceFilter)
-        .def("setDistanceFilterCustomLevel", (void (Stream3D::*)(float)) &Stream3D::setDistanceFilterCustomLevel)
-        .def("setDistanceFilterCentreFrequency", (void (Stream3D::*)(float)) &Stream3D::setDistanceFilterCentreFrequency)
-        .def("getAudibility", (float (Stream3D::*)()) &Stream3D::getAudibility)
-    ];
-}
+//void Stream3D::bindToLua(lua_State* pLuaState)
+//{
+//    // Bind functions to lua state
+//    luabind::module(pLuaState)
+//    [
+//        luabind::class_<Stream3D>("Stream3D")
+//        .def(luabind::constructor<>())
+//        // GENERAL
+//        .def("load", (bool (Stream3D::*)(std::string)) &Stream3D::load)
+//        .def("play", (void (Stream3D::*)()) &Stream3D::play)
+//        .def("playEx", (void (Stream3D::*)()) &Stream3D::playEx)
+//        .def("start", (void (Stream3D::*)()) &Stream3D::start)
+//        .def("stop", (void (Stream3D::*)()) &Stream3D::stop)
+//        .def("reset", (void (Stream3D::*)()) &Stream3D::reset)
+//        .def("isPaused", (bool(Stream3D::*)()) &Stream3D::isPaused)
+//        .def("setPaused", (void (Stream3D::*)(bool)) &Stream3D::setPaused)
+//        .def("pause", (void (Stream3D::*)()) &Stream3D::pause)
+//        .def("resume", (void (Stream3D::*)()) &Stream3D::resume)
+//        .def("isPlaying", (bool(Stream3D::*)()) &Stream3D::isPlaying)
+//        .def("clear", (void (Stream3D::*)()) &Stream3D::clear)
+//        .def("free", (void(Stream3D::*)()) &Stream3D::free)
+//        .def("getVolume", (float (Stream3D::*)()) &Stream3D::getVolume)
+//        .def("setVolume", (void (Stream3D::*)(float)) &Stream3D::setVolume)
+//        .def("isVolumeRamping", (bool(Stream3D::*)()) &Stream3D::isVolumeRamping)
+//        .def("setVolumeRamping", (void (Stream3D::*)(bool)) &Stream3D::setVolumeRamping)
+//        .def("getPitch", (float (Stream3D::*)()) &Stream3D::getPitch)
+//        .def("setPitch", (void (Stream3D::*)(float)) &Stream3D::setPitch)
+//        .def("isMute", (bool(Stream3D::*)()) &Stream3D::isMute)
+//        .def("setMute", (void (Stream3D::*)(bool)) &Stream3D::setMute)
+//        .def("mute", (void (Stream3D::*)()) &Stream3D::mute)
+//        .def("unmute", (void (Stream3D::*)()) &Stream3D::unmute)
+//        .def("getReverbWet", (float (Stream3D::*)(int)) &Stream3D::getReverbWet)
+//        .def("setReverbWet", (void (Stream3D::*)(int, float)) &Stream3D::setReverbWet)
+//        .def("getLowPassGain", (float (Stream3D::*)()) &Stream3D::getLowPassGain)
+//        .def("setLowPassGain", (void (Stream3D::*)(float)) &Stream3D::setLowPassGain)
+//        .def("getMode", (unsigned int (Stream3D::*)()) &Stream3D::getMode)
+//        .def("setMode", (void (Stream3D::*)(unsigned int)) &Stream3D::setMode)
+//        .def("getBalance", (float (Stream3D::*)()) &Stream3D::getBalance)
+//        .def("setBalance", (void (Stream3D::*)(float)) &Stream3D::setBalance)
+//        .def("getFrequency", (float (Stream3D::*)()) &Stream3D::getFrequency)
+//        .def("setFrequency", (void (Stream3D::*)(float)) &Stream3D::setFrequency)
+//        .def("getPriority", (int (Stream3D::*)()) &Stream3D::getPriority)
+//        .def("setPriority", (void (Stream3D::*)(int)) &Stream3D::setPriority)
+//        .def("isLoop", (bool(Stream3D::*)()) &Stream3D::isLoop)
+//        .def("setLoop", (void (Stream3D::*)(bool)) &Stream3D::setLoop)
+//        .def("isChannelVirtual", (bool(Stream3D::*)()) &Stream3D::isChannelVirtual)
+//        // FILENAME
+//        .def("getFilename", (std::string (Stream3D::*)()) &Stream3D::getFilename)
+//        // ENABLED
+//        .def("isEnabled", (bool(Stream3D::*)()) &Stream3D::isEnabled)
+//        .def("setEnabled", (void (Stream3D::*)(bool)) &Stream3D::setEnabled)
+//        .def("enable", (void (Stream3D::*)()) &Stream3D::enable)
+//        .def("disable", (void (Stream3D::*)()) &Stream3D::disable)
+//        // NAME
+//        .def("getName", (std::string (Stream3D::*)()) &Stream3D::getName)
+//        .def("setName", (void (Stream3D::*)(std::string)) &Stream3D::setName)
+//        .def("isNamed", (bool(Stream3D::*)()) &Stream3D::isNamed)
+//        .def("clearName", (void (Stream3D::*)()) &Stream::clearName)
+//        // SPACIAL CHANNEL FUNCTIONS
+//        .def("getX", (float (Stream3D::*)()) &Stream3D::getX)
+//        .def("getY", (float (Stream3D::*)()) &Stream3D::getY)
+//        .def("getZ", (float (Stream3D::*)()) &Stream3D::getZ)
+//        .def("setPosition", (float (Stream3D::*)(float, float, float)) &Stream3D::setPosition)
+//        .def("getXVelocity", (float (Stream3D::*)()) &Stream3D::getXVelocity)
+//        .def("getYVelocity", (float (Stream3D::*)()) &Stream3D::getYVelocity)
+//        .def("getZVelocity", (float (Stream3D::*)()) &Stream3D::getZVelocity)
+//        .def("setVelocity", (float (Stream3D::*)(float, float, float)) &Stream3D::setVelocity)
+//        .def("getMinDistance", (float (Stream3D::*)()) &Stream3D::getMinDistance)
+//        .def("getMaxDistance", (float (Stream3D::*)()) &Stream3D::getMaxDistance)
+//        .def("setMinMaxDistance", (float (Stream3D::*)(float, float)) &Stream3D::setMinMaxDistance)
+//        .def("get3DConeInsideAngle", (float (Stream3D::*)()) &Stream3D::get3DConeInsideAngle)
+//        .def("get3DConeOutsideAngle", (float (Stream3D::*)()) &Stream3D::get3DConeOutsideAngle)
+//        .def("get3DConeOutsideVolume", (float (Stream3D::*)()) &Stream3D::get3DConeOutsideVolume)
+//        .def("set3DConeSettings", (void (Stream3D::*)(float, float, float)) &Stream3D::set3DConeSettings)
+//        .def("getRotationX", (float (Stream3D::*)()) &Stream3D::getRotationX)
+//        .def("getRotationY", (float (Stream3D::*)()) &Stream3D::getRotationY)
+//        .def("getRotationZ", (float (Stream3D::*)()) &Stream3D::getRotationZ)
+//        .def("setRotation", (void (Stream3D::*)(float, float, float)) &Stream3D::setRotation)
+//        .def("getDirectOcclusion", (float (Stream3D::*)()) &Stream3D::getDirectOcclusion)
+//        .def("setDirectOcclusion", (void (Stream3D::*)(float)) &Stream3D::setDirectOcclusion)
+//        .def("getReverbOcclusion", (float (Stream3D::*)()) &Stream3D::getReverbOcclusion)
+//        .def("setReverbOcclusion", (void (Stream3D::*)(float)) &Stream3D::setReverbOcclusion)
+//        .def("getLevel", (float (Stream3D::*)()) &Stream3D::getLevel)
+//        .def("setLevel", (void (Stream3D::*)(float)) &Stream3D::setLevel)
+//        .def("getDopplerLevel", (float (Stream3D::*)()) &Stream3D::getDopplerLevel)
+//        .def("setDopplerLevel", (void (Stream3D::*)(float)) &Stream3D::setDopplerLevel)
+//        .def("isDistanceFilter", (bool(Stream3D::*)()) &Stream3D::isDistanceFilter)
+//        .def("getCustomLevel", (float (Stream3D::*)()) &Stream3D::getCustomLevel)
+//        .def("getCentreFrequency", (float (Stream3D::*)()) &Stream3D::getCentreFrequency)
+//        .def("setDistanceFilter", (void (Stream3D::*)(bool)) &Stream3D::setDistanceFilter)
+//        .def("setDistanceFilterCustomLevel", (void (Stream3D::*)(float)) &Stream3D::setDistanceFilterCustomLevel)
+//        .def("setDistanceFilterCentreFrequency", (void (Stream3D::*)(float)) &Stream3D::setDistanceFilterCentreFrequency)
+//        .def("getAudibility", (float (Stream3D::*)()) &Stream3D::getAudibility)
+//    ];
+//}

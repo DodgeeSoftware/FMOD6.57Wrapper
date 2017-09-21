@@ -30,7 +30,7 @@ class Geometry
 
     protected:
         //! Copy Constructor
-        Geometry(Geometry& other) {}
+        Geometry(Geometry& other);
 
     // ************************
     // * OVERLOADED OPERATORS *

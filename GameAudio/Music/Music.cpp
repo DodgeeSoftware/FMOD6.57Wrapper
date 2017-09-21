@@ -28,6 +28,16 @@ Music::~Music()
 
 }
 
+Music::Music(const Music& other)
+{
+
+}
+
+Music& Music::operator=(const Music& other)
+{
+    return *this;
+}
+
 bool Music::load(std::string filename)
 {
     // If there is an existing sound stream then get rid of it
@@ -156,7 +166,7 @@ void Music::playEx()
     // Track result of FMOD Function calls
     FMOD_RESULT result;
     // Play the sound
-    result = FMOD_System_PlaySound(FMODGlobals::pFMODSystem, this->pFMODSound, FMODGlobals::pSoundEffectsChannelGroup, true, &(this->pChannel));
+    result = FMOD_System_PlaySound(FMODGlobals::pFMODSystem, this->pFMODSound, FMODGlobals::pMusicChannelGroup, true, &(this->pChannel));
     // If playback failed return
     if (result != FMOD_OK)
         return;
@@ -608,69 +618,69 @@ void Music::setTrackerChannelVolume(int channel, float volume)
     FMOD_Sound_SetMusicChannelVolume(this->pFMODSound, channel, volume);
 }
 
-void Music::bindToLua(lua_State* pLuaState)
-{
-    // Bind functions to lua state
-    luabind::module(pLuaState)
-    [
-        luabind::class_<Music>("Music")
-        .def(luabind::constructor<>())
-        // GENERAL
-        .def("load", (bool (Music::*)(std::string)) &Music::load)
-        .def("play", (void (Music::*)()) &Music::play)
-        .def("playEx", (void (Music::*)()) &Music::playEx)
-        .def("start", (void (Music::*)()) &Music::start)
-        .def("stop", (void (Music::*)()) &Music::stop)
-        .def("reset", (void (Music::*)()) &Music::reset)
-        .def("isPaused", (bool(Music::*)()) &Music::isPaused)
-        .def("setPaused", (void (Music::*)(bool)) &Music::setPaused)
-        .def("pause", (void (Music::*)()) &Music::pause)
-        .def("resume", (void (Music::*)()) &Music::resume)
-        .def("isPlaying", (bool(Music::*)()) &Music::isPlaying)
-        .def("clear", (void (Music::*)()) &Music::clear)
-        .def("free", (void(Music::*)()) &Music::free)
-        .def("getVolume", (float (Music::*)()) &Music::getVolume)
-        .def("setVolume", (void (Music::*)(float)) &Music::setVolume)
-        .def("isVolumeRamping", (bool(Music::*)()) &Music::isVolumeRamping)
-        .def("setVolumeRamping", (void (Music::*)(bool)) &Music::setVolumeRamping)
-        .def("getPitch", (float (Music::*)()) &Music::getPitch)
-        .def("setPitch", (void (Music::*)(float)) &Music::setPitch)
-        .def("isMute", (bool(Music::*)()) &Music::isMute)
-        .def("setMute", (void (Music::*)(bool)) &Music::setMute)
-        .def("mute", (void (Music::*)()) &Music::mute)
-        .def("unmute", (void (Music::*)()) &Music::unmute)
-        .def("getReverbWet", (float (Music::*)(int)) &Music::getReverbWet)
-        .def("setReverbWet", (void (Music::*)(int, float)) &Music::setReverbWet)
-        .def("getLowPassGain", (float (Music::*)()) &Music::getLowPassGain)
-        .def("setLowPassGain", (void (Music::*)(float)) &Music::setLowPassGain)
-        .def("getMode", (unsigned int (Music::*)()) &Music::getMode)
-        .def("setMode", (void (Music::*)(unsigned int)) &Music::setMode)
-        .def("getBalance", (float (Music::*)()) &Music::getBalance)
-        .def("setBalance", (void (Music::*)(float)) &Music::setBalance)
-        .def("getFrequency", (float (Music::*)()) &Music::getFrequency)
-        .def("setFrequency", (void (Music::*)(float)) &Music::setFrequency)
-        .def("getPriority", (int (Music::*)()) &Music::getPriority)
-        .def("setPriority", (void (Music::*)(int)) &Music::setPriority)
-        .def("isLoop", (bool(Music::*)()) &Music::isLoop)
-        .def("setLoop", (void (Music::*)(bool)) &Music::setLoop)
-        .def("isChannelVirtual", (bool(Music::*)()) &Music::isChannelVirtual)
-        // FILENAME
-        .def("getFilename", (std::string (Music::*)()) &Music::getFilename)
-        // ENABLED
-        .def("isEnabled", (bool(Music::*)()) &Music::isEnabled)
-        .def("setEnabled", (void (Music::*)(bool)) &Music::setEnabled)
-        .def("enable", (void (Music::*)()) &Music::enable)
-        .def("disable", (void (Music::*)()) &Music::disable)
-        // TRACKER ONLY FUNCTIONS MOD, IT, S3M
-        .def("getTrackerMusicSpeed", (float (Music::*)()) &Music::getTrackerMusicSpeed)
-        .def("setTrackerMusicSpeed", (void (Music::*)(float)) &Music::setTrackerMusicSpeed)
-        .def("getTrackerNumberChannels", (int (Music::*)()) &Music::getTrackerNumberChannels)
-        .def("getTrackerMusicChannelVolume", (float (Music::*)(int)) &Music::getTrackerMusicChannelVolume)
-        .def("setTrackerChannelVolume", (void (Music::*)(int, float)) &Music::setTrackerChannelVolume)
-        // NAME
-        .def("getName", (std::string (Music::*)()) &Music::getName)
-        .def("setName", (void (Music::*)(std::string)) &Music::setName)
-        .def("isNamed", (bool(Music::*)()) &Music::isNamed)
-        .def("clearName", (void (Music::*)()) &Music ::clearName)
-    ];
-}
+//void Music::bindToLua(lua_State* pLuaState)
+//{
+//    // Bind functions to lua state
+//    luabind::module(pLuaState)
+//    [
+//        luabind::class_<Music>("Music")
+//        .def(luabind::constructor<>())
+//        // GENERAL
+//        .def("load", (bool (Music::*)(std::string)) &Music::load)
+//        .def("play", (void (Music::*)()) &Music::play)
+//        .def("playEx", (void (Music::*)()) &Music::playEx)
+//        .def("start", (void (Music::*)()) &Music::start)
+//        .def("stop", (void (Music::*)()) &Music::stop)
+//        .def("reset", (void (Music::*)()) &Music::reset)
+//        .def("isPaused", (bool(Music::*)()) &Music::isPaused)
+//        .def("setPaused", (void (Music::*)(bool)) &Music::setPaused)
+//        .def("pause", (void (Music::*)()) &Music::pause)
+//        .def("resume", (void (Music::*)()) &Music::resume)
+//        .def("isPlaying", (bool(Music::*)()) &Music::isPlaying)
+//        .def("clear", (void (Music::*)()) &Music::clear)
+//        .def("free", (void(Music::*)()) &Music::free)
+//        .def("getVolume", (float (Music::*)()) &Music::getVolume)
+//        .def("setVolume", (void (Music::*)(float)) &Music::setVolume)
+//        .def("isVolumeRamping", (bool(Music::*)()) &Music::isVolumeRamping)
+//        .def("setVolumeRamping", (void (Music::*)(bool)) &Music::setVolumeRamping)
+//        .def("getPitch", (float (Music::*)()) &Music::getPitch)
+//        .def("setPitch", (void (Music::*)(float)) &Music::setPitch)
+//        .def("isMute", (bool(Music::*)()) &Music::isMute)
+//        .def("setMute", (void (Music::*)(bool)) &Music::setMute)
+//        .def("mute", (void (Music::*)()) &Music::mute)
+//        .def("unmute", (void (Music::*)()) &Music::unmute)
+//        .def("getReverbWet", (float (Music::*)(int)) &Music::getReverbWet)
+//        .def("setReverbWet", (void (Music::*)(int, float)) &Music::setReverbWet)
+//        .def("getLowPassGain", (float (Music::*)()) &Music::getLowPassGain)
+//        .def("setLowPassGain", (void (Music::*)(float)) &Music::setLowPassGain)
+//        .def("getMode", (unsigned int (Music::*)()) &Music::getMode)
+//        .def("setMode", (void (Music::*)(unsigned int)) &Music::setMode)
+//        .def("getBalance", (float (Music::*)()) &Music::getBalance)
+//        .def("setBalance", (void (Music::*)(float)) &Music::setBalance)
+//        .def("getFrequency", (float (Music::*)()) &Music::getFrequency)
+//        .def("setFrequency", (void (Music::*)(float)) &Music::setFrequency)
+//        .def("getPriority", (int (Music::*)()) &Music::getPriority)
+//        .def("setPriority", (void (Music::*)(int)) &Music::setPriority)
+//        .def("isLoop", (bool(Music::*)()) &Music::isLoop)
+//        .def("setLoop", (void (Music::*)(bool)) &Music::setLoop)
+//        .def("isChannelVirtual", (bool(Music::*)()) &Music::isChannelVirtual)
+//        // FILENAME
+//        .def("getFilename", (std::string (Music::*)()) &Music::getFilename)
+//        // ENABLED
+//        .def("isEnabled", (bool(Music::*)()) &Music::isEnabled)
+//        .def("setEnabled", (void (Music::*)(bool)) &Music::setEnabled)
+//        .def("enable", (void (Music::*)()) &Music::enable)
+//        .def("disable", (void (Music::*)()) &Music::disable)
+//        // TRACKER ONLY FUNCTIONS MOD, IT, S3M
+//        .def("getTrackerMusicSpeed", (float (Music::*)()) &Music::getTrackerMusicSpeed)
+//        .def("setTrackerMusicSpeed", (void (Music::*)(float)) &Music::setTrackerMusicSpeed)
+//        .def("getTrackerNumberChannels", (int (Music::*)()) &Music::getTrackerNumberChannels)
+//        .def("getTrackerMusicChannelVolume", (float (Music::*)(int)) &Music::getTrackerMusicChannelVolume)
+//        .def("setTrackerChannelVolume", (void (Music::*)(int, float)) &Music::setTrackerChannelVolume)
+//        // NAME
+//        .def("getName", (std::string (Music::*)()) &Music::getName)
+//        .def("setName", (void (Music::*)(std::string)) &Music::setName)
+//        .def("isNamed", (bool(Music::*)()) &Music::isNamed)
+//        .def("clearName", (void (Music::*)()) &Music ::clearName)
+//    ];
+//}

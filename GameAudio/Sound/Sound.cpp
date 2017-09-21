@@ -52,7 +52,17 @@ void Sound::clear()
 
 void Sound::free()
 {
-    // Do Nothing
+    this->pausedFlag = false;
+    this->loopFlag = false;
+    this->muteFlag = false;
+    this->balance = 0.0f;
+    this->volume = 1.0f;
+    this->volumeRampFlag = false;
+    this->priority = 0;
+    this->pSoundSample = 0;
+    this->pChannel = 0;
+    this->filename.clear();
+    this->name.clear();
 }
 
 void Sound::play()
@@ -544,65 +554,65 @@ void Sound::setSoundSample(SoundSample* pSoundSample)
     this->pSoundSample = pSoundSample;
 }
 
-void Sound::bindToLua(lua_State* pLuaState)
-{
-    // Bind functions to lua state
-    luabind::module(pLuaState)
-    [
-        luabind::class_<Sound>("Sound")
-        .def(luabind::constructor<>())
-        // GENERAL
-        .def("play", (void (Sound::*)()) &Sound::play)
-        .def("playEx", (void (Sound::*)()) &Sound::playEx)
-        .def("start", (void (Sound::*)()) &Sound::start)
-        .def("stop", (void (Sound::*)()) &Sound::stop)
-        .def("reset", (void (Sound::*)()) &Sound::reset)
-        .def("isPaused", (bool(Sound::*)()) &Sound::isPaused)
-        .def("setPaused", (void (Sound::*)(bool)) &Sound::setPaused)
-        .def("pause", (void (Sound::*)()) &Sound::pause)
-        .def("resume", (void (Sound::*)()) &Sound::resume)
-        .def("isPlaying", (bool(Sound::*)()) &Sound::isPlaying)
-        .def("clear", (void (Sound::*)()) &Sound::clear)
-        .def("free", (void(Sound::*)()) &Sound::free)
-        .def("getVolume", (float (Sound::*)()) &Sound::getVolume)
-        .def("setVolume", (void (Sound::*)(float)) &Sound::setVolume)
-        .def("isVolumeRamping", (bool(Sound::*)()) &Sound::isVolumeRamping)
-        .def("setVolumeRamping", (void (Sound::*)(bool)) &Sound::setVolumeRamping)
-        .def("getPitch", (float (Sound::*)()) &Sound::getPitch)
-        .def("setPitch", (void (Sound::*)(float)) &Sound::setPitch)
-        .def("isMute", (bool(Sound::*)()) &Sound::isMute)
-        .def("setMute", (void (Sound::*)(bool)) &Sound::setMute)
-        .def("mute", (void (Sound::*)()) &Sound::mute)
-        .def("unmute", (void (Sound::*)()) &Sound::unmute)
-        .def("getReverbWet", (float (Sound::*)(int)) &Sound::getReverbWet)
-        .def("setReverbWet", (void (Sound::*)(int, float)) &Sound::setReverbWet)
-        .def("getLowPassGain", (float (Sound::*)()) &Sound::getLowPassGain)
-        .def("setLowPassGain", (void (Sound::*)(float)) &Sound::setLowPassGain)
-        .def("getMode", (unsigned int (Sound::*)()) &Sound::getMode)
-        .def("setMode", (void (Sound::*)(unsigned int)) &Sound::setMode)
-        .def("getBalance", (float (Sound::*)()) &Sound::getBalance)
-        .def("setBalance", (void (Sound::*)(float)) &Sound::setBalance)
-        .def("getFrequency", (float (Sound::*)()) &Sound::getFrequency)
-        .def("setFrequency", (void (Sound::*)(float)) &Sound::setFrequency)
-        .def("getPriority", (int (Sound::*)()) &Sound::getPriority)
-        .def("setPriority", (void (Sound::*)(int)) &Sound::setPriority)
-        .def("isLoop", (bool(Sound::*)()) &Sound::isLoop)
-        .def("setLoop", (void (Sound::*)(bool)) &Sound::setLoop)
-        .def("isChannelVirtual", (bool(Sound::*)()) &Sound::isChannelVirtual)
-        // SOUND SAMPLE
-        .def("getSoundSample", (SoundSample* (Sound::*)()) &Sound::getSoundSample)
-        .def("setSoundSample", (void (Sound::*)(SoundSample*)) &Sound::setSoundSample)
-        // ENABLED
-        .def("isEnabled", (bool(Sound::*)()) &Sound::isEnabled)
-        .def("setEnabled", (void (Sound::*)(bool)) &Sound::setEnabled)
-        .def("enable", (void (Sound::*)()) &Sound::enable)
-        .def("disable", (void (Sound::*)()) &Sound::disable)
-        // NAME
-        .def("getName", (std::string (Sound::*)()) &Sound::getName)
-        .def("setName", (void (Sound::*)(std::string)) &Sound::setName)
-        .def("isNamed", (bool(Sound::*)()) &Sound::isNamed)
-        .def("clearName", (void (Sound::*)()) &Sound::clearName)
-        // FILENAME
-        .def("getFilename", (std::string (Sound::*)()) &Sound::getFilename)
-    ];
-}
+//void Sound::bindToLua(lua_State* pLuaState)
+//{
+//    // Bind functions to lua state
+//    luabind::module(pLuaState)
+//    [
+//        luabind::class_<Sound>("Sound")
+//        .def(luabind::constructor<>())
+//        // GENERAL
+//        .def("play", (void (Sound::*)()) &Sound::play)
+//        .def("playEx", (void (Sound::*)()) &Sound::playEx)
+//        .def("start", (void (Sound::*)()) &Sound::start)
+//        .def("stop", (void (Sound::*)()) &Sound::stop)
+//        .def("reset", (void (Sound::*)()) &Sound::reset)
+//        .def("isPaused", (bool(Sound::*)()) &Sound::isPaused)
+//        .def("setPaused", (void (Sound::*)(bool)) &Sound::setPaused)
+//        .def("pause", (void (Sound::*)()) &Sound::pause)
+//        .def("resume", (void (Sound::*)()) &Sound::resume)
+//        .def("isPlaying", (bool(Sound::*)()) &Sound::isPlaying)
+//        .def("clear", (void (Sound::*)()) &Sound::clear)
+//        .def("free", (void(Sound::*)()) &Sound::free)
+//        .def("getVolume", (float (Sound::*)()) &Sound::getVolume)
+//        .def("setVolume", (void (Sound::*)(float)) &Sound::setVolume)
+//        .def("isVolumeRamping", (bool(Sound::*)()) &Sound::isVolumeRamping)
+//        .def("setVolumeRamping", (void (Sound::*)(bool)) &Sound::setVolumeRamping)
+//        .def("getPitch", (float (Sound::*)()) &Sound::getPitch)
+//        .def("setPitch", (void (Sound::*)(float)) &Sound::setPitch)
+//        .def("isMute", (bool(Sound::*)()) &Sound::isMute)
+//        .def("setMute", (void (Sound::*)(bool)) &Sound::setMute)
+//        .def("mute", (void (Sound::*)()) &Sound::mute)
+//        .def("unmute", (void (Sound::*)()) &Sound::unmute)
+//        .def("getReverbWet", (float (Sound::*)(int)) &Sound::getReverbWet)
+//        .def("setReverbWet", (void (Sound::*)(int, float)) &Sound::setReverbWet)
+//        .def("getLowPassGain", (float (Sound::*)()) &Sound::getLowPassGain)
+//        .def("setLowPassGain", (void (Sound::*)(float)) &Sound::setLowPassGain)
+//        .def("getMode", (unsigned int (Sound::*)()) &Sound::getMode)
+//        .def("setMode", (void (Sound::*)(unsigned int)) &Sound::setMode)
+//        .def("getBalance", (float (Sound::*)()) &Sound::getBalance)
+//        .def("setBalance", (void (Sound::*)(float)) &Sound::setBalance)
+//        .def("getFrequency", (float (Sound::*)()) &Sound::getFrequency)
+//        .def("setFrequency", (void (Sound::*)(float)) &Sound::setFrequency)
+//        .def("getPriority", (int (Sound::*)()) &Sound::getPriority)
+//        .def("setPriority", (void (Sound::*)(int)) &Sound::setPriority)
+//        .def("isLoop", (bool(Sound::*)()) &Sound::isLoop)
+//        .def("setLoop", (void (Sound::*)(bool)) &Sound::setLoop)
+//        .def("isChannelVirtual", (bool(Sound::*)()) &Sound::isChannelVirtual)
+//        // SOUND SAMPLE
+//        .def("getSoundSample", (SoundSample* (Sound::*)()) &Sound::getSoundSample)
+//        .def("setSoundSample", (void (Sound::*)(SoundSample*)) &Sound::setSoundSample)
+//        // ENABLED
+//        .def("isEnabled", (bool(Sound::*)()) &Sound::isEnabled)
+//        .def("setEnabled", (void (Sound::*)(bool)) &Sound::setEnabled)
+//        .def("enable", (void (Sound::*)()) &Sound::enable)
+//        .def("disable", (void (Sound::*)()) &Sound::disable)
+//        // NAME
+//        .def("getName", (std::string (Sound::*)()) &Sound::getName)
+//        .def("setName", (void (Sound::*)(std::string)) &Sound::setName)
+//        .def("isNamed", (bool(Sound::*)()) &Sound::isNamed)
+//        .def("clearName", (void (Sound::*)()) &Sound::clearName)
+//        // FILENAME
+//        .def("getFilename", (std::string (Sound::*)()) &Sound::getFilename)
+//    ];
+//}

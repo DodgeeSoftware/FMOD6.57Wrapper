@@ -22,14 +22,15 @@
 #include <fmod_errors.h>
 #include <fmod_output.h>
 
-// LUA AND LUABIND Includes
-extern "C"
-{
-    #include <lua.h>
-    #include <lualib.h>
-    #include <lauxlib.h>
-}
-#include <luabind/luabind.hpp>
+//// LUA AND LUABIND Includes
+//extern "C"
+//{
+//    #include <lua.h>
+//    #include <lualib.h>
+//    #include <lauxlib.h>
+//}
+//#include <luabind/luabind.hpp>
+//#include <luabind/operator.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
@@ -50,7 +51,7 @@ class Stream : public Channel
 
     protected:
         //! Stream Copy constructor
-        Stream(const Stream& other) {}
+        Stream(const Stream& other);
 
     // ************************
     // * OVERLOADED OPERATORS *
@@ -106,6 +107,18 @@ class Stream : public Channel
         /** @brief Is this sound still playing?
           * @return true if stream is playing false otherwise **/
         virtual bool isPlaying();
+        /** @brief Is loop mode
+          * @return true if looping false otherwise **/
+        virtual bool isLoop();
+        /** @brief Set the loop mode
+          * @param loopFlag **/
+        virtual void setLoop(bool loopFlag);
+        /** @brief Get the Loop count
+          * @return -1 for endless, 0 for once, anything higher is once plus value **/
+        virtual int getLoopCount();
+        /** @brief Set Loop Count
+          * @param loopCount: -1 for endless, 0 for once, anything higher is once plus value **/
+        virtual void setLoopCount(int loopCount);
 
     protected:
         // methods and members
@@ -348,13 +361,13 @@ class Stream : public Channel
         // unique name
         std::string name;
 
-    // ****************
-    // * LUA BINDINGS *
-    // ****************
-    public:
-        /** @brief Bind this class to a lua state
-          * @param pLuaState The LuaState to bind this class to **/
-        static void bindToLua(lua_State* pLuaState);
+//    // ****************
+//    // * LUA BINDINGS *
+//    // ****************
+//    public:
+//        /** @brief Bind this class to a lua state
+//          * @param pLuaState The LuaState to bind this class to **/
+//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // STREAM_H

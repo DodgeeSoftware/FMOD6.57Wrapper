@@ -56,7 +56,6 @@ namespace FMODGlobals
         effects and music. */
     // Sound Effects Channel Group
     extern FMOD_CHANNELGROUP* pSoundEffectsChannelGroup;
-    extern FMOD_CHANNELGROUP* pSoundEffectsChannelGroup;
     // Music Channel Group
     extern FMOD_CHANNELGROUP* pMusicChannelGroup;
     // ********************

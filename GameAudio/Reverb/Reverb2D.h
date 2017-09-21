@@ -18,6 +18,7 @@ extern "C"
     #include <lauxlib.h>
 }
 #include <luabind/luabind.hpp>
+#include <luabind/operator.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
@@ -36,7 +37,7 @@ class Reverb2D
 
     protected:
         //! Reverb2D Copy constructor
-        Reverb2D(const Reverb2D& other) {}
+        Reverb2D(const Reverb2D& other);
 
     // ************************
     // * OVERLOADED OPERATORS *
@@ -46,7 +47,7 @@ class Reverb2D
 
     protected:
         //! Reverb2D Assignment operator
-        Reverb2D& operator=(const Reverb2D& other) { return *this; }
+        Reverb2D& operator=(const Reverb2D& other);
 
     // *********************
     // * GENERAL FUNCTIONS *
@@ -105,13 +106,13 @@ class Reverb2D
         // Usually 100000.0f and safely ignored
         float maxDistance;
 
-    // ****************
-    // * LUA BINDINGS *
-    // ****************
-    public:
-        /** @brief Bind this class to a lua state
-          * @param pLuaState The LuaState to bind this class to **/
-        static void bindToLua(lua_State* pLuaState);
+//    // ****************
+//    // * LUA BINDINGS *
+//    // ****************
+//    public:
+//        /** @brief Bind this class to a lua state
+//          * @param pLuaState The LuaState to bind this class to **/
+//        static void bindToLua(lua_State* pLuaState);
 };
 
 #endif // REVERB2D_H

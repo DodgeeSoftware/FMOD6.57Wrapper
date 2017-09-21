@@ -16,6 +16,16 @@ Plugin::~Plugin()
 //    this->handle = 0;
 }
 
+Plugin::Plugin(Plugin& other)
+{
+
+}
+
+Plugin& Plugin::operator=(const Plugin& other)
+{
+    return *this;
+}
+
 unsigned int Plugin::getHandle()
 {
     // return handle

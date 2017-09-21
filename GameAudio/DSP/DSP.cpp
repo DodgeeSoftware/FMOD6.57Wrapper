@@ -13,6 +13,11 @@ DSP::~DSP()
 
 }
 
+DSP::DSP(DSP& other)
+{
+
+}
+
 bool DSP::create(FMOD_DSP_DESCRIPTION description)
 {
     // Try and create the DSP

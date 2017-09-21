@@ -18,8 +18,10 @@ AudioSystem::AudioSystem()
     this->musicVolume = 1.0f;
     // Balance
     this->balance = 0.0f;
-    // Mute Flag
-    this->muteFlag = false;
+    // Mute Sound Effects Flag
+    this->muteSoundEffectsFlag = false;
+    // Mute Music Flag
+    this->muteMusicFlag = false;
     // Max World Size
     this->maxWorldSize = 100000;
 }
@@ -496,7 +498,7 @@ int AudioSystem::getNumDrivers()
     return numDrivers;
 }
 
-int AudioSystem::getMaxSoftwareChannel()
+int AudioSystem::getMaxSoftwareChannels()
 {
     // Grab Max Software Channels from the System
     int maxSoftwareChannels = 0;
@@ -719,36 +721,34 @@ void AudioSystem::setBalance(float balance)
     FMOD_ChannelGroup_SetPan(FMODGlobals::pMusicChannelGroup, this->balance);
 }
 
-void AudioSystem::setMute(bool state)
+void AudioSystem::muteSoundEffects()
 {
-    if (state == true)
-    {
-        // Mute
-        this->mute();
-    }
-    else
-    {
-        // Unmute
-        this->unmute();
-    }
-}
-
-void AudioSystem::mute()
-{
-    // Set Mute Flag
-    this->muteFlag = true;
+    // Set Mute Sound Effects Flag
+    this->muteSoundEffectsFlag = true;
     // Set Volume for SoundEffects Channel
     FMOD_ChannelGroup_SetMute(FMODGlobals::pSoundEffectsChannelGroup, true);
+}
+
+void AudioSystem::unmuteSoundEffects()
+{
+    // Set Mute Sound Effects Flag
+    this->muteSoundEffectsFlag = false;
+    // Set Volume for SoundEffects Channel
+    FMOD_ChannelGroup_SetMute(FMODGlobals::pSoundEffectsChannelGroup, false);
+}
+
+void AudioSystem::muteMusic()
+{
+    // Set Mute Music Flag
+    this->muteMusicFlag = true;
     // Set Volume for Music Channel
     FMOD_ChannelGroup_SetMute(FMODGlobals::pMusicChannelGroup, true);
 }
 
-void AudioSystem::unmute()
+void AudioSystem::unmuteMusic()
 {
-    // Set Mute Flag
-    this->muteFlag = false;
-    // Set Volume for SoundEffects Channel
-    FMOD_ChannelGroup_SetMute(FMODGlobals::pSoundEffectsChannelGroup, false);
+    // Set Mute Music Flag
+    this->muteMusicFlag = false;
     // Set Volume for Music Channel
     FMOD_ChannelGroup_SetMute(FMODGlobals::pMusicChannelGroup, false);
 }
@@ -1184,52 +1184,55 @@ void AudioSystem::setAllCallBack(FMOD_SYSTEM_CALLBACK pCallBack)
     FMOD_System_SetCallback(FMODGlobals::pFMODSystem, pCallBack, FMOD_SYSTEM_CALLBACK_ALL);
 }
 
-void AudioSystem::bindToLua(lua_State* pLuaState)
-{
-    // Bind functions to lua state
-    luabind::module(pLuaState)
-    [
-        luabind::class_<AudioSystem>("AudioSystem")
-        .def(luabind::constructor<>())
-        .def("getVersion", (unsigned int (AudioSystem::*)()) &AudioSystem::getVersion)
-        .def("getSoundEffectsVolume", (float (AudioSystem::*)()) &AudioSystem::getSoundEffectsVolume)
-        .def("setSoundEffectsVolume", (void (AudioSystem::*)(float)) &AudioSystem::setSoundEffectsVolume)
-        .def("getMusicVolume", (float (AudioSystem::*)()) &AudioSystem::getMusicVolume)
-        .def("setMusicVolume", (void (AudioSystem::*)(float)) &AudioSystem::setMusicVolume)
-        .def("getBalance", (float (AudioSystem::*)()) &AudioSystem::getBalance)
-        .def("setBalance", (void (AudioSystem::*)(float)) &AudioSystem::setBalance)
-        .def("isMute", (bool (AudioSystem::*)()) &AudioSystem::isMute)
-        .def("setMute", (void (AudioSystem::*)(bool)) &AudioSystem::setMute)
-        .def("mute", (void (AudioSystem::*)()) &AudioSystem::mute)
-        .def("unmute", (void (AudioSystem::*)()) &AudioSystem::unmute)
-//// TODO: I would like to bind the reverb section of the AudioSystem
-////        // REVERB
-////        .def("reverbOff", (void(AudioSystem::*)()) &AudioSystem::reverbOff)
-////        .def("reverbGeneric", (void(AudioSystem::*)()) &AudioSystem::reverbGeneric)
-////        .def("reverbPaddedCell", (void(AudioSystem::*)()) &AudioSystem::reverbPaddedCell)
-////        .def("reverbRoom", (void(AudioSystem::*)()) &AudioSystem::reverbRoom)
-////        .def("reverbBathRoom", (void(AudioSystem::*)()) &AudioSystem::reverbBathRoom)
-////        .def("reverbLivingRoom", (void(AudioSystem::*)()) &AudioSystem::reverbLivingRoom)
-////        .def("reverbStoneRoom", (void(AudioSystem::*)()) &AudioSystem::reverbStoneRoom)
-////        .def("reverbAuditorium", (void(AudioSystem::*)()) &AudioSystem::reverbAuditorium)
-////        .def("reverbConcertHall", (void(AudioSystem::*)()) &AudioSystem::reverbConcertHall)
-////        .def("reverbCave", (void(AudioSystem::*)()) &AudioSystem::reverbCave)
-////        .def("reverbArena", (void(AudioSystem::*)()) &AudioSystem::reverbArena)
-////        .def("reverbHanger", (void(AudioSystem::*)()) &AudioSystem::reverbHanger)
-////        .def("reverbCarpetedHallway", (void(AudioSystem::*)()) &AudioSystem::reverbCarpetedHallway)
-////        .def("reverbHallway", (void(AudioSystem::*)()) &AudioSystem::reverbHallway)
-////        .def("reverbCorridor", (void(AudioSystem::*)()) &AudioSystem::reverbCorridor)
-////        .def("reverbAlley", (void(AudioSystem::*)()) &AudioSystem::reverbAlley)
-////        .def("reverbForest", (void(AudioSystem::*)()) &AudioSystem::reverbForest)
-////        .def("reverbCity", (void(AudioSystem::*)()) &AudioSystem::reverbCity)
-////        .def("reverbMountains", (void(AudioSystem::*)()) &AudioSystem::reverbMountains)
-////        .def("reverbQuarry", (void(AudioSystem::*)()) &AudioSystem::reverbQuarry)
-////        .def("reverbPlain", (void(AudioSystem::*)()) &AudioSystem::reverbPlain)
-////        .def("reverbParkingLot", (void(AudioSystem::*)()) &AudioSystem::reverbParkingLot)
-////        .def("reverbSewerPipe", (void(AudioSystem::*)()) &AudioSystem::reverbSewerPipe)
-////        .def("reverbUnderWater", (void(AudioSystem::*)()) &AudioSystem::reverbUnderWater)
-////        .def("reverbDrugged", (void(AudioSystem::*)()) &AudioSystem::reverbDrugged)
-////        .def("reverbDizzy", (void(AudioSystem::*)()) &AudioSystem::reverbDizzy)
-////        .def("reverbPsychotic", (void(AudioSystem::*)()) &AudioSystem::reverbPsychotic)
-    ];
-}
+//void AudioSystem::bindToLua(lua_State* pLuaState)
+//{
+//    // Bind functions to lua state
+//    luabind::module(pLuaState)
+//    [
+//        luabind::class_<AudioSystem>("AudioSystem")
+//        .def(luabind::constructor<>())
+//        .def("getVersion", (unsigned int (AudioSystem::*)()) &AudioSystem::getVersion)
+//        .def("getSoundEffectsVolume", (float (AudioSystem::*)()) &AudioSystem::getSoundEffectsVolume)
+//        .def("setSoundEffectsVolume", (void (AudioSystem::*)(float)) &AudioSystem::setSoundEffectsVolume)
+//        .def("getMusicVolume", (float (AudioSystem::*)()) &AudioSystem::getMusicVolume)
+//        .def("setMusicVolume", (void (AudioSystem::*)(float)) &AudioSystem::setMusicVolume)
+//        .def("getBalance", (float (AudioSystem::*)()) &AudioSystem::getBalance)
+//        .def("setBalance", (void (AudioSystem::*)(float)) &AudioSystem::setBalance)
+//        .def("isSoundEffectsMute", (bool (AudioSystem::*)()) &AudioSystem::isSoundEffectsMute)
+//        .def("isMusicMute", (bool (AudioSystem::*)()) &AudioSystem::isMusicMute)
+//        .def("muteSoundEffects", (void (AudioSystem::*)()) &AudioSystem::muteSoundEffects)
+//        .def("unmuteSoundEffects", (void (AudioSystem::*)()) &AudioSystem::unmuteSoundEffects)
+//        .def("muteMusic", (void (AudioSystem::*)()) &AudioSystem::muteMusic)
+//        .def("unmuteMusic", (void (AudioSystem::*)()) &AudioSystem::unmuteMusic)
+//
+////// TODO: I would like to bind the reverb section of the AudioSystem
+//////        // REVERB
+//////        .def("reverbOff", (void(AudioSystem::*)()) &AudioSystem::reverbOff)
+//////        .def("reverbGeneric", (void(AudioSystem::*)()) &AudioSystem::reverbGeneric)
+//////        .def("reverbPaddedCell", (void(AudioSystem::*)()) &AudioSystem::reverbPaddedCell)
+//////        .def("reverbRoom", (void(AudioSystem::*)()) &AudioSystem::reverbRoom)
+//////        .def("reverbBathRoom", (void(AudioSystem::*)()) &AudioSystem::reverbBathRoom)
+//////        .def("reverbLivingRoom", (void(AudioSystem::*)()) &AudioSystem::reverbLivingRoom)
+//////        .def("reverbStoneRoom", (void(AudioSystem::*)()) &AudioSystem::reverbStoneRoom)
+//////        .def("reverbAuditorium", (void(AudioSystem::*)()) &AudioSystem::reverbAuditorium)
+//////        .def("reverbConcertHall", (void(AudioSystem::*)()) &AudioSystem::reverbConcertHall)
+//////        .def("reverbCave", (void(AudioSystem::*)()) &AudioSystem::reverbCave)
+//////        .def("reverbArena", (void(AudioSystem::*)()) &AudioSystem::reverbArena)
+//////        .def("reverbHanger", (void(AudioSystem::*)()) &AudioSystem::reverbHanger)
+//////        .def("reverbCarpetedHallway", (void(AudioSystem::*)()) &AudioSystem::reverbCarpetedHallway)
+//////        .def("reverbHallway", (void(AudioSystem::*)()) &AudioSystem::reverbHallway)
+//////        .def("reverbCorridor", (void(AudioSystem::*)()) &AudioSystem::reverbCorridor)
+//////        .def("reverbAlley", (void(AudioSystem::*)()) &AudioSystem::reverbAlley)
+//////        .def("reverbForest", (void(AudioSystem::*)()) &AudioSystem::reverbForest)
+//////        .def("reverbCity", (void(AudioSystem::*)()) &AudioSystem::reverbCity)
+//////        .def("reverbMountains", (void(AudioSystem::*)()) &AudioSystem::reverbMountains)
+//////        .def("reverbQuarry", (void(AudioSystem::*)()) &AudioSystem::reverbQuarry)
+//////        .def("reverbPlain", (void(AudioSystem::*)()) &AudioSystem::reverbPlain)
+//////        .def("reverbParkingLot", (void(AudioSystem::*)()) &AudioSystem::reverbParkingLot)
+//////        .def("reverbSewerPipe", (void(AudioSystem::*)()) &AudioSystem::reverbSewerPipe)
+//////        .def("reverbUnderWater", (void(AudioSystem::*)()) &AudioSystem::reverbUnderWater)
+//////        .def("reverbDrugged", (void(AudioSystem::*)()) &AudioSystem::reverbDrugged)
+//////        .def("reverbDizzy", (void(AudioSystem::*)()) &AudioSystem::reverbDizzy)
+//////        .def("reverbPsychotic", (void(AudioSystem::*)()) &AudioSystem::reverbPsychotic)
+//    ];
+//}

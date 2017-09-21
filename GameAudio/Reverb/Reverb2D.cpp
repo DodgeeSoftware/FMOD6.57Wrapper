@@ -19,6 +19,16 @@ Reverb2D::~Reverb2D()
 
 }
 
+Reverb2D::Reverb2D(const Reverb2D& other)
+{
+
+}
+
+Reverb2D& Reverb2D::operator=(const Reverb2D& other)
+{
+    return *this;
+}
+
 bool Reverb2D::create()
 {
     // If we already have an FMODReverb3D object then don't make another one
@@ -120,25 +130,25 @@ void Reverb2D::setMinMaxDistance(float minDistance, float maxDistance)
     FMOD_Reverb3D_Set3DAttributes(this->pFMODReverb3D, &position, this->minDistance, this->maxDistance);
 }
 
-void Reverb2D::bindToLua(lua_State* pLuaState)
-{
-    // Bind functions to lua state
-    luabind::module(pLuaState)
-    [
-        luabind::class_<Reverb2D>("Reverb2D")
-        .def(luabind::constructor<>())
-        // GENERAL
-        .def("create", (void (Reverb2D::*)()) &Reverb2D::create)
-        .def("release", (void (Reverb2D::*)()) &Reverb2D::release)
-        .def("isActive", (bool(Reverb2D::*)()) &Reverb2D::isActive)
-        .def("setActive", (void (Reverb2D::*)(bool)) &Reverb2D::setActive)
-        .def("activate", (void (Reverb2D::*)()) &Reverb2D::activate)
-        .def("deactivate", (void (Reverb2D::*)()) &Reverb2D::deactivate)
-        .def("getX", (float (Reverb2D::*)()) &Reverb2D::getX)
-        .def("getY", (float (Reverb2D::*)()) &Reverb2D::getY)
-        .def("setPosition", (float (Reverb2D::*)(float, float)) &Reverb2D::setPosition)
-        .def("getMinDistance", (float (Reverb2D::*)()) &Reverb2D::getMinDistance)
-        .def("getMaxDistance", (float (Reverb2D::*)()) &Reverb2D::getMaxDistance)
-        .def("setMinMaxDistance", (float (Reverb2D::*)(float, float)) &Reverb2D::setMinMaxDistance)
-    ];
-}
+//void Reverb2D::bindToLua(lua_State* pLuaState)
+//{
+//    // Bind functions to lua state
+//    luabind::module(pLuaState)
+//    [
+//        luabind::class_<Reverb2D>("Reverb2D")
+//        .def(luabind::constructor<>())
+//        // GENERAL
+//        .def("create", (void (Reverb2D::*)()) &Reverb2D::create)
+//        .def("release", (void (Reverb2D::*)()) &Reverb2D::release)
+//        .def("isActive", (bool(Reverb2D::*)()) &Reverb2D::isActive)
+//        .def("setActive", (void (Reverb2D::*)(bool)) &Reverb2D::setActive)
+//        .def("activate", (void (Reverb2D::*)()) &Reverb2D::activate)
+//        .def("deactivate", (void (Reverb2D::*)()) &Reverb2D::deactivate)
+//        .def("getX", (float (Reverb2D::*)()) &Reverb2D::getX)
+//        .def("getY", (float (Reverb2D::*)()) &Reverb2D::getY)
+//        .def("setPosition", (float (Reverb2D::*)(float, float)) &Reverb2D::setPosition)
+//        .def("getMinDistance", (float (Reverb2D::*)()) &Reverb2D::getMinDistance)
+//        .def("getMaxDistance", (float (Reverb2D::*)()) &Reverb2D::getMaxDistance)
+//        .def("setMinMaxDistance", (float (Reverb2D::*)(float, float)) &Reverb2D::setMinMaxDistance)
+//    ];
+//}

@@ -18,6 +18,7 @@
 //    #include <lauxlib.h>
 //}
 //#include <luabind/luabind.hpp>
+//#include <luabind/operator.hpp>
 
 // GAMEAUDIO Includes
 #include "FMODGlobals.h"
@@ -36,7 +37,7 @@ class DSPConnection
 
     protected:
         //! Copy Constructor
-        DSPConnection(DSPConnection& other) {}
+        DSPConnection(DSPConnection& other);
 
     // ************************
     // * OVERLOADED OPERATORS *
