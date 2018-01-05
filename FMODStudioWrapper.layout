@@ -1,169 +1,189 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="GameAudio\Geometry\Geometry.cpp" open="1" top="0" tabpos="29" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Reverb\Reverb2D.cpp" open="1" top="0" tabpos="23" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7478" topLine="237" />
+			<Cursor1 position="4090" topLine="123" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Reverb\Reverb2D.h" open="1" top="0" tabpos="23" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Channel\Channel.h" open="1" top="0" tabpos="26" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3369" topLine="85" />
+			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Plugins\Plugin.cpp" open="1" top="0" tabpos="43" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Reverb\Reverb2D.h" open="1" top="0" tabpos="22" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="285" topLine="0" />
+			<Cursor1 position="3397" topLine="85" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Reverb\Reverb3D.cpp" open="1" top="0" tabpos="22" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Music\Music.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3453" topLine="122" />
+			<Cursor1 position="20512" topLine="389" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Music\Music.cpp" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Reverb\Reverb3D.cpp" open="1" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="16284" topLine="589" />
+			<Cursor1 position="4218" topLine="128" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Reverb\Reverb3D.h" open="1" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\DSP\DSP.cpp" open="1" top="0" tabpos="25" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1752" topLine="39" />
+			<Cursor1 position="14496" topLine="521" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\DSP\DSP.h" open="1" top="0" tabpos="25" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Reverb\Reverb3D.h" open="1" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="16574" topLine="275" />
+			<Cursor1 position="3623" topLine="93" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Sound\Sound.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Channel\Channel.cpp" open="1" top="0" tabpos="37" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="14289" topLine="512" />
+			<Cursor1 position="7347" topLine="281" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Plugins\Plugin.h" open="1" top="0" tabpos="42" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Sound\Sound.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4697" topLine="81" />
+			<Cursor1 position="17407" topLine="587" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Sound\Sound.h" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Geometry\Geometry.h" open="1" top="0" tabpos="27" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="682" topLine="12" />
+			<Cursor1 position="246" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Recording\Recording.cpp" open="1" top="0" tabpos="40" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Sound\Sound.h" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="10244" topLine="255" />
+			<Cursor1 position="18590" topLine="359" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Group\ChannelGroup.cpp" open="1" top="0" tabpos="33" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5827" topLine="208" />
 		</Cursor>
 	</File>
 	<File name="GameAudio\Sound\Sound2D.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="10662" topLine="263" />
+			<Cursor1 position="14599" topLine="414" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\GameAudio.h" open="1" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\DSP\DSPConnection.cpp" open="1" top="0" tabpos="35" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1642" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Sound\Sound2D.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9730" topLine="210" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\DSP\DSPConnection.h" open="1" top="0" tabpos="34" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="469" topLine="4" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Sound\Sound3D.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="20769" topLine="593" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Geometry\Geometry.cpp" open="1" top="0" tabpos="28" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7478" topLine="237" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Sound\Sound3D.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="12848" topLine="282" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Plugins\Plugin.cpp" open="1" top="0" tabpos="41" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="285" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Sound\SoundSample.cpp" open="1" top="0" tabpos="38" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="11225" topLine="351" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Music\Music.cpp" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="20748" topLine="655" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Sound\SoundSample.h" open="1" top="0" tabpos="29" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10545" topLine="216" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\DSP\DSP.h" open="1" top="0" tabpos="24" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="16591" topLine="276" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Stream\Stream.cpp" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="20400" topLine="660" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Plugins\Plugin.h" open="1" top="0" tabpos="40" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Stream\Stream.h" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="16692" topLine="342" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Recording\Recording.cpp" open="1" top="0" tabpos="39" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10353" topLine="261" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\Stream\Stream2D.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="15842" topLine="452" />
+		</Cursor>
+	</File>
+	<File name="GameAudio\GameAudio.h" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="626" topLine="15" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Sound\Sound2D.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+	<File name="GameAudio\Stream\Stream2D.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="702" topLine="15" />
+			<Cursor1 position="10223" topLine="215" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\FMODGlobals.h" open="1" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\FMODGlobals.h" open="1" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1407" topLine="30" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Sound\Sound3D.cpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Stream\Stream3D.cpp" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="16987" topLine="497" />
+			<Cursor1 position="21783" topLine="627" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Group\SoundGroup.cpp" open="1" top="0" tabpos="32" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Group\SoundGroup.cpp" open="1" top="0" tabpos="31" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1479" topLine="36" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Sound\Sound3D.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Stream\Stream3D.h" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2761" topLine="34" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Recording\Recording.h" open="1" top="0" tabpos="37" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="520" topLine="16" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Sound\SoundSample.cpp" open="1" top="0" tabpos="39" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9059" topLine="345" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Reverb\Reverb2D.cpp" open="1" top="0" tabpos="24" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2996" topLine="112" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Sound\SoundSample.h" open="1" top="0" tabpos="30" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9494" topLine="214" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Stream\Stream.cpp" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1079" topLine="24" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Stream\Stream.h" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="13691" topLine="262" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Stream\Stream2D.cpp" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1038" topLine="23" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Stream\Stream2D.h" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="992" topLine="15" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Stream\Stream3D.cpp" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1319" topLine="20" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Stream\Stream3D.h" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="789" topLine="18" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Group\SoundGroup.h" open="1" top="0" tabpos="31" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="280" topLine="0" />
+			<Cursor1 position="13465" topLine="295" />
 		</Cursor>
 	</File>
 	<File name="GameAudio\System\AudioSystem.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1358" topLine="33" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Group\ChannelGroup.h" open="1" top="0" tabpos="33" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="284" topLine="0" />
+			<Cursor1 position="41091" topLine="1207" />
 		</Cursor>
 	</File>
 	<File name="GameAudio\System\AudioSystem.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3998" topLine="116" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Channel\Channel.h" open="1" top="1" tabpos="27" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="14222" topLine="235" />
+			<Cursor1 position="36001" topLine="625" />
 		</Cursor>
 	</File>
 	<File name="GameAudio\TODO.txt" open="0" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -171,54 +191,34 @@
 			<Cursor1 position="412" topLine="39" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Music\Music.h" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameContent\AudioManager.cpp" open="1" top="0" tabpos="43" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="696" topLine="15" />
+			<Cursor1 position="5596" topLine="68" />
 		</Cursor>
 	</File>
-	<File name="GameContent\AudioManager.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameContent\AudioManager.h" open="1" top="0" tabpos="42" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3216" topLine="66" />
+			<Cursor1 position="412" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\DSP\DSP.cpp" open="1" top="0" tabpos="26" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="14496" topLine="521" />
+			<Cursor1 position="20724" topLine="691" />
 		</Cursor>
 	</File>
-	<File name="GameContent\AudioManager.h" open="1" top="0" tabpos="41" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Group\SoundGroup.h" open="1" top="0" tabpos="30" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="361" topLine="0" />
+			<Cursor1 position="280" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="GameAudio\Channel\Channel.cpp" open="1" top="0" tabpos="38" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Recording\Recording.h" open="1" top="0" tabpos="36" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7347" topLine="281" />
+			<Cursor1 position="5005" topLine="124" />
 		</Cursor>
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameAudio\Group\ChannelGroup.h" open="1" top="0" tabpos="32" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1373" topLine="64" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Geometry\Geometry.h" open="1" top="0" tabpos="28" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="276" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\Group\ChannelGroup.cpp" open="1" top="0" tabpos="34" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5827" topLine="208" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\DSP\DSPConnection.cpp" open="1" top="0" tabpos="36" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1642" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="GameAudio\DSP\DSPConnection.h" open="1" top="0" tabpos="35" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="469" topLine="4" />
+			<Cursor1 position="284" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
