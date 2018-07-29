@@ -1,0 +1,10 @@
+LICENSE
+~~~~~~~
+
+While this wrapper is free to use, I would like to be given notice of its use in projects via email at dodgeesoftware@gmail.com
+
+In exhange for use I would like a mention in the credits of your product as an audio programmer.
+
+Good luck with your game or application.
+
+Cheers :)

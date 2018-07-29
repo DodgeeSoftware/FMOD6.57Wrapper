@@ -560,12 +560,11 @@
 	"Stream/Stream3D.h"
 	"Music/Music.h"
 
-1491815971 source:c:\myprograms\fmodstudiowrapper\gamecontent\audiomanager.cpp
+1505964739 source:c:\myprograms\fmodstudiowrapper\gamecontent\audiomanager.cpp
 	"AudioManager.h"
 
-1505964741 c:\myprograms\fmodstudiowrapper\gamecontent\audiomanager.h
+1532888455 c:\myprograms\fmodstudiowrapper\gamecontent\audiomanager.h
 	<map>
-	<ticpp.h>
 	<fmod.h>
 	<fmod_codec.h>
 	<fmod_common.h>
@@ -4401,4 +4400,24 @@
 1283228692 c:\mingw-4.8.1\libraries\luabind-0.9.1\luabind\raw_policy.hpp
 	<luabind/config.hpp>
 	<luabind/detail/policy.hpp>
+
+1470062544 c:\myprograms\fmodstudiowrapper\_dependencies\fmodstudio-1.08.09\api\lowlevel\inc\fmod.h
+	"fmod_common.h"
+
+1470062544 c:\myprograms\fmodstudiowrapper\_dependencies\fmodstudio-1.08.09\api\lowlevel\inc\fmod_common.h
+	"fmod_codec.h"
+	"fmod_dsp.h"
+	"fmod_output.h"
+
+1470062544 c:\myprograms\fmodstudiowrapper\_dependencies\fmodstudio-1.08.09\api\lowlevel\inc\fmod_codec.h
+
+1470062544 c:\myprograms\fmodstudiowrapper\_dependencies\fmodstudio-1.08.09\api\lowlevel\inc\fmod_dsp.h
+	"fmod_dsp_effects.h"
+
+1470062544 c:\myprograms\fmodstudiowrapper\_dependencies\fmodstudio-1.08.09\api\lowlevel\inc\fmod_dsp_effects.h
+
+1470062544 c:\myprograms\fmodstudiowrapper\_dependencies\fmodstudio-1.08.09\api\lowlevel\inc\fmod_output.h
+
+1470062544 c:\myprograms\fmodstudiowrapper\_dependencies\fmodstudio-1.08.09\api\lowlevel\inc\fmod_errors.h
+	"fmod.h"
 

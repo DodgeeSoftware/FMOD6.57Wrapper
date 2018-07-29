@@ -4,10 +4,10 @@
 // C/C++ Includes
 #include <map>
 
-// Macro which asks TinyXML to use the TICPP Wrapper
-#define TIXML_USE_TICPP
-// header for TinyXML
-#include <ticpp.h>
+//// Macro which asks TinyXML to use the TICPP Wrapper
+//#define TIXML_USE_TICPP
+//// header for TinyXML
+//#include <ticpp.h>
 
 //// LUA / LUABIND INCLUDES
 //extern "C"
